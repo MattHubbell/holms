@@ -1,0 +1,10 @@
+<div class="page-body">
+    <div style="display:flex; flex-wrap:wrap" *ngIf="members">
+        <div class="label"  *ngFor="let member of members.items">
+            {{ member?.memberName }}<br />
+            {{ member?.addrLine1 }}<br />
+            {{ member?.addrLine2 }}<br *ngIf="member.addrLine2" />
+            {{ member?.city }}, {{ member?.state }} {{ member?.zip }}
+        </div>
+    </div>
+</div>
