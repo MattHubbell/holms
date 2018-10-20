@@ -1,0 +1,76 @@
+{
+    "rules": {
+        "members": {
+            ".read":  "auth != null",
+            ".write":  "auth != null",
+            ".indexOn": ["memberNo"]  
+        },
+        "setup": {
+            ".read":  true,
+            ".write":  true,
+        "appTitle": {
+            ".read":  true,
+            ".write":  "auth != null"
+        },
+        "appSubTitle": {
+            ".read":  true,
+            ".write":  "auth != null"
+        },
+        "$other": {
+            ".read":  "auth != null",
+            ".write":  "auth != null"
+        }
+        },
+        "Editors": {
+            ".read":  "auth != null",
+            ".write":  "auth != null"
+        },
+        "transactionCodes": {
+            ".read":  "auth != null",
+            ".write":  "auth != null"
+        },
+        "memberTypes": {
+            ".read":  "auth != null",
+            ".write":  "auth != null"
+        },
+        "memberStatus": {
+            ".read":  "auth != null",
+            ".write":  "auth != null"
+        },
+        "newMembers": {
+            ".read":  "auth != null",
+            ".write":  "auth != null"
+        },
+        "membershipUsers": {
+            ".read":  "auth != null",
+            ".write":  "auth != null",
+            ".indexOn": ["memberId"]  
+        },
+        "cashBatch": {
+            ".read":  "auth != null",
+            ".write":  "auth != null"
+        },
+        "cashMaster": {
+            ".read":  "auth != null",
+            ".write":  "auth != null"
+        },
+        "cashDetail": {
+            ".read":  "auth != null",
+            ".write":  "auth != null",
+            ".indexOn": ["memberNo"]  
+        },
+        "cashMasterHistory": {
+            ".read":  "auth != null",
+            ".write":  "auth != null"
+        },
+        "cashDetailHistory": {
+            ".read":  "auth != null",
+            ".write":  "auth != null"
+        },
+        "appMenus": {
+            ".read":  "auth != null",
+            ".write":  "auth != null",
+            ".indexOn": ["selector"]  
+        }
+    }
+}
