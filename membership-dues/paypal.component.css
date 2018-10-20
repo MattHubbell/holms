@@ -1,0 +1,14 @@
+confirm-button-default .dark-modal .modal-content {
+    background-color: black;
+    color: white;
+  }
+.Custom-width {
+    max-width: 600px;
+    min-width: 600px;
+    width: 600px;
+    padding: 0;
+    margin-bottom: 0;
+}
+.mat-dialog-container {
+    padding: 0;
+}
