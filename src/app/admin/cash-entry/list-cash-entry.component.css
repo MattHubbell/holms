@@ -1,0 +1,57 @@
+.mat-form-field {
+    width: 95%;
+  }
+.floating-fab {
+    position: absolute;
+    right: 25px;
+    top: 25px;
+    outline: none;
+    border: 0;
+} 
+.example-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 600px;
+}
+.mat-table {
+    overflow: auto;
+    max-height: 600px;
+}
+.mat-header-row {
+    -webkit-text-fill-color:white;
+    background:royalblue;
+}
+.field-top-margin {
+    margin-top: -22px;
+}
+.Custom-table-width {
+    padding-left: 0;
+    padding-right: 0;
+}
+.main-container {
+    min-width: 670px;
+}
+.mat-column-select {
+    max-width: 75px;
+}
+.mat-column-memberNo {
+    max-width: 75px;
+}
+.mat-column-memberName {
+    min-width: 300px;
+    max-width: 400px;
+}
+.mat-column-transDate {
+    max-width: 100px;
+}
+.mat-column-checkNo {
+    max-width: 100px;
+}
+.mat-column-checkDate {
+    max-width: 100px;
+}
+.mat-column-checkAmt {
+    max-width: 100px;
+    text-align: right;
+}
+

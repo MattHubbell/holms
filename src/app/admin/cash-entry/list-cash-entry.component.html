@@ -1,0 +1,103 @@
+<div class="container main-container" >
+    <!--Card-->
+    <mat-card>
+        <ng-template ngbModalContainer></ng-template>
+        <mat-card-content>
+
+            <div class="example-header">
+                <mat-form-field>
+                    <mat-icon matPrefix class="search-icon">search</mat-icon>
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                </mat-form-field>
+                <button mat-mini-fab matTooltip="Add Cash Receipt" color="primary" class="floating-fab" (click)="addNew()"><mat-icon>add</mat-icon></button>
+            </div>
+
+            <div class="container Custom-table-width">                        
+                <div class="example-container mat-elevation-z8">
+                    
+                    <mat-table #table [dataSource]="dataSource">
+                    
+                        <!-- Checkbox Column -->
+                        <ng-container matColumnDef="select">
+                            <mat-header-cell *matHeaderCellDef>
+                                <mat-checkbox (change)="$event ? masterToggle() : null"
+                                                [checked]="selection.hasValue() && isAllSelected()"
+                                                [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                </mat-checkbox>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <mat-checkbox (click)="$event.stopPropagation()"
+                                                (change)="$event ? selectionToggle(element) : null"
+                                                [checked]="selection.isSelected(element)">
+                                </mat-checkbox>
+                            </mat-cell>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="memberNo">
+                            <mat-header-cell *matHeaderCellDef> Member # </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.memberNo}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="memberName">
+                            <mat-header-cell *matHeaderCellDef> Member name </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{find(element.memberNo)?.memberName}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="transDate">
+                            <mat-header-cell *matHeaderCellDef> Trans Date </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.transDate |  date:'MM/dd/yy'}} </mat-cell>
+                        </ng-container>
+                    
+                        <ng-container matColumnDef="checkNo">
+                            <mat-header-cell *matHeaderCellDef> Check # </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.checkNo}} </mat-cell>
+                        </ng-container>
+                    
+                        <ng-container matColumnDef="checkDate">
+                            <mat-header-cell *matHeaderCellDef> Check Date </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.checkDate |  date:'MM/dd/yy'}} </mat-cell>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="checkAmt">
+                            <mat-header-cell *matHeaderCellDef> Amount </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.checkAmt | currency}} </mat-cell>
+                        </ng-container>
+                        
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let element; columns: displayedColumns;" (click)="edit(element)"></mat-row>
+                    </mat-table>
+
+                    <mat-paginator #paginator
+                        [showFirstLastButtons]="true"   
+                        [pageSize]="10"
+                        [pageSizeOptions]="[5, 10, 20]">
+                    </mat-paginator>
+                </div>
+            </div>
+        </mat-card-content>
+        <table>
+            <td style="min-width: 200px;">
+                <h6>Total Selected: {{selectionTotal | currency}}</h6>
+            </td>
+            <td >
+                <h6>
+                    <mat-form-field>
+                        <input matInput placeholder="Batch #" [(ngModel)]="batchNo">
+                    </mat-form-field>
+                </h6>
+            </td>
+            <td style="width: 100px;">
+                <button mat-raised-button type="button" color="primary" (click)="onAssignBatchNo()" [disabled]="selectionTotal == 0 || batchNo.length > 0" matTooltip="Assign next batch #">Assign</button>
+            </td>
+            <td style="min-width: 140px;">
+                <button mat-raised-button type="button" color="primary" (click)="getCheckRegister()" [disabled]="selectionTotal == 0 || batchNo.length == 0" matTooltip="Display check register for batch #">Check Register</button>
+            </td>
+            <td style="min-width: 168px;">
+                <button mat-raised-button type="button" color="primary" (click)="getDistributionSummary()" [disabled]="selectionTotal == 0 || batchNo.length == 0" matTooltip="Display distribution summary for batch #">Distrution Summary</button>
+            </td>
+            <td style="min-width: 100px;">
+                <button mat-raised-button type="button" color="primary" (click)="post()" [disabled]="readyToPost() == false" matTooltip="Post batch #">Post Batch</button>
+            </td>
+        </table>
+    </mat-card>
+</div>
