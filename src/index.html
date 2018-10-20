@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Holms</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" type="image/x-icon" href="assets/holms4.jpg">
+  <link rel="manifest" href="assets/manifest.json">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.0/css/font-awesome.min.css" integrity="sha256-qH1KTUBYPDUIfmrwJG9+VBVt71g38U7yVR2J+5wTMPo=" crossorigin="anonymous" />
+  
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous" />  
+  
+  <!-- Material Design Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" >
+
+  <!-- Wijmo -->
+  <link rel="stylesheet" href="assets/wijmo.min.css" />
+
+  <!-- Font Awesome for Froala -->
+  <!-- <link href="node_modules/froala-editor/css/froala_editor.pkgd.min.css" rel="stylesheet">
+  <link href="node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet"> -->
+
+</head>
+<body>
+  <app-root>
+    <style>
+      app-root {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+
+        color: lightblue;
+        text-transform: uppercase;
+        font-family: -apple-system,
+            BlinkMacSystemFont,
+            "Segoe UI",
+            Roboto,
+            Oxygen-Sans,
+            Ubuntu,
+            Cantarell,
+            Helvetica,
+            sans-serif;
+        font-size: 2.5em;
+        text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+      }
+      body {
+        background: royalblue;
+        margin: 0;
+        padding: 0;
+      }
+
+      @keyframes dots {
+        50% {
+          transform: translateY(-.4rem);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+
+      .d {
+        animation: dots 1.5s ease-out infinite;
+      }
+      .d-2 {
+        animation-delay: .5s;
+      }
+      .d-3 {
+        animation-delay: 1s;
+      }
+    </style>
+    Loading<span class="d">.</span><span class="d d-2">.</span><span class="d d-3">.</span>
+  </app-root>
+  <!-- JQuery -->
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+  
+  <!-- Bootstrap tooltips -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+  
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+  <!-- HammerJS for Angular Material -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"  crossorigin="anonymous"></script>
+
+  <!-- PayPal Button Checkout -->
+  <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+
+</body>
+</html>

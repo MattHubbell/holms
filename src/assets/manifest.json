@@ -1,0 +1,12 @@
+{
+    "short_name": "HOLMS",
+    "name": "Hubbell Online Membership System",
+    "icons": [
+        {
+            "src": "assets/holms4.jpg",
+            "type": "image/jpeg"
+            }
+        ],
+    "display": "standalone",
+    "background_color": "#2196F3"
+}
