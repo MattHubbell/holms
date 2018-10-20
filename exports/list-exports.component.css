@@ -1,0 +1,25 @@
+.example-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 600px;
+}
+.mat-table {
+    overflow: auto;
+    max-height: 600px;
+}
+.mat-header-row {
+    -webkit-text-fill-color:white;
+    background:royalblue;
+}
+.field-top-margin {
+    margin-top: -22px;
+}
+.mat-column-select {
+    overflow: visible;
+}
+.Custom-table-width {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+}
