@@ -1,0 +1,111 @@
+<div class="container Custom-width">
+    <mat-card>
+        <mat-card-content>
+
+            <div class="callout" *ngIf="error">
+                <ngb-alert type="danger" [dismissible]="false">
+                    <strong>Oops!</strong> {{error}}
+                </ngb-alert>
+            </div>
+
+            <!--Header-->
+            <div class="modal-header">
+                <div class="modal-title">
+                    <h3><mat-icon matPrefix>lock</mat-icon> Login</h3>
+                </div>
+            </div>
+
+            <div class="container custom-top">
+                <form #formData="ngForm" (ngSubmit)="onSubmit(formData)" [formGroup]="loginForm">
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="offset-1 col-10">
+                                <mat-form-field>
+                                    <mat-icon matPrefix>email</mat-icon>
+                                    <input matInput placeholder="E-Mail Address" type="email" spellcheck="false"
+                                        maxLength="50" class="form-control" formControlName="email" autocomplete="off" required>
+                                     <mat-hint align="end">{{email?.length}} / 50 </mat-hint>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="offset-1 col-10">
+                                <mat-form-field>
+                                    <mat-icon matPrefix>lock</mat-icon>
+                                    <input matInput placeholder="Password" type="password" name="password" show-hide-input
+                                        maxLength="50" class="form-control" formControlName="password" autocomplete="off" required>
+                                        <a mat-icon-button matSuffix matTooltip="Hold left mouse button down to view password" matTooltipPosition="right" disabled="password.length === 0"
+                                            (mousedown)="onPasswordMouseDown($event)" (mouseup)="onPasswordMouseUp($event)"><i class="fa fa-eye"></i></a>
+                                     <mat-hint align="end">{{password?.length}} / 50 </mat-hint>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="text-center">
+                        <button mat-raised-button color="primary" [disabled]="!formData.valid">Login</button>
+                    </div>
+                    <br>
+
+                    <!-- <div class="container Custom-border">
+                        <div class="row">
+                                <div class="col-12">
+                                    <div class="text-center Custom-margin">
+                                        <p> or log in with </p>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="offset-2 col-4">
+                                <div class="text-left">
+                                    <button mat-button type="button" (click)="onGoogleLogin()">
+                                        <span class="g-blue">G</span>
+                                        <span class="g-red">o</span>
+                                        <span class="g-yellow">o</span>
+                                        <span class="g-blue">g</span>
+                                        <span class="g-green">l</span>
+                                        <span class="g-red">e</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="text-right">
+                                    <button mat-button type="button" (click)="onFacebookLogin()"><i class="fa fa-facebook fa-cog"></i>  Facebook</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br> -->
+
+                    <div class="container Custom-border">
+                        <br>
+                        <div class="row" >
+                            <div class="col-12">
+                                <div class="text-center Custom-margin">
+                                    <h4>Join or renew your membership: <a routerLink="/register">Register</a></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row" style="margin-bottom: -15px;">
+                            <div class="col-6">
+                                <div class="text-left Custom-margin">
+                                    <p>Version: {{appVersion}}</p>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-right Custom-margin">
+                                    <p>Forgot <a routerLink="/password-reset">Password?</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
