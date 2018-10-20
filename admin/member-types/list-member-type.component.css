@@ -1,0 +1,41 @@
+.mat-form-field {
+  width: 75%;
+}
+.floating-fab {
+  position: absolute;
+  right: 25px;
+  top: 25px;
+  outline: none;
+  border: 0;
+} 
+.example-container {
+  display: flex;
+  flex-direction: column;
+}
+.mat-table {
+  overflow: auto;
+  max-height: 600px;
+}
+.mat-header-row {
+  -webkit-text-fill-color:white;
+  background:royalblue;
+}
+.mat-column-id {
+  max-width: 75px;
+}
+.mat-column-description {
+  max-width: 200px;
+}
+.mat-column-level {
+  max-width: 75px;
+}
+.mat-column-price {
+  max-width: 90px;
+}
+.Custom-table-width {
+  padding-left: 0;
+  padding-right: 0;
+}
+.mat-card {
+  max-width: 600px;
+}

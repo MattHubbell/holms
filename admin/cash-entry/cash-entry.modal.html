@@ -1,0 +1,264 @@
+<div class="container Custom-width">
+    <mat-card class="Custom-width">
+        <mat-card-content>
+
+            <!--Header-->
+            <!-- <div class="modal-header">
+                <div class="modal-title">
+                    <h3><mat-icon matPrefix>person</mat-icon> New Member</h3>
+                </div>
+            </div> -->
+
+            <div class="container">                        
+
+                <form novalidate (ngSubmit)="onSubmit(maintForm.value, maintForm.valid)" [formGroup]="maintForm">
+                    <!-- form body -->
+                    <br>
+                    <mat-accordion class="example-headers-align">
+                        <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle="true">
+                            <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Member data
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                Enter member #
+                                <mat-icon>account_circle</mat-icon>
+                            </mat-panel-description>
+                            </mat-expansion-panel-header>
+                        
+                            <div class="container">                                                
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <mat-form-field class="example-full-width">
+                                            <input type="text" placeholder="Member No" aria-label="Member No" matInput 
+                                                formControlName="memberNo" [matAutocomplete]="auto" [(ngModel)]="model.memberNo"
+                                                (ngModelChange)="onMemberNoChange($event)">
+                                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                                                <mat-option *ngFor="let member of filteredMembers | async" [value]="member.memberNo">
+                                                    {{ member.memberNo }}
+                                                </mat-option>
+                                            </mat-autocomplete>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <mat-form-field class="example-full-width">
+                                            <input type="text" placeholder="Name" aria-label="Name" matInput readonly 
+                                                formControlName="memberName" [(ngModel)]="selectedMember.memberName">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                                
+                            <div class="container">                                                
+                                <div class="row">
+                                    <div class="col-md-2">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <mat-form-field class="example-full-width">
+                                            <input type="text" placeholder="Address 1" aria-label="Address 1" matInput readonly 
+                                                formControlName="addrLine1" [(ngModel)]="selectedMember.addrLine1">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+            
+                            <div class="container">                                                
+                                <div class="row">
+                                    <div class="col-md-2">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <mat-form-field class="example-full-width">
+                                            <input type="text" placeholder="Address 2" aria-label="Address 2" matInput readonly 
+                                                formControlName="addrLine2" [(ngModel)]="selectedMember.addrLine2">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <div class="container">                                                
+                                <div class="row">
+                                    <div class="col-md-2">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <mat-form-field class="example-full-width">
+                                            <input type="text" placeholder="City" aria-label="City" matInput readonly 
+                                                formControlName="city" [(ngModel)]="selectedMember.city">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <mat-form-field class="example-full-width">
+                                            <input type="text" placeholder="State" aria-label="State" matInput readonly 
+                                                formControlName="state" [(ngModel)]="selectedMember.state">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <mat-form-field class="example-full-width">
+                                            <input type="text" placeholder="Zip" aria-label="Zip" matInput readonly 
+                                                formControlName="zip" [(ngModel)]="selectedMember.zip">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                                    
+                            <mat-action-row>
+                            <button mat-button type="button" color="primary" (click)="nextStep()">Next</button>
+                            </mat-action-row>
+                        </mat-expansion-panel>
+                        
+                        <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle="true">
+                            <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Payment
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                Enter payment information
+                                <mat-icon>payment</mat-icon>
+                            </mat-panel-description>
+                            </mat-expansion-panel-header>
+                        
+                            <div class="container">                                                
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <mat-form-field class="example-full-width">
+                                            <input type="text" placeholder="Check #" aria-label="Check #" matInput 
+                                                formControlName="checkNo" [(ngModel)]="model.checkNo">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <mat-form-field>
+                                            <input matInput [matDatepicker]="picker" placeholder="Check Date"
+                                                formControlName="checkDate" [(ngModel)]="checkDate">
+                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker></mat-datepicker>
+                                        </mat-form-field>
+                                </div>
+                                    <div class="col-md-2">
+                                        <mat-form-field class="example-full-width">
+                                            <input type="number" placeholder="Check Amt" aria-label="Check Amt" matInput
+                                                formControlName="checkAmt" [(ngModel)]="model.checkAmt">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-2">
+                                            <mat-form-field class="example-full-width">
+                                                <input type="text" placeholder="Currency Code" aria-label="Currency Code" matInput
+                                                    formControlName="currencyCode" [(ngModel)]="model.currencyCode">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                            </div>
+                            
+                            <div class="container">                                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <mat-form-field class="example-full-width">
+                                            <input type="text" placeholder="Comments" aria-label="Comments" matInput
+                                                formControlName="comments" [(ngModel)]="model.comments" maxlength="50">
+                                                <mat-hint align="end">{{model.comments?.length}} / 50</mat-hint>
+                                            </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                                
+                            <mat-action-row>
+                            <button mat-button type="button" color="primary" (click)="prevStep()">Previous</button>
+                            <button mat-button type="button" color="primary" (click)="nextStep()">Next</button>
+                            </mat-action-row>
+                        </mat-expansion-panel>
+                        
+                        <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle="true">
+                            <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Line Items
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                Enter line item information
+                                <mat-icon>list</mat-icon>
+                            </mat-panel-description>
+                            </mat-expansion-panel-header>
+                        
+                            <div class="container Custom-table-width">                        
+                                <div class="example-container mat-elevation-z8">
+                                    
+                                    <mat-table #table [dataSource]="dataSource">
+                                    
+                                        <ng-container matColumnDef="tranCode">
+                                            <mat-header-cell *matHeaderCellDef> Code </mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.tranCode}} </mat-cell>
+                                        </ng-container>
+                                        
+                                        <ng-container matColumnDef="description">
+                                            <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+                                            <mat-cell *matCellDef="let element">  {{find(element.tranCode)?.description}} </mat-cell>
+                                        </ng-container>
+                                    
+                                        <ng-container matColumnDef="distQty">
+                                            <mat-header-cell *matHeaderCellDef> Qty </mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.distQty}} </mat-cell>
+                                        </ng-container>
+                                    
+                                        <ng-container matColumnDef="distAmt">
+                                            <mat-header-cell *matHeaderCellDef> Amt </mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.distAmt | currency}} </mat-cell>
+                                        </ng-container>
+                                        
+                                        <ng-container matColumnDef="duesCode">
+                                            <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.duesCode}} </mat-cell>
+                                        </ng-container>
+                                        
+                                        <ng-container matColumnDef="duesYear">
+                                            <mat-header-cell *matHeaderCellDef> Year </mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.duesYear != '0' ? element.duesYear : ''}} </mat-cell>
+                                        </ng-container>
+                                        
+                                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                        <mat-row *matRowDef="let element; columns: displayedColumns;" (click)="edit(element)"></mat-row>
+                                    </mat-table>
+                
+                                    <mat-paginator #paginator
+                                        [pageSize]="10"
+                                        [pageSizeOptions]="[5, 10, 20]">
+                                    </mat-paginator>
+                                </div>
+                            </div>
+                                            
+                            <div class="floating-total-warning callout" *ngIf="(model.checkAmt != transactionTotal)"><h6>Total not equal to check amount</h6></div>
+                            <div class="floating-total"><h6>Total: {{transactionTotal}}</h6></div>
+
+                            <mat-action-row>
+                                <button mat-mini-fab type="button" matTooltip="Add Item" color="primary" class="floating-fab2" (click)="addNew()"><mat-icon>add</mat-icon></button>
+                                <button mat-button type="button" color="primary" (click)="prevStep()">Previous</button>
+                                <button mat-button type="button" color="primary" (click)="nextStep()">End</button>
+                            </mat-action-row>
+                        </mat-expansion-panel>
+                        
+                    </mat-accordion>
+                        
+                    <!-- form body end -->
+
+                    <br>
+                    <div class="container Custom-border">
+                        <br>
+                        <div class="row">
+                            <div class="col-6">
+                                <div *ngIf="selectedTabIndex==2" class="field-top-margin">
+                                    <mat-form-field>
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter" [(value)]="searchText">
+                                    </mat-form-field>                                        
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-right Custom-margin">
+                                    <button mat-button type="submit" matTooltip="Save"><mat-icon>done</mat-icon></button>
+                                    <confirm-button-default [message]="'Delete this item ?'" [isValid]="true" (onClosing)="onDelete($event)"></confirm-button-default>
+                                    <button mat-button type="button" matTooltip="Cancel" (click)="dialogRef.close()"><mat-icon>undo</mat-icon></button>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                </form>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,0 +1,315 @@
+<div class="width-form">
+    <form #formData="ngForm" (ngSubmit)="onSubmit(formData.valid)">
+        <div class="modal-header">
+            <h4 class="modal-title">
+                New Registrations
+            </h4>
+        </div>
+        <div class="modal-body">        
+            <mat-tab-group [(selectedIndex)]="selectedTabIndex" dynamicHeight="true">
+                <mat-tab label="Address">
+
+                    <!-- form body -->
+                    <div class="container">                                                
+                        <div class="row">
+                            <div class="col-md-2">
+                                <mat-form-field>   
+                                    <mat-select placeholder="Mr/Mrs/Ms/Dr" name="salutation" [(ngModel)]="model.salutation">
+                                        <mat-option *ngFor="let salutation of salutations" [value]="salutation.value">
+                                            {{salutation.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                            </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <input-custom fieldType="uppercase" fieldName="registrationName" placeholderText="Name" maxLength="35"
+                                    [model]="model" [value]="model.registrationName" [isRequired]="true" errorMessage="Name is required">
+                                </input-custom>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container">                                                
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input-custom fieldType="uppercase" fieldName="street1" placeholderText="Address Line 1" maxLength="35"
+                                    [model]="model" [value]="model.street1" [isRequired]="true" errorMessage="Address Line 1 is required">
+                                </input-custom>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container">                                                
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input-custom fieldType="uppercase" fieldName="street2" placeholderText="Address Line 2" maxLength="35"
+                                    [model]="model" [value]="model.street2" [isRequired]="false" errorMessage="">
+                                </input-custom>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container">                                                
+                        <div class="row">
+                            <div class="col-md-5">
+                                <input-custom fieldType="uppercase" fieldName="city" placeholderText="City" maxLength="25"
+                                    [model]="model" [value]="model.city" [isRequired]="true" errorMessage="City is required">
+                                </input-custom>
+                            </div>
+                            <div class="col-md-1">
+                                <input-custom fieldType="uppercase" fieldName="state" placeholderText="State" maxLength="2"
+                                    [model]="model" [value]="model.state" [isRequired]="true" errorMessage="State is required">
+                                </input-custom>
+                            </div>
+                            <div class="col-md-2">
+                                <input-custom fieldType="uppercase" fieldName="zip" placeholderText="Postal Code" maxLength="9"
+                                    [model]="model" [value]="model.zip" [isRequired]="true" errorMessage="Postal Code is required">
+                                </input-custom>
+                            </div>
+                            <div class="col-md-3">
+                                <mat-form-field>
+                                    <mat-select placeholder="Country" name="Country" [(ngModel)]="model.country">
+                                        <mat-option *ngFor="let country of countries" [value]="country.name | uppercase">
+                                            {{country.name | uppercase}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container">                                                
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input-custom fieldType="phone" fieldName="phone" placeholderText="Phone (just digits)" maxLength="25"
+                                    [model]="model" [value]="model.phone" [isRequired]="false" errorMessage="">
+                                </input-custom>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container">                                                
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input-custom fieldType="email" fieldName="email" placeholderText="E-Mail Address" maxLength="50"
+                                    [model]="model" [value]="model.email" [isRequired]="true" errorMessage="E-Mail Address is required">
+                                </input-custom>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+
+                <mat-tab label="Member Info">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input-custom fieldType="camelcase" fieldName="annualName" placeholderText="Annual Name" maxLength="50"
+                                    [model]="model" [value]="model.annualName" [isRequired]="true" errorMessage="Annual Name is required">
+                                </input-custom>
+                            </div>
+                            <div class="col-md-5">
+                                <input-custom fieldType="uppercase" fieldName="sortName" placeholderText="Sort Name" maxLength="35"
+                                    [model]="model" [value]="model.sortName" [isRequired]="true" errorMessage="Sort Name is required">
+                                </input-custom>
+                            </div>    
+                        </div>
+                    </div>
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3">
+                                    <mat-form-field>
+                                    <input matInput type="text" placeholder="Member #"
+                                        maxLength="35" class="form-control" name="memberNo" 
+                                        [(ngModel)]="model.memberNo">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-2">
+                                <button mat-raised-button type="button" color="primary" (click)="onAssignMemberNo()" [disabled]="model.memberNo.length > 0" matTooltip="This is a new member, assign next member #">Assign</button>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3">
+                                    <mat-form-field>
+                                    <input matInput type="text" placeholder="H&amp;G Book"
+                                        maxLength="35" class="form-control" name="hgBook" 
+                                        [(ngModel)]="model.hgBook">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+                                    <mat-form-field>
+                                    <input matInput type="text" placeholder="A&amp;R Book"
+                                        maxLength="35" class="form-control" name="arBook" 
+                                        [(ngModel)]="model.arBook">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+                                <mat-form-field>
+                                    <input matInput type="text" placeholder="M&amp;E Book"
+                                        maxLength="35" class="form-control" name="meBook" 
+                                        [(ngModel)]="model.meBook">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="container">        
+                        <div class="row">
+                            <div class="col-md-3">
+                                <mat-form-field>   
+                                    <mat-select placeholder="Member Type" name="memberType" [(ngModel)]="model.memberType">
+                                        <mat-option *ngFor="let memberType of memberTypes" [value]="memberType.id">
+                                            {{memberType.description}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+                                <mat-form-field>   
+                                    <mat-select placeholder="Member Status" name="memberStatus" [(ngModel)]="model.memberStatus">
+                                        <mat-option *ngFor="let memberStatus of memberStatuses" [value]="memberStatus.id">
+                                            {{memberStatus.description}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="offset-md-2 col-md-4">
+                                <div>
+                                    <!-- <label class="custom-checkbox-label">Are you aleady a member? </label> -->
+                                    <br>
+                                    <mat-checkbox color="primary" name="isExistingMember" [(ngModel)]="model.isExistingMember">
+                                        Maybe already a member
+                                    </mat-checkbox>
+                                </div>                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container">        
+                        <div class="row">
+                            <div class="col-md-2">
+                                <mat-form-field>
+                                <input matInput type="number" placeholder="Last Dues Year"
+                                    maxLength="35" class="form-control" name="lastDuesYear" 
+                                    [(ngModel)]="model.lastDuesYear">
+                                </mat-form-field>
+                            </div>
+                            <div class="offset-md-6 col-md-3">
+                                <mat-form-field>
+                                    <input matInput type="number" placeholder="Possible Member #" 
+                                        class="form-control" name="existingMemberNo" 
+                                        [(ngModel)]="model.existingMemberNo" (ngModelChange)="toUppercase($event, model, 'existingMemberNo')" autocomplete="off">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>        
+                </mat-tab>
+
+                <mat-tab label="Search">
+                    <br>
+                    <h6>
+                        <span>{{model.registrationName}} / </span>
+                        <span>{{model.street1}} / </span>
+                        <span>{{model.street2}} / </span>
+                        <span>{{model.city}} </span>
+                        <span>{{model.state}}, </span>
+                        <span>{{model.zip}} / </span>
+                        <span> Possible member # {{model.existingMemberNo}} </span>
+                    </h6>
+                    <br>
+                    <div class="example-container mat-elevation-z8">
+                    
+                        <mat-table #table [dataSource]="dataSource">
+                        
+                                <ng-container matColumnDef="memberNo">
+                                    <mat-header-cell *matHeaderCellDef> Member # </mat-header-cell>
+                                    <mat-cell fxFlex="500" *matCellDef="let element"> {{element.memberNo}} </mat-cell>
+                                </ng-container>
+                            
+                                <ng-container matColumnDef="memberName">
+                                <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                                <mat-cell fxFlex="500" *matCellDef="let element"> {{element.memberName}} </mat-cell>
+                            </ng-container>
+                        
+                            <ng-container matColumnDef="addrLine1">
+                                <mat-header-cell *matHeaderCellDef> Address 1 </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{element.addrLine1}} </mat-cell>
+                            </ng-container>
+                        
+                            <ng-container matColumnDef="addrLine2">
+                                <mat-header-cell *matHeaderCellDef> Address 2 </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{element.addrLine2}} </mat-cell>
+                            </ng-container>
+                            
+                            <ng-container matColumnDef="city">
+                                <mat-header-cell *matHeaderCellDef> City </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{element.city}} </mat-cell>
+                            </ng-container>
+                            
+                            <ng-container matColumnDef="state">
+                                <mat-header-cell *matHeaderCellDef> State </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{element.state}} </mat-cell>
+                            </ng-container>
+                            
+                            <ng-container matColumnDef="zip">
+                                <mat-header-cell *matHeaderCellDef> Zip </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{element.zip}} </mat-cell>
+                            </ng-container>
+                            
+                            <ng-container matColumnDef="meBook">
+                                <mat-header-cell *matHeaderCellDef> M&amp;E Book </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{element.meBook}} </mat-cell>
+                            </ng-container>
+                                
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <mat-row *matRowDef="let element; columns: displayedColumns;" (click)="onRowClick(element)"></mat-row>
+                        </mat-table>
+                    
+                        <mat-paginator #paginator
+                            [pageSize]="5"
+                            [pageSizeOptions]="[5, 10, 20]">
+                        </mat-paginator>
+                    </div>
+                </mat-tab>                            
+            </mat-tab-group>
+            <br>
+            <div class="container Custom-border">
+                <br>
+                <div class="row">
+                    <div class="col-2">
+                        <div *ngIf="selectedTabIndex == 2" class="field-top-margin">
+                            <mat-form-field>
+                                <mat-select placeholder="Filter By" name="filterBy" 
+                                    [(ngModel)]="filterBy"(change)="onFilterChange($event)">
+                                    <mat-option *ngFor="let filterBy of filterOptions | enumKeys" [value]="filterBy.key">
+                                        {{filterBy.value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>                                        
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div *ngIf="selectedTabIndex == 2" class="field-top-margin">
+                            <mat-form-field>
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter" [(value)]="searchText">
+                            </mat-form-field>                                        
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div *ngIf="selectedTabIndex != 2" class="field-top-margin">
+                            <div class="text-right Custom-margin">
+                                <button mat-button type="submit" matTooltip="Save"><mat-icon>done</mat-icon></button>
+                                <confirm-button-default [message]="'Delete this item ?'" [isValid]="true" (onClosing)="onDelete($event)"></confirm-button-default>
+                                <button mat-button type="button" matTooltip="Cancel" (click)="dialogRef.close()"><mat-icon>undo</mat-icon></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,42 @@
+<div class="width-form">
+        <form #formData="ngForm" (ngSubmit)="onSubmit(formData.valid)">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span [ngSwitch]="isNewItem">
+                        <span *ngSwitchCase="true">Add app menu item</span>
+                        <span *ngSwitchCase="false">Edit app menu item</span>
+                    </span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <input-custom fieldType="uppercase" fieldName="id" placeholderText="Id" [tableName]="tableName" isKey="true" maxLength="0"
+                                [model]="model" [value]="model.id" [isRequired]="true" [errorMessage]="model.id?.length == 0 ? 'Id is required' : 'Id already used'">
+                            </input-custom>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <input-custom fieldType="uppercase" fieldName="description" placeholderText="Description" maxLength="0"
+                                [model]="model" [value]="model.description" [isRequired]="true" errorMessage="Description is required">
+                            </input-custom>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+    
+            <div class="modal-footer">
+                <button mat-button type="submit" matTooltip="Save"><mat-icon>done</mat-icon></button>
+                <span [hidden]="isNewItem">
+                    <confirm-button-default [message]="'Delete this item ?'" [isValid]="true" (onClosing)="onDelete($event)"></confirm-button-default>
+                </span>
+                <button mat-button type="button" matTooltip="Cancel" (click)="dialogRef.close()"><mat-icon>undo</mat-icon></button>
+            </div>
+        </form>
+    </div>
+    

@@ -1,0 +1,17 @@
+confirm-button-default .dark-modal .modal-content {
+    background-color: black;
+    color: white;
+}
+.cus-margin-top {
+    margin-top: 22px;
+}
+.width-full {
+  width: 100%;
+}
+.width-form {
+    max-width: 500px;
+}
+.mat-dialog-container {
+    padding: 0;
+}
+  
