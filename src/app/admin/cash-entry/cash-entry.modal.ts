@@ -1,7 +1,6 @@
 import { Component, Input, ViewEncapsulation, ViewChild, OnInit, OnDestroy } from '@angular/core';
-import { UpperCasePipe } from '@angular/common';
+import { NgForm } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { FormBuilder, FormGroup, FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ConfirmResponses } from '../../shared/modal/confirm-btn-default';
 
 import { CashMaster } from './cash-master.model';
@@ -13,18 +12,13 @@ import { Salutations } from '../../shared';
 import { Member, MemberService} from '../../members';
 import { MemberType, MemberTypeService} from '../member-types';
 import { MemberStatus, MemberStatusService } from '../member-status';
-import { TransactionCode, TransactionCodeItemTypes, TransactionCodeService } from '../transaction-codes';
-import { CashMasterHistoryService } from '../transaction-history/cash-master-history.service';
+import { TransactionCode, TransactionCodeService } from '../transaction-codes';
 
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { JQueryService }  from '../../shared/jquery.service';
-import * as f from '../../shared/functions';
 
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Subscription } from 'rxjs';
-import { startWith } from 'rxjs/operators/startWith';
-import { map } from 'rxjs/operators/map';
   
 @Component({
     selector: 'cash-entry-modal-content',
@@ -32,11 +26,10 @@ import { map } from 'rxjs/operators/map';
     styleUrls: [ './cash-entry.modal.css' ], 
     encapsulation: ViewEncapsulation.None
 })
-export class CashEntryModalContent {
+export class CashEntryModalContent implements OnInit, OnDestroy {
 
     @Input() selectedItem: Observable<CashMaster>;
     @Input() model: CashMaster;
-    maintForm: FormGroup;
     submitted: boolean;
     salutations = Salutations;
     members: Member[];
@@ -44,7 +37,7 @@ export class CashEntryModalContent {
     memberStatuses: MemberStatus[];
     transactionCodes: TransactionCode[];
     isNewItem: Boolean;
-    filteredMembers: Observable<Member[]>;
+    filteredMembers: Member[];
     selectedMember = new Member;
     checkDate: Date;
     transactionTotal: number;
@@ -54,11 +47,11 @@ export class CashEntryModalContent {
     displayedColumns = ['tranCode', 'description', 'distQty', 'distAmt', 'duesCode', 'duesYear'];
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild('form') ngForm: NgForm;
 
     subscription: Array<Subscription>;
 
     constructor(
-        private formBuilder: FormBuilder,
         private cashMasterService: CashMasterService,
         private cashDetailService: CashDetailService,
         private memberService: MemberService, 
@@ -72,6 +65,12 @@ export class CashEntryModalContent {
         this.subscription = new Array<Subscription>();
         this.dataSource = new MatTableDataSource<CashDetail>(this.entries);
         this.dataSource.paginator = this.paginator;
+        this.memberService.getList();
+        this.subscription.push(this.memberService.list
+            .subscribe(x => {
+                this.members = x;
+            })
+        );
         this.memberTypeService.getList();
         this.subscription.push(this.memberTypeService.list
             .subscribe(x => {
@@ -93,11 +92,20 @@ export class CashEntryModalContent {
     }
 
     ngOnInit() {
-        this.subcribeToFormChanges();
+        setTimeout( () => {
+            this.subscription.push(this.ngForm.form.get('memberNo').valueChanges.subscribe(x => {
+                    this.filterMembers(x);
+                })
+            )
+        });
+    }
+
+    filterMembers(memberNo: string) {
+        this.filteredMembers = this.members.filter(member => member.memberNo.startsWith(memberNo));
     }
 
     ngOnDestroy() {
-        this.subscription.forEach(x => x.unsubscribe);
+        this.subscription.forEach(x => x.unsubscribe());
     }
     
     filter(memberNo: string): Member[] {
@@ -113,6 +121,7 @@ export class CashEntryModalContent {
         if (!this.members) {
             return;
         } 
+        this.selectedMember = new Member();
         let member:Member = this.members.find(x => x.memberNo == memberNo);
         if (member) {
             let memberModel:Member = this.jQueryService.cloneObject(member);
@@ -120,43 +129,10 @@ export class CashEntryModalContent {
         }
     }
 
-    subcribeToFormChanges() {
-        const formValueChanges$ = this.maintForm.valueChanges;
-        formValueChanges$.pipe(debounceTime(200))
-                        //  .distinctUntilChanged())
-                         .subscribe(x => {
-            this.onValueChanged(x);
-        });
-        this.onValueChanged(); // (re)set validation messages now
-    }
-
     resetForm() {
         if (typeof(this.model.checkDate) === 'string') {
             this.checkDate = new Date(this.model.checkDate);
         }
-        this.maintForm = this.formBuilder.group({
-            memberNo: [this.model.memberNo],
-            memberName: [this.selectedMember.memberName],
-            addrLine1: [this.selectedMember.addrLine1],
-            addrLine2: [this.selectedMember.addrLine2],
-            city: [this.selectedMember.city],
-            state: [this.selectedMember.state],
-            zip: [this.selectedMember.zip],
-            transDate: [this.model.transDate],
-            checkNo: this.model.checkNo,
-            checkDate:  this.checkDate,
-            checkAmt: [this.model.checkAmt],
-            currencyCode: [this.model.currencyCode],
-            comments: [this.model.comments],
-            batchNo: [this.model.batchNo],
-        });
-        this.filteredMembers = this.maintForm.get('memberNo').valueChanges
-            .pipe(
-                startWith<string | Member>(''),
-                map(value => typeof value === 'string' ? value : value.memberNo),
-                map(memberNo => memberNo ? this.filter(memberNo) : this.members.slice())
-        );
-
         this.onMemberNoChange(this.model.memberNo);
 
         this.subscription.push(this.cashDetailService
@@ -173,36 +149,6 @@ export class CashEntryModalContent {
                 });        
             })
         );
-    }
-
-    onValueChanged(data?: any) {
-        if (!this.maintForm) { return; }
-        const form = this.maintForm;
-
-        for (const field in this.formErrors) {
-            // clear previous error message (if any)
-            this.formErrors[field] = '';
-            const control = form.get(field);
-
-            if (control && !control.valid) {
-                const messages = this.validationMessages[field];
-                for (const key in control.errors) {
-                    this.formErrors[field] += messages[key] + ' ';
-                }
-            }
-        }
-    }
-
-    formErrors = {
-    };
-
-    validationMessages = {
-    };
-
-    onErrorState(control: FormControl, form: FormGroupDirective | NgForm): boolean {
-        // Error when invalid control is dirty, touched, or submitted
-        const isSubmitted = form && form.submitted;
-        return !!(control.invalid && (control.dirty || control.touched || isSubmitted));
     }
 
     find(tranCode:string): TransactionCode {

@@ -2,16 +2,9 @@
     <mat-card class="Custom-width">
         <mat-card-content>
 
-            <!--Header-->
-            <!-- <div class="modal-header">
-                <div class="modal-title">
-                    <h3><mat-icon matPrefix>person</mat-icon> New Member</h3>
-                </div>
-            </div> -->
-
             <div class="container">                        
 
-                <form novalidate (ngSubmit)="onSubmit(maintForm.value, maintForm.valid)" [formGroup]="maintForm">
+                <form #form="ngForm" (ngSubmit)="onSubmit(form.valid)">
                     <!-- form body -->
                     <br>
                     <mat-accordion class="example-headers-align">
@@ -30,11 +23,11 @@
                                 <div class="row">
                                     <div class="col-md-2">
                                         <mat-form-field class="example-full-width">
-                                            <input type="text" placeholder="Member No" aria-label="Member No" matInput 
-                                                formControlName="memberNo" [matAutocomplete]="auto" [(ngModel)]="model.memberNo"
+                                            <input matInput type="text" placeholder="Member No"  
+                                                name="memberNo" [matAutocomplete]="auto" [(ngModel)]="model.memberNo"
                                                 (ngModelChange)="onMemberNoChange($event)">
                                             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                                                <mat-option *ngFor="let member of filteredMembers | async" [value]="member.memberNo">
+                                                <mat-option *ngFor="let member of filteredMembers" [value]="member.memberNo">
                                                     {{ member.memberNo }}
                                                 </mat-option>
                                             </mat-autocomplete>
@@ -42,8 +35,8 @@
                                     </div>
                                     <div class="col-md-4">
                                         <mat-form-field class="example-full-width">
-                                            <input type="text" placeholder="Name" aria-label="Name" matInput readonly 
-                                                formControlName="memberName" [(ngModel)]="selectedMember.memberName">
+                                            <input matInput type="text" placeholder="Name" readonly 
+                                                name="memberName" [(ngModel)]="selectedMember.memberName">
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -55,8 +48,8 @@
                                     </div>
                                     <div class="col-md-4">
                                         <mat-form-field class="example-full-width">
-                                            <input type="text" placeholder="Address 1" aria-label="Address 1" matInput readonly 
-                                                formControlName="addrLine1" [(ngModel)]="selectedMember.addrLine1">
+                                            <input matInput type="text" placeholder="Address 1" readonly 
+                                                name="addrLine1" [(ngModel)]="selectedMember.addrLine1">
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -68,8 +61,8 @@
                                     </div>
                                     <div class="col-md-4">
                                         <mat-form-field class="example-full-width">
-                                            <input type="text" placeholder="Address 2" aria-label="Address 2" matInput readonly 
-                                                formControlName="addrLine2" [(ngModel)]="selectedMember.addrLine2">
+                                            <input matInput type="text" placeholder="Address 2" readonly 
+                                                name="addrLine2" [(ngModel)]="selectedMember.addrLine2">
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -81,20 +74,20 @@
                                     </div>
                                     <div class="col-md-3">
                                         <mat-form-field class="example-full-width">
-                                            <input type="text" placeholder="City" aria-label="City" matInput readonly 
-                                                formControlName="city" [(ngModel)]="selectedMember.city">
+                                            <input matInput type="text" placeholder="City" readonly 
+                                                name="city" [(ngModel)]="selectedMember.city">
                                         </mat-form-field>
                                     </div>
                                     <div class="col-md-2">
                                         <mat-form-field class="example-full-width">
-                                            <input type="text" placeholder="State" aria-label="State" matInput readonly 
-                                                formControlName="state" [(ngModel)]="selectedMember.state">
+                                            <input matInput type="text" placeholder="State" readonly 
+                                                name="state" [(ngModel)]="selectedMember.state">
                                         </mat-form-field>
                                     </div>
                                     <div class="col-md-3">
                                         <mat-form-field class="example-full-width">
-                                            <input type="text" placeholder="Zip" aria-label="Zip" matInput readonly 
-                                                formControlName="zip" [(ngModel)]="selectedMember.zip">
+                                            <input matInput type="text" placeholder="Zip" readonly 
+                                                name="zip" [(ngModel)]="selectedMember.zip">
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -120,28 +113,28 @@
                                 <div class="row">
                                     <div class="col-md-2">
                                         <mat-form-field class="example-full-width">
-                                            <input type="text" placeholder="Check #" aria-label="Check #" matInput 
-                                                formControlName="checkNo" [(ngModel)]="model.checkNo">
+                                            <input matInput type="text" placeholder="Check #"  
+                                                name="checkNo" [(ngModel)]="model.checkNo">
                                         </mat-form-field>
                                     </div>
                                     <div class="col-md-2">
                                         <mat-form-field>
                                             <input matInput [matDatepicker]="picker" placeholder="Check Date"
-                                                formControlName="checkDate" [(ngModel)]="checkDate">
+                                                name="checkDate" [(ngModel)]="checkDate">
                                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                             <mat-datepicker #picker></mat-datepicker>
                                         </mat-form-field>
                                 </div>
                                     <div class="col-md-2">
                                         <mat-form-field class="example-full-width">
-                                            <input type="number" placeholder="Check Amt" aria-label="Check Amt" matInput
-                                                formControlName="checkAmt" [(ngModel)]="model.checkAmt">
+                                            <input matInput type="number" placeholder="Check Amt" 
+                                                name="checkAmt" [(ngModel)]="model.checkAmt">
                                         </mat-form-field>
                                     </div>
                                     <div class="col-md-2">
                                             <mat-form-field class="example-full-width">
-                                                <input type="text" placeholder="Currency Code" aria-label="Currency Code" matInput
-                                                    formControlName="currencyCode" [(ngModel)]="model.currencyCode">
+                                                <input matInput type="text" placeholder="Currency Code" 
+                                                    name="currencyCode" [(ngModel)]="model.currencyCode">
                                             </mat-form-field>
                                         </div>
                                     </div>
@@ -151,8 +144,8 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <mat-form-field class="example-full-width">
-                                            <input type="text" placeholder="Comments" aria-label="Comments" matInput
-                                                formControlName="comments" [(ngModel)]="model.comments" maxlength="50">
+                                            <input matInput type="text" placeholder="Comments" 
+                                                name="comments" [(ngModel)]="model.comments" maxlength="50">
                                                 <mat-hint align="end">{{model.comments?.length}} / 50</mat-hint>
                                             </mat-form-field>
                                     </div>
