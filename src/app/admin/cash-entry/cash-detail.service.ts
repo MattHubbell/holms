@@ -15,7 +15,7 @@ export class CashDetailService {
     }
 
     getItemByID(equalTo:string): any {
-        return this.fs.getItems(CashDetail.TableName(), 'MemberNo', equalTo);
+        return this.fs.getItems(CashDetail.TableName(), 'receiptNo', equalTo);
     }
 
     getItemByKey(key:any) {

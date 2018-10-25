@@ -63,7 +63,9 @@ export class MembershipDuesComponent implements OnInit, OnDestroy {
     ) {
         this.subscription = new Array<Subscription>();
         this.setupService.getItem()
-		this.setup = this.setupService.item;
+        this.subscription.push(this.setupService.item.subscribe(x => {
+            this.setup = x;
+        }));
         this.titleService.selector = 'membership-dues';
     }
 

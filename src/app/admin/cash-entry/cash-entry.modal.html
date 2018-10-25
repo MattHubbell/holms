@@ -22,14 +22,21 @@
                             <div class="container">                                                
                                 <div class="row">
                                     <div class="col-md-2">
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput type="text" placeholder="Member No"  
+                                        <mat-form-field class="custom-margin">
+                                            <input type="text" placeholder="Member No" matInput 
                                                 name="memberNo" [matAutocomplete]="auto" [(ngModel)]="model.memberNo"
-                                                (ngModelChange)="onMemberNoChange($event)">
+                                                (ngModelChange)="onMemberNoChange($event)" required>
                                             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                                                <mat-option *ngFor="let member of filteredMembers" [value]="member.memberNo">
-                                                    {{ member.memberNo }}
-                                                </mat-option>
+                                                <mat-option *ngFor="let member of members | filter : 'memberNo' : model.memberNo" [value]="member.memberNo">
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            {{member.memberNo}}
+                                                        </div>
+                                                        <div class="col-11">
+                                                            {{member.memberName}}
+                                                        </div>
+                                                    </div>
+                                                    </mat-option>
                                             </mat-autocomplete>
                                         </mat-form-field>
                                     </div>

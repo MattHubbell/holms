@@ -4,14 +4,11 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 
 import { CashDetail } from './cash-detail.model';
 import { CashDetailService } from './cash-detail.service';
-import { TransactionCode, TransactionCodeItemTypes, TransactionCodeService } from '../transaction-codes';
+import { TransactionCode, TransactionCodeItemTypes } from '../transaction-codes';
 import { MemberType, MemberTypeService } from '../member-types';
 
 import { ConfirmResponses } from '../../shared/modal/confirm-btn-default';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { JQueryService }  from '../../shared/jquery.service';
-import {startWith} from 'rxjs/operators/startWith';
-import {map} from 'rxjs/operators/map';
 import { Observable } from 'rxjs';
 import { Subscription } from 'rxjs';
 import * as f from '../../shared/functions';
@@ -37,7 +34,6 @@ export class CashDetailModalContent implements OnInit, OnDestroy {
     
     constructor(
         private cashDetailService: CashDetailService,
-        private transactionCodeService: TransactionCodeService,
         private memberTypeService: MemberTypeService,
         private jQueryService: JQueryService, 
         public dialogRef: MatDialogRef<CashDetailModalContent>

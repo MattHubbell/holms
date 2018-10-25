@@ -36,7 +36,7 @@
                         <mat-form-field class="custom-margin">
                             <input type="text" placeholder="Member No" aria-label="Member No" matInput 
                                 name="memberNo" [matAutocomplete]="auto" [(ngModel)]="model.memberNo"
-                                (ngModelChange)="onMemberNoChange($event)">
+                                (ngModelChange)="onMemberNoChange($event)" required>
                             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
                                 <mat-option *ngFor="let member of members | filter : 'memberNo' : model.memberNo" [value]="member.memberNo">
                                     <div class="row">
@@ -73,13 +73,13 @@
                     <div class="offset-md-1 col-md-2">
                         <mat-form-field class="example-full-width">
                             <input type="text" placeholder="Check #" aria-label="Check #" matInput 
-                                name="checkNo" [(ngModel)]="model.checkNo">
+                                name="checkNo" [(ngModel)]="model.checkNo" required>
                         </mat-form-field>
                     </div>
                     <div class="col-md-2">
                         <mat-form-field>
                             <input matInput [matDatepicker]="picker" placeholder="Check Date"
-                                name="checkDate" [(ngModel)]="model.checkDate">
+                                name="checkDate" [(ngModel)]="model.checkDate" required>
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
@@ -180,7 +180,7 @@
                                 <div class="md-form form-group border-top-double-addon">
                                     <div class="md-form form-group input-group">
                                         <span class="input-group-addon">$</span>
-                                        <input #membershipTotal type="text" class="form-control text-sm-center" aria-label="Amount (to the nearest dollar)" readonly name="membershipTotal" [(ngModel)]="model.membershipTotal">
+                                        <input #membershipTotal type="number" min="1" class="form-control text-sm-center" aria-label="Amount (to the nearest dollar)" readonly name="membershipTotal" [(ngModel)]="model.membershipTotal">
                                         <span class="input-group-addon">.00</span>
                                     </div>
                                 </div> 

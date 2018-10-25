@@ -105,3 +105,10 @@ confirm-button-default .dark-modal .modal-content {
 }
 
 
+.mat-autocomplete-panel {
+  min-width: inherit !important;
+}
+.cdk-overlay-pane {
+  display: block;
+  min-width: 500px;
+}

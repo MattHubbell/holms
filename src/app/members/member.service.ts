@@ -32,7 +32,7 @@ export class MemberService {
         this.fs.updateItem(Member.TableName(), item.key, data);
     }
 
-    updateObject(item:any, key:string, model: Member) {
+    updateObject(key:string, model: Member) {
         let data = Member.setData(model);
         this.fs.updateObject(Member.TableName() + '/' + key, data);
     }

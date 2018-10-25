@@ -1,4 +1,5 @@
 export class CashMaster {
+    receiptNo: string;
     memberNo: string;
     transDate: string;
     checkNo: string;
@@ -9,6 +10,7 @@ export class CashMaster {
     batchNo: string;
 
     constructor(
+        receiptNo?: string,
         memberNo?: string,
         transDate?: string,
         checkNo?: string,
@@ -18,6 +20,7 @@ export class CashMaster {
         comments?: string,
         batchNo?: string
     ) {
+        this.receiptNo = (receiptNo) ? receiptNo : '';
         this.memberNo = (memberNo) ? memberNo : '';
         this.transDate = (transDate) ? transDate : '';
         this.checkNo = (checkNo) ? checkNo : '';
@@ -34,6 +37,7 @@ export class CashMaster {
 
     public static setData(model:CashMaster): any {
         return {
+            receiptNo: ((model.receiptNo) ? model.receiptNo : ''), 
             memberNo: ((model.memberNo) ? model.memberNo : ''), 
             transDate: ((model.transDate) ? model.transDate : ''), 
             checkNo: ((model.checkNo) ? model.checkNo : ''), 

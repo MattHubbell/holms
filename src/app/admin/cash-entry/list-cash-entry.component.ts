@@ -1,5 +1,4 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { TitleService } from '../../title.service';
 import { CashMaster } from './cash-master.model';
 import { CashMasterService } from './cash-master.service';
@@ -15,7 +14,7 @@ import { DistributionSummaryModalContent } from './distribution-summary.modal';
 import { MemberService, Member } from '../../members';
 import { TransactionCodeService, TransactionCode } from '../transaction-codes';
 import { Setup, SetupService } from "../setup";
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { JQueryService } from '../../shared/jquery.service';
@@ -42,11 +41,12 @@ export class ListCashEntryComponent implements OnInit, OnDestroy {
     checkRegisterFlag: boolean = false;
     distributionSummaryFlag: boolean = false;
     subscription: Array<Subscription>;
+    dialogConfig: MatDialogConfig;
+    modalRef: MatDialogRef<any,any>;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     constructor(
-        private formBuilder: FormBuilder, 
         private cashMasterService: CashMasterService,
         private cashDetailService: CashDetailService,
         private cashMasterHistoryService: CashMasterHistoryService,
@@ -154,32 +154,32 @@ export class ListCashEntryComponent implements OnInit, OnDestroy {
         this.setupService.updateItem(this.setup);
     }
 
+    assignReceiptNo(): string {
+        let receiptNo:string = this.setup.nextCashEntryReceiptNo.toString();
+        this.setup.nextCashEntryReceiptNo += 1;
+        this.setupService.updateItem(this.setup);
+        return receiptNo;
+    }
+
     addNew() {
-        const modalRef = this.modalService.open(CashEntryModalContent);
+        this.modalRef = this.modalService.open(CashEntryModalContent, this.dialogConfig);
+        this.modalRef.componentInstance.members = this.members;
+        this.modalRef.componentInstance.isNewItem = true;
         let model:CashMaster = new CashMaster();
+        model.receiptNo = this.assignReceiptNo();
         model.memberNo = '';
         model.batchNo = '';
         model.transDate =  new Date().toLocaleString();
         model.currencyCode = 'USD';
-        modalRef.componentInstance.isNewItem = true;
-        modalRef.componentInstance.model = model;
-        modalRef.componentInstance.members = this.members;
-        modalRef.componentInstance.resetForm();
+        this.modalRef.componentInstance.model = model;
     }
 
-    edit(object:any) {
-        if (this.selection.selected.find(x => x == object )) {
-            return;
-        }        
-        const modalRef = this.modalService.open(CashEntryModalContent);
-        modalRef.componentInstance.selectedItem = this.cashMasterService.getItemByKey(object['key']);
-        this.subscription.push(modalRef.componentInstance.selectedItem.subscribe(x => {
-            if (x != undefined) {
-                modalRef.componentInstance.model = this.jQueryService.cloneObject(x);
-                modalRef.componentInstance.members = this.members;
-                modalRef.componentInstance.resetForm();
-            }
-        }));
+    edit(object:any) {        
+        this.modalRef = this.modalService.open(CashEntryModalContent, this.dialogConfig);
+        this.modalRef.componentInstance.members = this.members;
+        this.modalRef.componentInstance.isNewItem = false;
+        this.modalRef.componentInstance.selectedItem = object;
+        this.modalRef.componentInstance.model = this.jQueryService.cloneObject(object);
     }
 
     setBatch() {

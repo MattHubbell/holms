@@ -24,7 +24,7 @@ export class MembershipDues {
                 comments?:string
             ) {
         this.memberNo = (memberNo) ? memberNo : ''; 
-        this.checkNo = (checkNo) ? checkNo : 0;
+        this.checkNo = (checkNo) ? checkNo : null;
         this.checkDate = (checkDate) ? checkDate : undefined;
         this.duesAmount = (duesAmount) ? duesAmount : 0; 
         this.duesQuantity = (duesQuantity) ? duesQuantity : 1; 
