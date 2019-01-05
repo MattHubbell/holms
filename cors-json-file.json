@@ -1,0 +1,8 @@
+[
+    {
+      "origin": ["https://holms.hubbell.org"],
+      "responseHeader": ["Content-Type"],
+      "method": ["POST", "PUT", "GET", "HEAD", "DELETE"],
+      "maxAgeSeconds": 3600
+    }
+]
