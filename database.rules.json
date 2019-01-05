@@ -37,7 +37,7 @@
             ".read":  "auth != null",
             ".write":  "auth != null"
         },
-        "newMembers": {
+        "newRegistrations": {
             ".read":  "auth != null",
             ".write":  "auth != null"
         },
