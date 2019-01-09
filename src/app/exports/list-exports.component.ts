@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { TitleService } from '../title.service';
 import { Member, MemberService } from '../members';
 import { TransactionCode, TransactionCodeService } from '../admin/transaction-codes';
+import { CashMaster, CashMasterService, CashDetail, CashDetailService } from '../admin/cash-entry';
 import { CashMasterHistory, CashMasterHistoryService, CashDetailHistory, CashDetailHistoryService } from '../admin/transaction-history';
 import { MemberStatus, MemberStatusService } from '../admin/member-status';
 import { MemberType, MemberTypeService } from '../admin/member-types';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 import { MatSnackBar } from '@angular/material';
@@ -21,6 +21,8 @@ export class ListExportsComponent implements OnInit, OnDestroy {
 
     members: Member[];
     transactionCodes: TransactionCode[];
+    cashMaster: CashMaster[];
+    cashDetail: CashDetail[];
     cashMasterHistory: CashMasterHistory[];
     cashDetailHistory: CashDetailHistory[];
     memberStatus: MemberStatus[];
@@ -31,6 +33,8 @@ export class ListExportsComponent implements OnInit, OnDestroy {
     elementData: ElementData[] = [];
     elementMembers: ElementData;
     elementTransactionCodes: ElementData;
+    elementCashMaster: ElementData;
+    elementCashDetail: ElementData;
     elementCashMasterHistory: ElementData;
     elementCashDetailHistory: ElementData;
     elementMemberStatuses: ElementData;
@@ -48,9 +52,10 @@ export class ListExportsComponent implements OnInit, OnDestroy {
       };
 
     constructor(
-        private formBuilder: FormBuilder, 
         private memberService: MemberService,
         private transactionCodeService: TransactionCodeService, 
+        private cashMasterService: CashMasterService,
+        private cashDetailService: CashDetailService,
         private cashMasterHistoryService: CashMasterHistoryService,
         private cashDetailHistoryService: CashDetailHistoryService,
         private memberStatusService: MemberStatusService,
@@ -81,6 +86,24 @@ export class ListExportsComponent implements OnInit, OnDestroy {
             .subscribe(x => {
                 this.transactionCodes = x;
                 this.elementTransactionCodes.rowCount = x.length;
+            })
+        );
+        this.elementCashMaster = {tableName: 'Cash Master', rowCount: 0};
+        this.elementData.push(this.elementCashMaster);
+        this.cashMasterService.getList();
+        this.subscription.push(this.cashMasterService.list
+            .subscribe(x => {
+                this.cashMaster = x;
+                this.elementCashMaster.rowCount = x.length;
+            })
+        );
+        this.elementCashDetail = {tableName: 'Cash Detail', rowCount: 0};
+        this.elementData.push(this.elementCashDetail);
+        this.cashDetailService.getList();
+        this.subscription.push(this.cashDetailService.list
+            .subscribe(x => {
+                this.cashDetail = x;
+                this.elementCashDetail.rowCount = x.length;
             })
         );
         this.elementCashMasterHistory = {tableName: 'Cash Master History', rowCount: 0};
@@ -148,6 +171,12 @@ export class ListExportsComponent implements OnInit, OnDestroy {
                     break;      
                 case 'Transaction Codes':
                     new Angular2Csv(this.transactionCodes, 'TransactionCodeList', { headers: Object.keys(this.transactionCodes[0]) });  
+                    break;      
+                case 'Cash Master':
+                    new Angular2Csv(this.cashMaster, 'CashMasterList', { headers: Object.keys(this.cashMaster[0]) });  
+                    break;      
+                case 'Cash Detail':
+                    new Angular2Csv(this.cashDetail, 'CashDetailList', { headers: Object.keys(this.cashDetail[0]) });  
                     break;      
                 case 'Cash Master History':
                     new Angular2Csv(this.cashMasterHistory, 'CashMasterHistoryList', { headers: Object.keys(this.cashMasterHistory[0]) });  

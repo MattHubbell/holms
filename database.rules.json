@@ -71,6 +71,10 @@
             ".read":  "auth != null",
             ".write":  "auth != null",
             ".indexOn": ["selector"]  
+        },
+        "giftMemberships": {
+            ".read": "auth != null",
+            ".write": "auth != null"
         }
     }
 }

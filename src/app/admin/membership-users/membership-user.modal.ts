@@ -17,6 +17,7 @@ export class MembershipUserModalContent implements OnInit {
     @Input() model: MembershipUser;
     @Input() isNewItem: Boolean;
 
+    key: string;
     membershipUserType:typeof MembershipUserType = MembershipUserType;
     tableName: string;
 
@@ -28,6 +29,7 @@ export class MembershipUserModalContent implements OnInit {
 
     ngOnInit() {
         this.tableName = MembershipUser.TableName();
+        this.key = this.model['key'];
     }
 
     onSubmit(isValid:boolean) {

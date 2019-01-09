@@ -6,7 +6,7 @@ import { TitleService } from '../title.service';
     templateUrl: './new-registration.component.html',
     styleUrls: [ './new-registration.component.css' ]
 })
-export class NewMemberComponent {
+export class NewRegistrationComponent {
     
     constructor(private titleService:TitleService) {
         this.titleService.selector = 'new-registration';

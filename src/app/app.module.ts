@@ -15,10 +15,12 @@ import { AdminModule }                                    from './admin/admin.mo
 import { DashboardModule } 	                              from './dashboard/dashboard.module';
 import { MemberModule } 		                              from './members/member.module';
 import { MembershipDuesModule } 		                      from './membership-dues/membership-dues.module';
+import { GiftMembershipModule } 		                      from './gift-membership/gift-membership.module';
 import { ReportsModule }                                  from './reports/reports.module';
 import { ExportsModule }                                  from './exports/exports.module';
 import { ImportsModule }                                  from './imports/imports.module';
 import { AppComponent }                                   from './app.component';
+import { CookieService }                                  from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { AppComponent }                                   from './app.component'
     DashboardModule,
     MemberModule,
     MembershipDuesModule,
+    GiftMembershipModule,
     ReportsModule,
     ExportsModule,
     ImportsModule,
@@ -44,7 +47,7 @@ import { AppComponent }                                   from './app.component'
   ],
   entryComponents: [
   ],
-  providers: [AppService, TitleService],
+  providers: [AppService, TitleService, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

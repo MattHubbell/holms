@@ -11,7 +11,7 @@ export class AppMenuService {
     constructor(private fs: FirebaseService) {}
 
     getList() {
-        this.list = this.fs.getItems(AppMenu.TableName());
+        this.list = this.fs.getItems(AppMenu.TableName(),'menuId');
     }
 
     getListByID() {

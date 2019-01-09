@@ -12,7 +12,6 @@ export class DistributionSummaryComponent  {
     @Input() batchNo: string;
     @Input() cashDetails: CashDetail[];
     @Input() transactionCodes: TransactionCode[];
-    today = new Date();
     
     calculateCount(transCode:string): number {
         let count:number = 0;

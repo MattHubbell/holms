@@ -5,8 +5,10 @@ import { Observable, Subscription } from 'rxjs';
 import * as f from '../../shared/functions';
 
 import { NewRegistration } from './new-registration.model';
-import { NewMemberService } from './new-registration.service';
+import { NewRegistrationService } from './new-registration.service';
 import { Member,MemberFilterOptions, MemberService } from '../../members';
+import { MemberType, MemberTypeService} from '../member-types';
+import { MemberStatus, MemberStatusService } from '../member-status';
 import { Salutations, Countries } from '../../shared';
 import { Setup, SetupService } from "../setup";
 import { MembershipUser, MembershipUserService, MembershipUserType } from "../membership-users";
@@ -20,7 +22,7 @@ import { JQueryService } from '../../shared/jquery.service';
     styleUrls: [ './new-registration.modal.css' ], 
     encapsulation: ViewEncapsulation.None
 })
-export class NewMemberModalContent implements OnInit, OnDestroy {
+export class NewRegistrationModalContent implements OnInit, OnDestroy {
 
     @Input() selectedItem: Observable<NewRegistration>;
     @Input() model: NewRegistration;
@@ -33,6 +35,8 @@ export class NewMemberModalContent implements OnInit, OnDestroy {
     salutations = Salutations;
     countries = Countries;
     members: Member[];
+    memberTypes: MemberType[];
+    memberStatuses: MemberStatus[];
     selectedTabIndex: number;
     searchText: string;
     selectedMember: Observable<Member>;
@@ -46,8 +50,10 @@ export class NewMemberModalContent implements OnInit, OnDestroy {
     subscription = new Array<Subscription>();
 
     constructor(
-        private newMemberService: NewMemberService,
+        private newRegistrationService: NewRegistrationService,
         private memberService: MemberService, 
+        private memberTypeService: MemberTypeService,
+        private memberStatusService: MemberStatusService,
         private emailService: EmailService,
         private setupService: SetupService,
         private membershipUserService: MembershipUserService,
@@ -55,6 +61,18 @@ export class NewMemberModalContent implements OnInit, OnDestroy {
         public dialogRef: MatDialogRef<NewRegistration>,
         public snackBar: MatSnackBar
     ) {
+        this.memberTypeService.getList();
+        this.subscription.push(this.memberTypeService.list
+            .subscribe(x => {
+                this.memberTypes = x;
+            })
+        );
+        this.memberStatusService.getList();
+        this.subscription.push(this.memberStatusService.list
+            .subscribe(x => {
+                this.memberStatuses = x;
+            })
+        );
     }
 
     ngOnInit() {
@@ -77,7 +95,7 @@ export class NewMemberModalContent implements OnInit, OnDestroy {
             return;
         }
         if (this.model.memberNo == '') {
-            this.newMemberService.updateItem(this.selectedItem, this.model);
+            this.newRegistrationService.updateItem(this.selectedItem, this.model);
         } else {
             let member:Member = this.members.find(x => x.memberNo == this.model.memberNo);
             if (member) {
@@ -93,7 +111,7 @@ export class NewMemberModalContent implements OnInit, OnDestroy {
             this.membershipUser.memberId = this.model.memberNo;
             this.membershipUser.userType = MembershipUserType.Member;
             this.membershipUserService.updateObject(this.selectedMembership, this.key ,this.membershipUser);
-            this.newMemberService.deleteItem(this.selectedItem);
+            this.newRegistrationService.deleteItem(this.selectedItem);
         }
         this.snackBar.open('New member updated','', {
             duration: 2000,
@@ -103,7 +121,7 @@ export class NewMemberModalContent implements OnInit, OnDestroy {
 
     onDelete($event:ConfirmResponses) {
         if ($event === ConfirmResponses.yes) {
-            this.newMemberService.deleteItem(this.selectedItem);
+            this.newRegistrationService.deleteItem(this.selectedItem);
             this.dialogRef.close();
         }
     }
@@ -191,29 +209,29 @@ export class NewMemberModalContent implements OnInit, OnDestroy {
         }
     }
 
-    addMember(newMember: NewRegistration) {
+    addMember(newRegistration: NewRegistration) {
         let member: Member = new Member();
-        member.memberNo = newMember.memberNo;
+        member.memberNo = newRegistration.memberNo;
         member.oldMemberNo = 0;
-        member.salutation = newMember.salutation;
-        member.memberName = newMember.registrationName;
-        member.addrLine1 = newMember.street1;
-        member.addrLine2 = newMember.street2;
-        member.city = newMember.city;
-        member.state = newMember.state;
-        member.zip = newMember.zip;
-        member.country = newMember.country;
-        member.phone = newMember.phone;
-        member.hgBook = newMember.hgBook;
-        member.arBook = newMember.arBook;
-        member.meBook = newMember.meBook;
-        member.annualName = newMember.annualName;
-        member.sortName = newMember.sortName;
-        member.lastDuesYear = newMember.lastDuesYear;
+        member.salutation = newRegistration.salutation;
+        member.memberName = newRegistration.registrationName;
+        member.addrLine1 = newRegistration.street1;
+        member.addrLine2 = newRegistration.street2;
+        member.city = newRegistration.city;
+        member.state = newRegistration.state;
+        member.zip = newRegistration.zip;
+        member.country = newRegistration.country;
+        member.phone = newRegistration.phone;
+        member.hgBook = newRegistration.hgBook;
+        member.arBook = newRegistration.arBook;
+        member.meBook = newRegistration.meBook;
+        member.annualName = newRegistration.annualName;
+        member.sortName = newRegistration.sortName;
+        member.lastDuesYear = newRegistration.lastDuesYear;
         member.startYear = +(new Date().getFullYear);
-        member.memberType = newMember.memberType;
-        member.memberStatus = newMember.memberStatus;
-        member.eMailAddr = newMember.email;
+        member.memberType = newRegistration.memberType;
+        member.memberStatus = newRegistration.memberStatus;
+        member.eMailAddr = newRegistration.email;
         member.fax = '';
         member.comments = '';
         member.isAlternateAddress = false;
@@ -223,27 +241,27 @@ export class NewMemberModalContent implements OnInit, OnDestroy {
         this.memberService.addItem(member);
     } 
     
-    updateMember(newMember: NewRegistration, member: Member) {
-        member.memberNo = newMember.memberNo;
-        member.salutation = newMember.salutation;
-        member.memberName = newMember.registrationName;
-        member.addrLine1 = newMember.street1;
-        member.addrLine2 = newMember.street2;
-        member.city = newMember.city;
-        member.state = newMember.state;
-        member.zip = newMember.zip;
-        member.country = newMember.country;
-        member.phone = newMember.phone;
-        member.hgBook = newMember.hgBook;
-        member.arBook = newMember.arBook;
-        member.meBook = newMember.meBook;
-        member.annualName = newMember.annualName;
-        member.sortName = newMember.sortName;
-        member.lastDuesYear = newMember.lastDuesYear;
-        member.memberType = newMember.memberType;
-        member.memberStatus = newMember.memberStatus;
-        member.eMailAddr = newMember.email;
-        this.memberService.updateObject(this.selectedMember, member['key'], member);
+    updateMember(newRegistration: NewRegistration, member: Member) {
+        member.memberNo = newRegistration.memberNo;
+        member.salutation = newRegistration.salutation;
+        member.memberName = newRegistration.registrationName;
+        member.addrLine1 = newRegistration.street1;
+        member.addrLine2 = newRegistration.street2;
+        member.city = newRegistration.city;
+        member.state = newRegistration.state;
+        member.zip = newRegistration.zip;
+        member.country = newRegistration.country;
+        member.phone = newRegistration.phone;
+        member.hgBook = newRegistration.hgBook;
+        member.arBook = newRegistration.arBook;
+        member.meBook = newRegistration.meBook;
+        member.annualName = newRegistration.annualName;
+        member.sortName = newRegistration.sortName;
+        member.lastDuesYear = newRegistration.lastDuesYear;
+        member.memberType = newRegistration.memberType;
+        member.memberStatus = newRegistration.memberStatus;
+        member.eMailAddr = newRegistration.email;
+        this.memberService.updateObject(member['key'], member);
     }
     
     sendAckowledgmentEmail(): string {

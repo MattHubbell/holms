@@ -8,7 +8,7 @@
                 <div class="row">
                     <div class="offset-lg-1 col-lg-6 col-md-7 col-sm-6 col-sm-4">
                         <h6 *ngIf="onlineEntry"><strong>MEMBER: {{ member?.memberName }}</strong></h6> 
-                        <h6 *ngIf="!onlineEntry"><strong>CHECK ENTRY</strong></h6> 
+                        <h6 *ngIf="!onlineEntry"><strong>MEMBER DUES: CHECK ENTRY</strong></h6> 
                     </div>
                     <div class="col-lg-2 col-md-3 col-sm-4 col-sm-6">
                         <div>
@@ -25,7 +25,7 @@
                     <div class="offset-lg-2 col-lg-5 col-md-8 col-sm-7 col-sm-6" *ngIf="onlineEntry">
                         <div>
                             <p>
-                                <strong>{{setup?.duesYear}} ANNUAL DUES - $20.00 </strong><br>
+                                <strong>{{setup?.duesYear}} ANNUAL DUES - {{minPrice | currency}} </strong><br>
                                     (Individual or Family w/minor children) <br> 
                                     (See Membership Levels for Dues Amounts below)<br>
                                 <strong>Last membership year: {{member?.lastDuesYear}}</strong> 
@@ -97,7 +97,7 @@
                 <div class="row">
                     <div class="offset-lg-2 col-lg-6 col-md-9 col-sm-8 col-sm-6">
                         <div>
-                            <label>{{ foundation }}</label>
+                            <label>{{ model?.foundationLit }}</label>
                         </div>
                     </div>
                     <div class="offset-lg-1 col-lg-2 col-md-3 col-sm-4 col-sm-6">
@@ -112,7 +112,7 @@
                 <div class="row">
                     <div class="offset-lg-2 col-lg-6 col-md-9 col-sm-8 col-sm-6">
                         <div>
-                            <label>{{ museumLibary }}</label>
+                            <label>{{ model?.museum_libraryLit }}</label>
                         </div>
                     </div>
                     <div class="offset-lg-1 col-lg-2 col-md-3 col-sm-4 col-sm-6">
@@ -127,7 +127,7 @@
                 <div class="row">
                     <div class="offset-lg-2 col-lg-6 col-md-9 col-sm-8 col-sm-6">
                         <div>
-                            <label>{{ scholarshipFund }}</label>
+                            <label>{{ model?.scholarshipLit }}</label>
                         </div>
                     </div>
                     <div class="offset-lg-1 col-lg-2 col-md-3 col-sm-4 col-sm-6">
@@ -225,6 +225,7 @@
             
                     </div> <!--col-->
                 </div> <!--row-->
+                <br>
             </form>
         </mat-card-content>
     </mat-card>

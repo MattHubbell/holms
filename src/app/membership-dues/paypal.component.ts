@@ -3,7 +3,6 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { PaymentStatusReponses } from "../shared/paypal-button";
 import { MatSnackBar } from '@angular/material';
-import * as f from '../shared/functions';
 
 import { EmailService } from '../shared/email.service';
 import { Setup } from '../admin/setup';
@@ -30,7 +29,6 @@ export class PayPalSubmit {
     @Input() model: MembershipDues;
     @Input() setup: Setup;
     @Input() transactionCodes: TransactionCode[];
-    paymentId: string;
 
     closeResult: string;
     ConfirmResponses: typeof ConfirmResponses = ConfirmResponses;
@@ -79,6 +77,8 @@ export class PayPalSubmit {
             return;
         }
 
+        this.model.checkNo = 'PayPal';
+        this.model.checkDate = new Date();
         this.model.comments = resp.paymentToken.id;
         this.membershipDuesService.postCashEntry(this.model, this.member, this.setup, this.transactionCodes);
 
@@ -91,6 +91,7 @@ export class PayPalSubmit {
     }
     
     openMessageBox() {
+
         const modalRef = this.dialog.open(ModalMessageOk);
         modalRef.componentInstance.title  = "Thank You!"
         modalRef.componentInstance.message = "Your payment has been received.  Look for an ackowledgement in your e-mail.";
@@ -98,17 +99,11 @@ export class PayPalSubmit {
     }
 
     sendAckowledgmentEmail(): string {
-        let emailMsg:string = '';
-        this.emailService.sendMail(this.appService.userEmail, this.setup.holmsEmail,  this.setup.appSubTitle + ' - Dues Acknowledgment'
-            , f.camelCase(this.member.memberName) + `,\r\n\r\n
-               Thank you for your payment! \r\n\r\nYour PayPal Transaction ID is ` + this.paymentId + `\r\n\r\n
-               Dues Paid                         $` + (this.model.duesAmount * this.model.duesQuantity) + `\r\n
-               THFHS Foundation                  $` + this.model.foundation + `\r\n
-               Hubbell Museum and Library        $` + this.model.museum_library + `\r\n
-               Hubbell Family Scholarship Fund   $` + this.model.scholarship + `\r\n
-               Total Paid ->                     $` + this.model.membershipTotal + `\r\n\r\n
-               Paid through ->                   ` + this.member.lastDuesYear +  `\r\n
-            `)
+        let emailMsg: string = '';
+        const paidThruDate: Date = new Date(this.member.paidThruDate);
+        const body = this.emailService.toInvoiceBody(this.member.memberName, this.model.foundationLit, this.model.museum_libraryLit, this.model.scholarshipLit,
+             paidThruDate,this.model.comments, this.model.duesQuantity, this.model.duesAmount, this.model.foundation, this.model.museum_library, this.model.scholarship);
+        this.emailService.sendMail(this.appService.userEmail, this.setup.holmsEmail,  this.setup.appSubTitle + ' - Dues Acknowledgment', body)
             .subscribe(
             message  => {
                 emailMsg = message;
@@ -116,7 +111,7 @@ export class PayPalSubmit {
             error =>  {
                 emailMsg = error;
         });
-        if (emailMsg.length>0) {
+        if (emailMsg.length > 0) {
             emailMsg = "E-mail sent!"
         }
         return emailMsg;

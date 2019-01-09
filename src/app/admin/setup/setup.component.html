@@ -37,6 +37,12 @@
                         </div>
                         <div class="col-md-3">
                             <mat-form-field>
+                                <input matInput placeholder="Next cash entry receipt #" type="number"
+                                    name="nextCashEntryReceiptNo" [(ngModel)]="model.nextCashEntryReceiptNo" autocomplete="off" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field>
                                 <input matInput placeholder="Next cash entry batch #" type="number"
                                     name="nextCashEntryBatchNo" [(ngModel)]="model.nextCashEntryBatchNo" autocomplete="off" required>
                             </mat-form-field>
@@ -51,7 +57,7 @@
                             </mat-form-field>
                         </div>
                         <div class="col-md-2">
-                            <button mat-raised-button type="button" color="primary" (click)="onTestEmail()">Test</button>
+                            <button mat-raised-button type="button" color="primary" (click)="onTestEmail()">Test Email</button>
                         </div>
                         <div class="col-md-2">
                             <p> {{ emailMsg }} </p>

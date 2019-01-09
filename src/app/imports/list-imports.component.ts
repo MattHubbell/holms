@@ -1,12 +1,12 @@
 import { Component, ViewChild, ElementRef, OnInit, OnDestroy  } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { TitleService } from '../title.service';
 import { Member, MemberService } from '../members';
 import { TransactionCode, TransactionCodeService } from '../admin/transaction-codes';
+import { CashMaster, CashMasterService, CashDetail, CashDetailService } from '../admin/cash-entry';
 import { CashMasterHistory, CashMasterHistoryService, CashDetailHistory, CashDetailHistoryService } from '../admin/transaction-history';
 import { MemberStatus, MemberStatusService } from '../admin/member-status';
 import { MemberType, MemberTypeService } from '../admin/member-types';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material';
 import { Subscription } from 'rxjs';
@@ -21,6 +21,8 @@ export class ListImportsComponent implements OnInit, OnDestroy  {
     @ViewChild("fileToUpload") fileToUpload:ElementRef;
     members: Member[];
     transactionCodes: TransactionCode[];
+    cashMaster: CashMaster[];
+    cashDetail: CashDetail[];
     cashMasterHistory: CashMasterHistory[];
     cashDetailHistory: CashDetailHistory[];
     memberStatus: MemberStatus[];
@@ -31,6 +33,8 @@ export class ListImportsComponent implements OnInit, OnDestroy  {
     elementData: ElementData[] = [];
     elementMembers: ElementData;
     elementTransactionCodes: ElementData;
+    elementCashMaster: ElementData;
+    elementCashDetail: ElementData;
     elementCashMasterHistory: ElementData;
     elementCashDetailHistory: ElementData;
     elementMemberStatuses: ElementData;
@@ -39,9 +43,10 @@ export class ListImportsComponent implements OnInit, OnDestroy  {
     subscription: Array<Subscription>;
 
     constructor(
-        private formBuilder: FormBuilder, 
         private memberService: MemberService,
         private transactionCodeService: TransactionCodeService, 
+        private cashMasterService: CashMasterService,
+        private cashDetailService: CashDetailService,
         private cashMasterHistoryService: CashMasterHistoryService,
         private cashDetailHistoryService: CashDetailHistoryService,
         private memberStatusService: MemberStatusService,
@@ -72,6 +77,24 @@ export class ListImportsComponent implements OnInit, OnDestroy  {
             .subscribe(x => {
                 this.transactionCodes = x;
                 this.elementTransactionCodes.rowCount = x.length;
+            })
+        );
+        this.elementCashMaster = {tableName: 'Cash Master', rowCount: 0};
+        this.elementData.push(this.elementCashMaster);
+        this.cashMasterService.getList();
+        this.subscription.push(this.cashMasterService.list
+            .subscribe(x => {
+                this.cashMaster = x;
+                this.elementCashMaster.rowCount = x.length;
+            })
+        );
+        this.elementCashDetail = {tableName: 'Cash Detail', rowCount: 0};
+        this.elementData.push(this.elementCashDetail);
+        this.cashDetailService.getList();
+        this.subscription.push(this.cashDetailService.list
+            .subscribe(x => {
+                this.cashDetail = x;
+                this.elementCashDetail.rowCount = x.length;
             })
         );
         this.elementCashMasterHistory = {tableName: 'Cash Master History', rowCount: 0};
@@ -134,7 +157,7 @@ export class ListImportsComponent implements OnInit, OnDestroy  {
         this.selection.clear();
     }
 
-    onUploadData(val:any) {
+    onUploadData() {
         let file:File = this.fileToUpload.nativeElement.files[0];
         let reader = new FileReader();
         reader.onload = this.handleReaderLoaded.bind(this);
@@ -150,6 +173,12 @@ export class ListImportsComponent implements OnInit, OnDestroy  {
                     break;      
                 case 'Transaction Codes':
                     this.importTransactionCodes(reader.result);
+                    break;      
+                case 'Cash Master':
+                    this.importCashMaster(reader.result);
+                    break;      
+                case 'Cash Detail':
+                    this.importCashDetail(reader.result);
                     break;      
                 case 'Cash Master History':
                     this.importCashMasterHistory(reader.result);
@@ -196,6 +225,30 @@ export class ListImportsComponent implements OnInit, OnDestroy  {
         this.transactionCodeService.deleteAllItems();
         for (let index = 0; index < transactionCodes.length; ++index) {
             this.transactionCodeService.addItem(transactionCodes[index]);
+        }
+    }
+
+    importCashMaster(csvString:string) {
+        let cashMaster:CashMaster[] = this.csvToArray(CashMaster, csvString);
+        if (cashMaster.length == 0) {
+            alert("No rows found!");
+            return;
+        }
+        this.cashMasterService.deleteAllItems();
+        for (let index = 0; index < cashMaster.length; ++index) {
+            this.cashMasterService.addItem(cashMaster[index]);
+        }
+    }
+
+    importCashDetail(csvString:string) {
+        let cashDetail:CashDetail[] = this.csvToArray(CashDetail, csvString);
+        if (cashDetail.length == 0) {
+            alert("No rows found!");
+            return;
+        }
+        this.cashDetailService.deleteAllItems();
+        for (let index = 0; index < cashDetail.length; ++index) {
+            this.cashDetailService.addItem(cashDetail[index]);
         }
     }
 

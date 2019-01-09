@@ -4,7 +4,7 @@ import { NewRegistration } from './new-registration.model';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class NewMemberService {
+export class NewRegistrationService {
 
     list: Observable<NewRegistration[]>;
     

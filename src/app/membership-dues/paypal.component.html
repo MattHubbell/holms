@@ -48,8 +48,8 @@
                         <div class="offset-3 col-2">
                             <button mat-raised-button color="primary" type="button" class="text-center" (click)="onClose(ConfirmResponses.cancel)">Cancel</button>
                         </div>
-                        <div class="offset-1 col-3">
-                            <paypal-button [formValid]="'true'" [totalSale]="model.membershipTotal" [currencyType]="'USD'" (statusUpdated)="handlePaypalSubmitted($event, model, 'true')"></paypal-button>
+                        <div class="offset-1 col-4">
+                            <paypal-button [formValid]="'true'" [totalSale]="model.membershipTotal" [currencyType]="'USD'" (statusUpdated)="handlePaypalSubmitted($event, model, true)"></paypal-button>
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { FirebaseService } from '../firebase';
 import { NewRegistration } from '../admin/new-registrations/new-registration.model';
-import { NewMemberService } from '../admin/new-registrations/new-registration.service';
+import { NewRegistrationService } from '../admin/new-registrations/new-registration.service';
 import { ShowHideInput } from '../shared/show-hide.directive';
 import { MatDialog } from '@angular/material';
 import { MembershipUser, MembershipUserType } from '../admin/membership-users/membership-user.model';
@@ -38,7 +38,7 @@ export class RegisterComponent implements OnInit, OnDestroy{
 	constructor(
 		private firebaseService: FirebaseService, 
 		public dialog: MatDialog,
-		private newMemberService: NewMemberService,
+		private newRegistrationService: NewRegistrationService,
 		private membershipUserService: MembershipUserService,
         private setupService: SetupService,
         private emailService: EmailService,
@@ -107,10 +107,10 @@ export class RegisterComponent implements OnInit, OnDestroy{
 		});
 	}
 
-	successfulAdd(newMember:NewRegistration) {
-		let membershipUser = new MembershipUser(newMember.registrationName, '', MembershipUserType.New);
+	successfulAdd(newRegistration:NewRegistration) {
+		let membershipUser = new MembershipUser(newRegistration.registrationName, '', MembershipUserType.New);
 		this.membershipUserService.addItem(this.firebaseService.user.id, membershipUser);
-		this.newMemberService.addItem(this.firebaseService.user.id, newMember);
+		this.newRegistrationService.addItem(this.firebaseService.user.id, newRegistration);
 		this.sendMembershipCharEmail();
 	}
 

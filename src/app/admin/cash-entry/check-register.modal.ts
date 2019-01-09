@@ -17,6 +17,7 @@ export class CheckRegisterModalContent implements AfterViewInit {
     @Input() cashMasters: CashMaster[];
     @Input() members: Member[];
     @ViewChild('zoomEle') zoomEle: ElementRef;
+    viewsLoaded: number;
 
     constructor(
         public dialogRef: MatDialogRef<CheckRegisterModalContent>

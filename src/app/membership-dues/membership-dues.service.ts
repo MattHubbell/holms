@@ -34,53 +34,64 @@ export class MembershipDuesService {
         memberModel.memberType = memberType;
         memberModel.memberStatus = 'A';
 
+        const currentDate = new Date();
+        const yyyy: number = currentDate.getFullYear() + item.duesQuantity;
+        let paidThruDate: Date = new Date();
+        paidThruDate.setFullYear(yyyy);
+        memberModel.paidThruDate = paidThruDate;
+
+        if (memberModel.anniversary === undefined) {
+            const aniversary: Date = new Date();
+            memberModel.anniversary = aniversary;
+        }
+
         this.memberService.updateItem(member, memberModel);
 
         let receiptNo:string = this.assignReceiptNo(setup);
         let memberNo:string = memberModel.memberNo;
-        let transDate:string = new Date().toLocaleString();
-        let checkNo:string = item.checkNo.toString();
-        let checkDate:string = item.checkDate.toDateString();
-        let checkAmt:string = item.membershipTotal.toString();
+        let transDate:Date = new Date();
+        let checkNo:string = item.checkNo;
+        let checkDate:Date = item.checkDate;
+        let checkAmt:number = item.membershipTotal;
         let comments:string = item.comments;
 
         this.createCashMaster(receiptNo, memberNo, transDate, checkDate, checkNo, checkAmt, comments)
 
         if (item.duesAmount > 0) {
             let tranCode:string = transactionCodes.filter(x => x.itemType == TransactionCodeItemTypes.Membership)[0].id;
-            let distAmt:string = item.duesAmount.toString();
+            let distAmt:number = item.duesAmount;
             let distQty:number = item.duesQuantity;
             let duesCode:string = item.membershipTypeId;
             let duesYear:number = memberModel.lastDuesYear;
-            this.createCashDetail(receiptNo, memberNo, tranCode, transDate, checkNo, distQty, distAmt, duesCode, duesYear, comments)
+            this.createCashDetail(receiptNo, memberNo, tranCode, transDate, distQty, distAmt, duesCode, duesYear)
         }
         if (item.foundation > 0) {
             let tranCode:string = transactionCodes.filter(x => x.itemType == TransactionCodeItemTypes.Foundation)[0].id;
-            let distAmt:string = item.foundation.toString();
+            let distAmt:number = item.foundation;
             let distQty:number = 1;
             let duesCode:string = '';
             let duesYear:number = 0;
-            this.createCashDetail(receiptNo, memberNo, tranCode, transDate, checkNo, distQty, distAmt, duesCode, duesYear, comments)
+            this.createCashDetail(receiptNo, memberNo, tranCode, transDate, distQty, distAmt, duesCode, duesYear)
         }
         if (item.museum_library > 0) {
             let tranCode:string = transactionCodes.filter(x => x.itemType == TransactionCodeItemTypes.MuseumLibary)[0].id;
-            let distAmt:string = item.museum_library.toString();
+            let distAmt:number = item.museum_library;
             let distQty:number = 1;
             let duesCode:string = '';
             let duesYear:number = 0;
-            this.createCashDetail(receiptNo, memberNo, tranCode, transDate, checkNo, distQty, distAmt, duesCode, duesYear, comments)
+            this.createCashDetail(receiptNo, memberNo, tranCode, transDate, distQty, distAmt, duesCode, duesYear)
         }
         if (item.scholarship > 0) {
             let tranCode:string = transactionCodes.filter(x => x.itemType == TransactionCodeItemTypes.ScholarshipFund)[0].id;
-            let distAmt:string = item.scholarship.toString();
+            let distAmt:number = item.scholarship;
             let distQty:number = 1;
             let duesCode:string = '';
             let duesYear:number = 0;
-            this.createCashDetail(receiptNo, memberNo, tranCode, transDate, checkNo, distQty, distAmt, duesCode, duesYear, comments)
+            this.createCashDetail(receiptNo, memberNo, tranCode, transDate, distQty, distAmt, duesCode, duesYear)
         }
     }
     
-    createCashMaster(receiptNo:string, memberNo:string, transDateTime:string, checkDate:string, checkNo:string, checkAmt: string, comments: string) {
+    createCashMaster(receiptNo: string, memberNo: string, transDateTime: Date, checkDate: Date, checkNo: string, checkAmt: number, comments: string) {
         let cashMaster: CashMaster = new CashMaster();
         cashMaster.receiptNo = receiptNo;
         cashMaster.memberNo = memberNo;
@@ -93,18 +104,16 @@ export class MembershipDuesService {
         this.cashMasterService.addItem(cashMaster);
     }
 
-    createCashDetail(receiptNo:string, memberNo:string, tranCode:string, transDate:string, checkNo:string, distQty:number, distAmt:string, duesCode:string, duesYear:number, comments: string) {
+    createCashDetail(receiptNo: string, memberNo: string, tranCode: string, transDate: Date, distQty: number, distAmt: number, duesCode: string, duesYear: number) {
         let cashDetail: CashDetail = new CashDetail();
         cashDetail.receiptNo = receiptNo;
         cashDetail.memberNo = memberNo;
-        cashDetail.checkNo = checkNo;
         cashDetail.duesCode = duesCode;
         cashDetail.distQty = distQty;
         cashDetail.distAmt = distAmt;
         cashDetail.duesYear = duesYear;
         cashDetail.tranCode = tranCode;
         cashDetail.transDate = transDate;
-        cashDetail.comments = comments;
         this.cashDetailService.addItem(cashDetail);
     }
 }

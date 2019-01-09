@@ -12,7 +12,6 @@ export class CheckRegisterComponent  {
     @Input() batchNo: string;
     @Input() cashMasters: CashMaster[];
     @Input() members: Member[];
-    today = new Date();
     
     find(memberNo:string): Member {
         if (this.members) {

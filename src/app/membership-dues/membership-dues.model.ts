@@ -3,33 +3,42 @@ import * as f from '../shared/functions';
 
 export class MembershipDues {
     memberNo?:string;
-    checkNo?:number;
+    checkNo?:string;
     checkDate?:Date;
     duesAmount?:number;
     duesQuantity?:number;
+    foundationLit?:string;
     foundation?:number;
+    museum_libraryLit?:string;
     museum_library?:number;
+    scholarshipLit?:string;
     scholarship?:number;
     memberTypes?: MemberType[];
     comments?: string;
 
     constructor(memberNo?:string, 
-                checkNo?:number,
+                checkNo?:string,
                 checkDate?:Date,
                 duesAmount?:number, 
                 duesQuantity?:number, 
-                foundation?:number, 
+                foundationLit?:string,
+                foundation?:number,
+                museum_libraryLit?:string, 
                 museum_library?:number, 
+                scholarshipLit?:string,
                 scholarship?:number,
                 comments?:string
             ) {
         this.memberNo = (memberNo) ? memberNo : ''; 
-        this.checkNo = (checkNo) ? checkNo : null;
+        this.checkNo = (checkNo) ? checkNo : '';
         this.checkDate = (checkDate) ? checkDate : undefined;
         this.duesAmount = (duesAmount) ? duesAmount : 0; 
-        this.duesQuantity = (duesQuantity) ? duesQuantity : 1; 
+        this.duesQuantity = (duesQuantity) ? duesQuantity : 1;
+        this.foundationLit = (foundationLit) ? foundationLit : ''; 
         this.foundation = (foundation) ? foundation : 0; 
+        this.museum_libraryLit = (museum_libraryLit) ? museum_libraryLit : ''; 
         this.museum_library = (museum_library) ? museum_library : 0; 
+        this.scholarshipLit = (scholarshipLit) ? scholarshipLit : ''; 
         this.scholarship = (scholarship) ? scholarship : 0;
         this.comments = (comments) ?  comments : '';
     }

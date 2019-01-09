@@ -6,6 +6,7 @@ import { UserModalComponent } from './admin/user/user.modal';
 import { MemberService } from './members'
 import { JQueryService } from './shared/jquery.service';
 import { Subscription } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-root',
@@ -40,7 +41,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private titleService:TitleService,
     private memberService:MemberService,
     private jQueryService:JQueryService,
-    private modalService: MatDialog
+    private modalService: MatDialog,
+    private cookieService: CookieService
   ) {
     this.app = this.appService;
   }
@@ -58,7 +60,11 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   logout() {
+    if (this.cookieService.check('ADR')){
+			this.cookieService.delete('ADR');
+    }
     this.titleService.title = "Membership";
+    this.titleService.onClose();
     this.appService.onLogout();
   }
 

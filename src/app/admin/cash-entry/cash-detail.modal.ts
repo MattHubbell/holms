@@ -1,6 +1,5 @@
-import { Component, Input, ViewEncapsulation, OnInit, OnDestroy, ElementRef } from '@angular/core';
-import { UpperCasePipe } from '@angular/common';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { Component, Input, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
 
 import { CashDetail } from './cash-detail.model';
 import { CashDetailService } from './cash-detail.service';
@@ -9,7 +8,6 @@ import { MemberType, MemberTypeService } from '../member-types';
 
 import { ConfirmResponses } from '../../shared/modal/confirm-btn-default';
 import { JQueryService }  from '../../shared/jquery.service';
-import { Observable } from 'rxjs';
 import { Subscription } from 'rxjs';
 import * as f from '../../shared/functions';
 
@@ -23,19 +21,19 @@ export class CashDetailModalContent implements OnInit, OnDestroy {
 
     @Input() selectedItem: any;
     @Input() model: CashDetail;
-    isNewItem: Boolean;
-
+    @Input() isNewItem: Boolean;
     @Input() transactionCodes: TransactionCode[];
-    filteredTransactionCodes: Observable<TransactionCode[]>;
+
     selectedTransactionCode = new TransactionCode;
     selectedMemberType = new MemberType;
     memberTypes: MemberType[];
     subscription: Array<Subscription>;
+    errorChecker: any;
     
     constructor(
         private cashDetailService: CashDetailService,
         private memberTypeService: MemberTypeService,
-        private jQueryService: JQueryService, 
+        private jQueryService: JQueryService,
         public dialogRef: MatDialogRef<CashDetailModalContent>
     ) {
         this.subscription = new Array<Subscription>();
@@ -48,24 +46,27 @@ export class CashDetailModalContent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.resetForm();
+        if (!this.isNewItem) {
+            this.findTransactionCode(this.model.tranCode);
+        }
     }
 
     ngOnDestroy() {
-        this.subscription.forEach(x => x.unsubscribe);
+        this.subscription.forEach(x => x.unsubscribe());
     }
 
-   resetForm() {
-    }
-
-    filterTransactionCodes(val: string) {
-        if (val) {
-          const filterValue = val.toLowerCase();
+    filter(tranCode: string): TransactionCode[] {
+        if (tranCode) {
+          const filterValue = tranCode.toLowerCase();
           return this.transactionCodes.filter(tranCode => tranCode.id.toString().toLowerCase().startsWith(filterValue));
         }
         return this.transactionCodes;
-      }
-      
+    }
+    
+    displayFn(id?: string): string | undefined {
+        return id ? id : undefined;
+    }
+
     onSubmit(isValid:boolean) {
         if(!isValid) {
             return;
@@ -78,14 +79,14 @@ export class CashDetailModalContent implements OnInit, OnDestroy {
         this.dialogRef.close();
     }
 
-    onDelete($event:ConfirmResponses) {
+    onDelete($event: ConfirmResponses) {
         if ($event === ConfirmResponses.yes) {
             this.cashDetailService.deleteItem(this.selectedItem);
             this.dialogRef.close();
         }
     }
 
-    onClose($event:any) {
+    onClose() {
         this.dialogRef.close();
     }
 
@@ -101,15 +102,22 @@ export class CashDetailModalContent implements OnInit, OnDestroy {
         return this.selectedTransactionCode.itemType === TransactionCodeItemTypes.Membership;
     }
 
-    onTranCodeChange(tranCode:any) {
-        if (!this.transactionCodes) {
-            return;
-        } 
+    findTransactionCode(tranCode: any) {
+        this.selectedTransactionCode = null;
         let transactionCode:TransactionCode = this.transactionCodes.find(x => x.id == tranCode);
         if (transactionCode) {
             let transactionCodeModel:TransactionCode = this.jQueryService.cloneObject(transactionCode);
             this.selectedTransactionCode = transactionCodeModel;
-            this.model.distAmt = this.selectedTransactionCode.price;
+        }
+    }
+
+    onTranCodeChange(tranCode:any) {
+        if (!this.transactionCodes) {
+            return;
+        }
+        this.findTransactionCode(tranCode); 
+        if (this.selectedTransactionCode) {
+            this.model.distAmt = +this.selectedTransactionCode.price;
             if (this.selectedTransactionCode.itemType === TransactionCodeItemTypes.Membership) {
                 this.model.duesYear = new Date().getFullYear();
                 this.model.duesCode = this.getMembershipTypeId();
@@ -126,7 +134,7 @@ export class CashDetailModalContent implements OnInit, OnDestroy {
         if (memberType) {
             let memberTypeModel:MemberType = this.jQueryService.cloneObject(memberType);
             this.selectedMemberType = memberTypeModel;
-            this.model.distAmt = this.selectedMemberType.price;
+            this.model.distAmt = +this.selectedMemberType.price;
         }
     }
 

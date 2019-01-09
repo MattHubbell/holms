@@ -21,7 +21,8 @@ export class AppMenuModalContent implements OnInit {
 
     membershipUserTypes: typeof MembershipUserType = MembershipUserType;
     tableName: string;
-
+    errorChecker: any;
+    
     constructor(
         private appMenuService: AppMenuService, 
         public dialogRef: MatDialogRef<AppMenu>

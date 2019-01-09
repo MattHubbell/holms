@@ -5,8 +5,8 @@ import { JQueryService } from '../../shared/jquery.service';
 import { Subscription } from 'rxjs';
 
 import { NewRegistration } from './new-registration.model';
-import { NewMemberService } from './new-registration.service';
-import { NewMemberModalContent } from './new-registration.modal';
+import { NewRegistrationService } from './new-registration.service';
+import { NewRegistrationModalContent } from './new-registration.modal';
 
 @Component({
     templateUrl: './list-new-registrations.component.html',
@@ -24,7 +24,7 @@ export class ListNewRegistrationComponent implements OnInit, OnDestroy{
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     constructor(
-        private newMemberService: NewMemberService, 
+        private newRegistrationService: NewRegistrationService, 
         private titleService: TitleService,
         private jQueryService:JQueryService,
         private modalService: MatDialog
@@ -33,8 +33,8 @@ export class ListNewRegistrationComponent implements OnInit, OnDestroy{
     }
 
     ngOnInit() {
-        this.newMemberService.getList();
-        this.subscription = this.newMemberService.list.subscribe(list => {
+        this.newRegistrationService.getList();
+        this.subscription = this.newRegistrationService.list.subscribe(list => {
             this.dataSource = new MatTableDataSource<NewRegistration>(list);
             this.dataSource.paginator = this.paginator;
         });
@@ -54,13 +54,13 @@ export class ListNewRegistrationComponent implements OnInit, OnDestroy{
     }
 
     addNew() {
-        this.modalRef = this.modalService.open(NewMemberModalContent, this.dialogConfig);
+        this.modalRef = this.modalService.open(NewRegistrationModalContent, this.dialogConfig);
         this.modalRef.componentInstance.isNewItem = true;
         this.modalRef.componentInstance.model = new NewRegistration();
     }
 
     edit(object:any) {        
-        this.modalRef = this.modalService.open(NewMemberModalContent, this.dialogConfig);
+        this.modalRef = this.modalService.open(NewRegistrationModalContent, this.dialogConfig);
         this.modalRef.componentInstance.isNewItem = false;
         this.modalRef.componentInstance.selectedItem = object;
         this.modalRef.componentInstance.model = this.jQueryService.cloneObject(object);

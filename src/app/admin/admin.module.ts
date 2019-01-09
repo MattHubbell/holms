@@ -14,7 +14,7 @@ import { SetupComponent, SetupService }       from './setup';
 import { UserModalComponent }                 from './user/user.modal';
 import { ListTransactionCodeComponent, TransactionCodeModalContent, TransactionCodeService }  from './transaction-codes';
 import { ListMembershipUserComponent, MembershipUserModalContent, MembershipUserService }  from './membership-users';
-import { ListNewRegistrationComponent, NewMemberModalContent, NewMemberService } from './new-registrations';
+import { ListNewRegistrationComponent, NewRegistrationModalContent, NewRegistrationService } from './new-registrations';
 import { ListMemberTypeComponent, MemberTypeService, MemberTypeModalContent } from './member-types';
 import { ListMemberStatusComponent, MemberStatusService, MemberStatusModalContent } from './member-status';
 import { CashMasterHistoryService, CashDetailHistoryService } from './transaction-history';
@@ -39,7 +39,7 @@ import { AppMenuService, ListAppMenuComponent, AppMenuModalContent } from './app
     ListMembershipUserComponent,
     MembershipUserModalContent,
     ListNewRegistrationComponent,
-    NewMemberModalContent,
+    NewRegistrationModalContent,
     UserModalComponent,
     ListMemberTypeComponent,
     MemberTypeModalContent,
@@ -59,7 +59,7 @@ import { AppMenuService, ListAppMenuComponent, AppMenuModalContent } from './app
   entryComponents: [ 
     TransactionCodeModalContent, 
     MembershipUserModalContent, 
-    NewMemberModalContent, 
+    NewRegistrationModalContent, 
     UserModalComponent, 
     MemberTypeModalContent,
     MemberStatusModalContent,
@@ -75,7 +75,7 @@ import { AppMenuService, ListAppMenuComponent, AppMenuModalContent } from './app
     SetupService, 
     TransactionCodeService, 
     MembershipUserService, 
-    NewMemberService,
+    NewRegistrationService,
     MemberTypeService,
     MemberStatusService,
     CashMasterService,

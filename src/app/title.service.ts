@@ -1,6 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { AppMenuService } from './admin/app-menus/app-menu.service';
-import { AppMenu } from './admin/app-menus/app-menu.model';
 import { Subscription } from 'rxjs';
 
 @Injectable()
@@ -16,6 +15,10 @@ export class TitleService implements OnDestroy {
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
+    }
+
+    public onClose() {
+        this.ngOnDestroy();
     }
 
     get selector(): string {

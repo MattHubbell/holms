@@ -11,7 +11,7 @@ export class MemberService {
     constructor(private fs: FirebaseService) {}
 
     getList() {
-        this.list = this.fs.getItems(Member.TableName());
+        this.list = this.fs.getItems(Member.TableName(), 'memberNo');
     }
 
     getItemByMemberID(equalTo:string): any {

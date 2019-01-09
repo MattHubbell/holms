@@ -6,6 +6,7 @@ export class Setup {
     appSubTitle?:string;
     nextMemberNo?:number;
     regEmailMessage?:string;
+    nextCashEntryReceiptNo?:number;
     nextCashEntryBatchNo?:number;
 
     constructor(
@@ -16,6 +17,7 @@ export class Setup {
         appSubTitle?:string, 
         nextMemberNo?:number, 
         regEmailMessage?:string,
+        nextCashEntryReceiptNo?:number,
         nextCashEntryBatchNo?:number
     ) {
         this.duesYear = (duesYear) ? duesYear : new Date().getFullYear();
@@ -25,6 +27,7 @@ export class Setup {
         this.appSubTitle = (appSubTitle) ? appSubTitle : '';
         this.nextMemberNo = (nextMemberNo) ? nextMemberNo : 0;
         this.regEmailMessage = (regEmailMessage) ? regEmailMessage : '';
+        this.nextCashEntryReceiptNo = (nextCashEntryReceiptNo) ? nextCashEntryReceiptNo : 0;
         this.nextCashEntryBatchNo = (nextCashEntryBatchNo) ? nextCashEntryBatchNo : 0;
     }
 
@@ -41,6 +44,7 @@ export class Setup {
             appSubTitle : ((model.appSubTitle) ? model.appSubTitle : ''),
             nextMemberNo : ((model.nextMemberNo) ? model.nextMemberNo : 0),
             regEmailMessage : ((model.regEmailMessage) ? model.regEmailMessage : ''),
+            nextCashEntryReceiptNo : ((model.nextCashEntryReceiptNo) ? model.nextCashEntryReceiptNo : 0),
             nextCashEntryBatchNo : ((model.nextCashEntryBatchNo) ? model.nextCashEntryBatchNo : 0),
         };
     }

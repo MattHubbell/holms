@@ -5,7 +5,6 @@ import { Setup }            from './setup.model';
 import { SetupService }     from './setup.service';
 import { TitleService }     from '../../title.service';
 import { MatSnackBar }      from '@angular/material';
-import { Observable } from 'rxjs';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -67,12 +66,14 @@ export class SetupComponent implements OnInit, OnDestroy {
 
     onTestEmail() {
         this.emailMsg = '';
-        this.emailService.sendMail(this.model.membershipChairEmail, this.model.holmsEmail, 'test email from Membership', 'Hi, This is a test email!, Thank you!')
-            .subscribe(message  => {
+        const body = this.emailService.toInvoiceBody('Membership Chair', 'FOUNDATION', 'MUSEUM LIBRARY', 'SCHOLARSHIP' , new Date(), 'COMMENTS', 1, 20, 10, 5, 15);
+        this.emailService.sendMail(this.model.membershipChairEmail, this.model.holmsEmail,  this.model.appSubTitle + ' - Test Dues Acknowledgment', body)
+            .subscribe(
+            message  => {
                 this.emailMsg = message;
-            }, error =>  {
+            },
+            error =>  {
                 this.emailMsg = error;
-            }
-        );
+        });
     }
 }

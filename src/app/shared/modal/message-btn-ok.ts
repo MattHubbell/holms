@@ -15,7 +15,6 @@ export class ModalMessageOk {
     @Output() onClosing: EventEmitter<ConfirmResponses> = new EventEmitter<ConfirmResponses>();
 
     closeResult: string;
-    ConfirmResponses: typeof ConfirmResponses = ConfirmResponses;
 
     constructor(
         private modalService: NgbModal,
@@ -33,7 +32,7 @@ export class ModalMessageOk {
         });
     }
 
-    onClose($event:any) {
+    onClose() {
         this.dialogRef.close();
     }
 
@@ -65,6 +64,8 @@ export class MessageBtnOkComponent {
     @Input() message:string;
     @Input() isValid:boolean;
     @Output() onClosing: EventEmitter<ConfirmResponses> = new EventEmitter<ConfirmResponses>();
+
+    buttonText: string;
 
     constructor(private dialog: MatDialog) {}
 

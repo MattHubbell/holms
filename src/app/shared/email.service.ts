@@ -62,4 +62,51 @@ export class EmailService {
         }
         return true;
     }
+
+    toInvoiceBody(nameLit: string, foundationLit: string, museum_libraryLit: string, scholarshipLit: string, paidThruDate: Date, comments: string, duesQuantity: number, duesAmount: number, foundation: number, museum_library: number, scholarship: number): string {
+        const membershipTotal = (duesQuantity * duesAmount) + foundation + museum_library + scholarship;
+        const body: string = `<html><head></head><body><p>
+        <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        </style> 
+        ` + nameLit + `, <br><br>
+        Thank you for your payment! <br><br>
+        Your PayPal Transaction ID is ` + comments + `<br>
+        <table>
+            <tr>
+                <td>DUES PAID                </td><td style="text-align: right;">$` + (duesAmount * duesQuantity)        + `</td>
+            </tr>
+            <tr> 
+                <td>` + foundationLit     + `</td><td style="text-align: right;">$` + foundation                         + `</td>
+            </tr>
+            <tr> 
+                <td>` + museum_libraryLit + `</td><td style="text-align: right;">$` + museum_library                     + `</td>
+            </tr>
+            <tr> 
+                <td>` + scholarshipLit    + `</td><td style="text-align: right;">$` + scholarship                        + `</td>
+            </tr>
+            <tr>
+                <td>                        </td><td style="text-align: right;">                              _____________ </td>
+            </tr>
+            <tr> 
+                <td>Total Paid ->            </td><td style="text-align: right;">$` + membershipTotal                    + `</td>
+            </tr>
+            <tr>
+                <td>                        </td><td style="text-align: right;">                                            </td>
+            </tr>
+            <tr> 
+                <td>Paid Through ->          </td><td style="text-align: right;"> ` + paidThruDate.toLocaleDateString() +  `</td>
+            </tr>
+        </table>        
+        </p></body></html>`;
+        return body;
+    }
 }

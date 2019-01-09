@@ -179,6 +179,22 @@
                                     [(ngModel)]="model.startYear" [(readonly)]="!isAdmin">
                             </mat-form-field>
                         </div>
+                        <div class="col-md-2">
+                            <mat-form-field>
+                                <input matInput name="anniversary" [matDatepicker]="anniversary" placeholder="Anniversary" 
+                                    [(ngModel)]="model.anniversary" [(readonly)]="!isAdmin">
+                                <mat-datepicker-toggle matSuffix [for]="anniversary" [hidden]="!isAdmin"></mat-datepicker-toggle>   
+                                <mat-datepicker #anniversary></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-2">
+                            <mat-form-field>
+                                <input matInput name="paidThruDate" [matDatepicker]="paidThruDate" placeholder="Paid-Thru Date" 
+                                    [(ngModel)]="model.paidThruDate" [(readonly)]="!isAdmin">
+                                <mat-datepicker-toggle matSuffix [for]="paidThruDate" [hidden]="!isAdmin"></mat-datepicker-toggle>
+                                <mat-datepicker #paidThruDate></mat-datepicker>
+                            </mat-form-field>
+                        </div>
                     </div>
                 </div>        
             </mat-tab>

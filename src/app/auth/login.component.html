@@ -39,7 +39,7 @@
                                     <input matInput placeholder="Password" type="password" name="password" show-hide-input
                                         maxLength="50" class="form-control" formControlName="password" autocomplete="off" required>
                                         <a mat-icon-button matSuffix matTooltip="Hold left mouse button down to view password" matTooltipPosition="right" disabled="password.length === 0"
-                                            (mousedown)="onPasswordMouseDown($event)" (mouseup)="onPasswordMouseUp($event)"><i class="fa fa-eye"></i></a>
+                                            (mousedown)="onPasswordMouseDown()" (mouseup)="onPasswordMouseUp()"><i class="fa fa-eye"></i></a>
                                      <mat-hint align="end">{{password?.length}} / 50 </mat-hint>
                                 </mat-form-field>
                             </div>

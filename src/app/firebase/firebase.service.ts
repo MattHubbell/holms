@@ -1,11 +1,12 @@
-import { Injectable, Input } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabase, AngularFireObject, AngularFireList } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import 'rxjs/add/operator/take';
 import * as firebase from 'firebase/app';
 import { FirebaseUser } from './firebase-user.model';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class FirebaseService {
@@ -118,10 +119,13 @@ export class FirebaseService {
     }
 
     public addItem(tableName:string, data:any) {
-        this.db.list(tableName).push(data);
-    }
+        this.consoleLog(tableName + ' data: ' + JSON.stringify(data));
+        this.db.list(tableName).push(data)
+            .then(_ => console.log(tableName + ' added'));
+}
 
     public updateItem(tableName:string, key:string, data:any) {
+        this.consoleLog(tableName + ' data: ' + JSON.stringify(data));
         this.getItemsRef(tableName).update(key, data)
             .then(_ => console.log(tableName + ' updated'))
             .catch(err => console.log(tableName + ' error: ' + err));
@@ -149,6 +153,7 @@ export class FirebaseService {
     }
 
     public addObject(objectName:string, data:any) {
+        this.consoleLog(objectName + ' data: ' + JSON.stringify(data));
         let itemRef = this.db.object(objectName);
         itemRef.set(data)
         .then(_ => console.log(objectName + ' added'))
@@ -156,6 +161,7 @@ export class FirebaseService {
 }
 
     public updateObject(objectName:string, data:any) {
+        this.consoleLog(objectName + ' data: ' + JSON.stringify(data));
         let itemRef = this.db.object(objectName);
         itemRef.update(data)
             .then(_ => console.log(objectName + ' updated'))
@@ -167,5 +173,12 @@ export class FirebaseService {
         itemRef.remove()
             .then(_ => console.log(objectName + ' deleted'))
             .catch(err => console.log(objectName + ' error: ' + err));
+    }
+
+    public consoleLog(text: any) {
+        if (environment.production) { 
+            return;
+        }
+        console.log(text);
     }
 }

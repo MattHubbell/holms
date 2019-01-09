@@ -1,4 +1,4 @@
-import { Injectable }                               from '@angular/core';
+import { Injectable, OnDestroy }                    from '@angular/core';
 import { Router }                                   from '@angular/router';
 import { FirebaseService, FirebaseUser }            from './firebase';
 import { MembershipUserService, MembershipUser, MembershipUserType }    from './admin/membership-users';
@@ -13,10 +13,11 @@ declare function require(moduleName: string): any;
 const { version: appVersion } = require('../../package.json')
 
 @Injectable()
-export class AppService {
+export class AppService implements OnDestroy {
     public appVersion: string;
     public isLoggedOn: boolean;
     public isPastDue: boolean;
+    public isAutoLogin: boolean;
     public isMemberChecked: boolean;
     public user: FirebaseUser;
     public membershipUser: MembershipUser;
@@ -29,6 +30,7 @@ export class AppService {
     public profileImagePath: string;
     public profileName: string;
     public appMenuList: AppMenu[];
+    public returnUrl: string;
 
     private memberSubscription: Subscription;
     private subscription: Array<Subscription>;
@@ -43,6 +45,8 @@ export class AppService {
     ) {
         this.appVersion = appVersion;
         this.isLoggedOn = false;
+        this.isAutoLogin = false;
+        this.returnUrl = '';
         if (this.sidenav) {
             this.sidenav.close();
         }
@@ -61,6 +65,10 @@ export class AppService {
         this.user = new FirebaseUser();
         this.membershipUser = new MembershipUser();
         this.profileImagePath = 'assets/holms4.jpg';
+    }
+
+    ngOnDestroy() {
+        this.firebaseService.logout();
     }
 
     onSuccessfulSignIn() {
@@ -121,12 +129,18 @@ export class AppService {
         if (member === undefined) {
             this.router.navigate(['/new-member']);
         } else {
-            if (member.lastDuesYear < this.setup.duesYear) {
+            const currentDate: Date = new Date();
+            const paidThruDate: Date = new Date(member.paidThruDate);
+            if (member.lastDuesYear < this.setup.duesYear || paidThruDate < currentDate) {
                 this.isPastDue = true;
                 this.router.navigate(['/membership-dues']);
             } else {
                 this.isPastDue = false;
-                this.router.navigate(['/dashboard']);
+                if (this.isAutoLogin && this.returnUrl != '' && this.returnUrl != '/login') {
+                    this.router.navigate([this.returnUrl]);
+                } else {
+                    this.router.navigate(['/dashboard']);
+                }
             }
         }
     }
@@ -148,14 +162,14 @@ export class AppService {
     onLogout() {
         this.isLoggedOn = false;
         this.isMemberChecked = false;
+        this.isAutoLogin = false;
         if (this.sidenav) {
             this.sidenav.close();
         }
-        this.subscription.forEach(x => x.unsubscribe);
+        this.subscription.forEach(x => x.unsubscribe());
         this.memberSubscription.unsubscribe();
         this.user = new FirebaseUser();
         this.membershipUser = new MembershipUser();
-        // this.firebaseService.logout();
         this.router.navigate([''])
     }
 }

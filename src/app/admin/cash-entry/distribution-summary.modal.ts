@@ -17,7 +17,8 @@ export class DistributionSummaryModalContent implements AfterViewInit {
     @Input() cashDetails: CashDetail[];
     @Input() transactionCodes: TransactionCode[];
     @ViewChild('zoomEle') zoomEle: ElementRef;
-
+    viewsLoaded: number;
+    
     constructor(
         public dialogRef: MatDialogRef<DistributionSummaryModalContent>
     ) {

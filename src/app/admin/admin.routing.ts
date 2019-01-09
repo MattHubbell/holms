@@ -5,7 +5,7 @@ import { SetupComponent }               from './setup/setup.component';
 import { ListCashEntryComponent }       from './cash-entry/list-cash-entry.component';
 import { ListTransactionCodeComponent } from './transaction-codes/list-transaction-codes.component';
 import { ListMembershipUserComponent }  from './membership-users/list-membership-users.component';
-import { ListNewRegistrationComponent }       from './new-registrations/list-new-registrations.component';
+import { ListNewRegistrationComponent } from './new-registrations/list-new-registrations.component';
 import { ListMemberTypeComponent }      from './member-types/list-member-type.component';
 import { ListMemberStatusComponent }    from './member-status/list-member-status.component';
 import { ListAppMenuComponent }         from './app-menus/list-app-menu.component';

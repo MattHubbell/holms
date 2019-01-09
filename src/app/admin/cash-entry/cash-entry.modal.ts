@@ -2,6 +2,7 @@ import { Component, Input, ViewEncapsulation, ViewChild, OnInit, OnDestroy } fro
 import { NgForm } from '@angular/forms';
 import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material';
 import { ConfirmResponses } from '../../shared/modal/confirm-btn-default';
+import { MatSnackBar } from '@angular/material';
 
 import { CashMaster } from './cash-master.model';
 import { CashMasterService } from './cash-master.service';
@@ -37,14 +38,14 @@ export class CashEntryModalContent implements OnInit, OnDestroy {
     transactionCodes: TransactionCode[];
     isNewItem: Boolean;
     selectedMember = new Member;
-    checkDate: Date;
-    transactionTotal: number;
+    remaining: number;
     step = 0;
     entries: CashDetail[] = new Array<CashDetail>();
     dataSource = new MatTableDataSource<CashDetail>(this.entries);
     displayedColumns = ['tranCode', 'description', 'distQty', 'distAmt', 'duesCode', 'duesYear'];
     dialogConfig: MatDialogConfig;
     modalRef: MatDialogRef<any,any>;
+    selectedTabIndex: number;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild('form') ngForm: NgForm;
@@ -59,7 +60,8 @@ export class CashEntryModalContent implements OnInit, OnDestroy {
         private transactionCodeService: TransactionCodeService,
         private jQueryService: JQueryService, 
         private modalService: MatDialog,
-        public dialogRef: MatDialogRef<CashMaster>
+        public dialogRef: MatDialogRef<CashMaster>,
+        private snackBar: MatSnackBar
     ) {
         this.subscription = new Array<Subscription>();
         this.dataSource = new MatTableDataSource<CashDetail>(this.entries);
@@ -113,24 +115,28 @@ export class CashEntryModalContent implements OnInit, OnDestroy {
         }
     }
 
-    resetForm() {
-        if (typeof(this.model.checkDate) === 'string') {
-            this.checkDate = new Date(this.model.checkDate);
-        }
-        this.onMemberNoChange(this.model.memberNo);
+    onCheckAmtChange() {
+        this.calculateRemaining();
+    }
 
+    calculateRemaining() {
+        this.remaining = +this.model.checkAmt;
+        this.entries.forEach(cashDetail => {
+            this.remaining -= cashDetail.distAmt;
+        });        
+    }
+
+    resetForm() {
+        this.onMemberNoChange(this.model.memberNo);
         this.subscription.push(this.cashDetailService
             .getItemByID(this.model.receiptNo)
             .subscribe(x => {
                 this.entries = x;
                 this.dataSource = new MatTableDataSource<CashDetail>(this.entries);
                 this.dataSource.paginator = this.paginator;
-                this.dataSource.filterPredicate = (data: CashDetail, filter: string) => data.checkNo == this.model.checkNo;
-                this.dataSource.filter = this.model.checkNo;
-                this.transactionTotal = 0;
-                this.entries.forEach(cashDetail => {
-                    this.transactionTotal += +cashDetail.distAmt;
-                });        
+                this.dataSource.filterPredicate = (data: CashDetail, filter: string) => data.receiptNo == this.model.receiptNo;
+                this.dataSource.filter = this.model.receiptNo;
+                this.calculateRemaining();
             })
         );
     }
@@ -143,17 +149,23 @@ export class CashEntryModalContent implements OnInit, OnDestroy {
         return null;
     }
 
-    onSubmit(item:any, isValid:boolean) {
+    onSubmit(isValid:boolean) {
         if(!isValid) {
+            this.snackBar.open('Unable to save, check for required fields.','', {
+                duration: 2000,
+            });    
             return;
         }
-        if (item.checkDate instanceof Date) {
-            item.checkDate = item.checkDate.toLocaleDateString();
+        if (this.remaining != 0) {
+            this.snackBar.open('Unable to save, line item total not equal to check amt.','', {
+                duration: 2000,
+            });    
+            return;
         }
         if (this.isNewItem) {
-            this.cashMasterService.addItem(item);
+            this.cashMasterService.addItem(this.model);
         } else {
-            this.cashMasterService.updateItem(this.selectedItem, item);
+            this.cashMasterService.updateItem(this.selectedItem, this.model);
         }
         this.dialogRef.close();
     }
@@ -166,7 +178,9 @@ export class CashEntryModalContent implements OnInit, OnDestroy {
                     this.cashDetailService.deleteItem(selectedCashDetail);
                 }
             });
-            this.cashMasterService.deleteItem(this.selectedItem);
+            if (!this.isNewItem) {
+                this.cashMasterService.deleteItem(this.selectedItem);
+            }
             this.dialogRef.close();
         }
     }
@@ -188,6 +202,8 @@ export class CashEntryModalContent implements OnInit, OnDestroy {
     }
 
     addNew() {
+        this.dialogConfig = new MatDialogConfig;
+        this.dialogConfig.autoFocus = true;
         this.modalRef = this.modalService.open(CashDetailModalContent, this.dialogConfig);
         this.modalRef.componentInstance.transactionCodes = this.transactionCodes;
         this.modalRef.componentInstance.isNewItem = true;
@@ -196,11 +212,12 @@ export class CashEntryModalContent implements OnInit, OnDestroy {
         model.memberNo = this.model.memberNo;
         model.batchNo = this.model.batchNo;
         model.transDate = this.model.transDate;
-        model.checkNo = this.model.checkNo;
         this.modalRef.componentInstance.model = model;
     }
 
-    edit(object:any) {        
+    edit(object:any) {
+        this.dialogConfig = new MatDialogConfig;
+        this.dialogConfig.autoFocus = false;
         this.modalRef = this.modalService.open(CashDetailModalContent, this.dialogConfig);
         this.modalRef.componentInstance.transactionCodes = this.transactionCodes;
         this.modalRef.componentInstance.isNewItem = false;

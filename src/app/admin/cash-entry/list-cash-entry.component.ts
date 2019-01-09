@@ -169,7 +169,7 @@ export class ListCashEntryComponent implements OnInit, OnDestroy {
         model.receiptNo = this.assignReceiptNo();
         model.memberNo = '';
         model.batchNo = '';
-        model.transDate =  new Date().toLocaleString();
+        model.transDate =  new Date();
         model.currencyCode = 'USD';
         this.modalRef.componentInstance.model = model;
     }
@@ -186,7 +186,7 @@ export class ListCashEntryComponent implements OnInit, OnDestroy {
         this.selection.selected.forEach(cashMaster => {
             cashMaster.batchNo = this.batchNo;
             this.details.forEach(cashDetail => {
-                if (cashDetail.checkNo == cashMaster.checkNo && cashDetail.memberNo == cashMaster.memberNo) {
+                if (cashDetail.receiptNo == cashMaster.receiptNo) {
                     cashDetail.batchNo = this.batchNo;
                 }
             });
@@ -225,6 +225,7 @@ export class ListCashEntryComponent implements OnInit, OnDestroy {
         this.entries.forEach(cashMaster => {
             if (cashMaster.batchNo == this.batchNo) {
                 let cashMasterHistory:CashMasterHistory = new CashMasterHistory();
+                cashMasterHistory.receiptNo = cashMaster.receiptNo;
                 cashMasterHistory.memberNo = cashMaster.memberNo;
                 cashMasterHistory.transDate = cashMaster.transDate;
                 cashMasterHistory.checkNo = cashMaster.checkNo;
@@ -241,15 +242,14 @@ export class ListCashEntryComponent implements OnInit, OnDestroy {
         this.details.forEach(cashDetail => {
             if (cashDetail.batchNo == this.batchNo) {
                 let cashDetailHistory:CashDetailHistory = new CashDetailHistory();
+                cashDetailHistory.receiptNo = cashDetail.receiptNo;
                 cashDetailHistory.memberNo = cashDetail.memberNo;
-                cashDetailHistory.checkNo = cashDetail.checkNo;
+                cashDetailHistory.transDate = cashDetail.transDate;
+                cashDetailHistory.tranCode = cashDetail.tranCode;
+                cashDetailHistory.distAmt = cashDetail.distAmt;
+                cashDetailHistory.distQty = cashDetail.distQty;
                 cashDetailHistory.duesCode = cashDetail.duesCode;
                 cashDetailHistory.duesYear = cashDetail.duesYear;
-                cashDetailHistory.tranCode = cashDetail.tranCode;
-                cashDetailHistory.transDate = cashDetail.transDate;
-                cashDetailHistory.distQty = cashDetail.distQty;
-                cashDetailHistory.distAmt = cashDetail.distAmt;
-                cashDetailHistory.comments = cashDetail.comments;
                 cashDetailHistory.batchNo = cashDetail.batchNo;
                 this.cashDetailHistoryService.addItem(cashDetailHistory);
                 cashDetailPosted.push(cashDetail['key']);

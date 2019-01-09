@@ -1,5 +1,5 @@
 <div class="width-form">
-    <form #formData="ngForm" (ngSubmit)="onSubmit()">
+    <form #formData="ngForm" (ngSubmit)="onSubmit(formData.valid)">
         <div class="modal-header">
             <h4 class="modal-title">
                 <span [ngSwitch]="isNewItem">
@@ -13,11 +13,11 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <mat-form-field class="example-full-width">
-                            <input type="text" placeholder="Item Code" matInput 
-                                name="tranCode" [matAutocomplete]="auto" [(ngModel)]="model.tranCode"
-                                (ngModelChange)="filteredTransactionCodes = filterTransactionCodes(model.transCode)">
-                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayTranCode">
-                                <mat-option *ngFor="let transactionCode of filteredTransactionCodes" [value]="transactionCode.id">
+                            <input type="text" placeholder="Item Code" aria-label="Item Code" matInput 
+                            name="tranCode" [matAutocomplete]="auto" [(ngModel)]="model.tranCode"
+                            (ngModelChange)="onTranCodeChange($event)" required>
+                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                                <mat-option *ngFor="let transactionCode of transactionCodes | filter : 'id' : model.tranCode" [value]="transactionCode.id">
                                     {{transactionCode.id}} {{ transactionCode.description }}
                                 </mat-option>
                             </mat-autocomplete>
@@ -69,7 +69,7 @@
                     </div>
                     <div class="col-sm-6">
                         <mat-form-field class="width-full">
-                            <input matInput placeholder="Quantity" name="distQty" required [errorStateMatcher]="errorChecker" [(ngModel)]="model.distQty">
+                            <input #quantity matInput placeholder="Quantity" name="distQty" required [errorStateMatcher]="errorChecker" [(ngModel)]="model.distQty">
                         </mat-form-field>                        
                     </div>
                 </div>            

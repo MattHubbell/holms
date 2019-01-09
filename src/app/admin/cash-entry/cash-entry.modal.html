@@ -127,7 +127,7 @@
                                     <div class="col-md-2">
                                         <mat-form-field>
                                             <input matInput [matDatepicker]="picker" placeholder="Check Date"
-                                                name="checkDate" [(ngModel)]="checkDate">
+                                                name="checkDate" [(ngModel)]="model.checkDate">
                                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                             <mat-datepicker #picker></mat-datepicker>
                                         </mat-form-field>
@@ -135,7 +135,7 @@
                                     <div class="col-md-2">
                                         <mat-form-field class="example-full-width">
                                             <input matInput type="number" placeholder="Check Amt" 
-                                                name="checkAmt" [(ngModel)]="model.checkAmt">
+                                                name="checkAmt" [(ngModel)]="model.checkAmt" (ngModelChange)="onCheckAmtChange()">
                                         </mat-form-field>
                                     </div>
                                     <div class="col-md-2">
@@ -176,9 +176,21 @@
                             </mat-panel-description>
                             </mat-expansion-panel-header>
                         
-                            <div class="container Custom-table-width">                        
+                            <div class="container Custom-table-width">
+
+                                <div class="row">
+                                    <div class="col-2">
+                                        <h6>Check Amt: {{model.checkAmt | currency}}</h6>
+                                    </div>
+                                    <div class="col-2">
+                                        <h6>Remaining: {{remaining | currency}}</h6>
+                                    </div>
+                                    <div class="col-6 floating-total-warning callout" *ngIf="(remaining != 0)">
+                                        <h6>Total not equal to check amount</h6>
+                                    </div>
+                                </div>
+
                                 <div class="example-container mat-elevation-z8">
-                                    
                                     <mat-table #table [dataSource]="dataSource">
                                     
                                         <ng-container matColumnDef="tranCode">
@@ -222,9 +234,6 @@
                                 </div>
                             </div>
                                             
-                            <div class="floating-total-warning callout" *ngIf="(model.checkAmt != transactionTotal)"><h6>Total not equal to check amount</h6></div>
-                            <div class="floating-total"><h6>Total: {{transactionTotal}}</h6></div>
-
                             <mat-action-row>
                                 <button mat-mini-fab type="button" matTooltip="Add Item" color="primary" class="floating-fab2" (click)="addNew()"><mat-icon>add</mat-icon></button>
                                 <button mat-button type="button" color="primary" (click)="prevStep()">Previous</button>

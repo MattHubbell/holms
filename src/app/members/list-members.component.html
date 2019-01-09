@@ -10,7 +10,7 @@
                         <div class="col-sm-4 col-md-2">
                             <mat-form-field>
                                 <mat-select placeholder="Filter By" [(value)]="filterBy" 
-                                    (selectionChange)="onFilterChange($event)">
+                                    (selectionChange)="onFilterChange()">
                                     <mat-option *ngFor="let filterBy of filterOptions | enumKeys" [value]="filterBy.key">
                                         {{filterBy.value}}
                                     </mat-option>

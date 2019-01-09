@@ -27,6 +27,7 @@ export class MemberModalContent implements OnInit, OnDestroy {
     memberTypes: MemberType[];
     memberStatuses: MemberStatus[];
     subscription: Array<Subscription>;
+    selectedTabIndex: number;
 
     constructor(
         private memberService: MemberService,

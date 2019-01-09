@@ -44,6 +44,7 @@ export function camelCase(value:string): string {
 }
 
 import { format } from 'libphonenumber-js';
+import { isoStringToDate } from '@angular/common/src/i18n/format_date';
 
 export function toFormatPhone(value:any, model:any, fieldName:string) {
     setTimeout( () => {
@@ -72,4 +73,12 @@ export function toCheckDate(date:string, model:any, fieldName:string) {
     setTimeout( () => {
         model[fieldName] = date;
     });
+}
+
+export function toDatabaseDate(date: any) : string {
+    if (typeof date === 'string')   {
+        return date;
+    } else {
+        return date.toISOString();
+    }
 }
