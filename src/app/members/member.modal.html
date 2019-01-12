@@ -80,13 +80,14 @@
                                 [model]="model" [value]="model.phone" [isRequired]="false" errorMessage="">
                             </input-custom>
                         </div>
-                        <div class="col-md-4">
-                            <input-custom fieldType="phone" fieldName="fax" placeholderText="Fax" maxLength="25"
-                                [model]="model" [value]="model.fax" [isRequired]="false" errorMessage="">
+                        <div class="offset-md-1 col-md-6">
+                            <input-custom fieldType="email" fieldName="eMailAddr" placeholderText="E-Mail" maxLength="35"
+                                [model]="model" [value]="model.eMailAddr" [isRequired]="false" errorMessage="">
                             </input-custom>
                         </div>
                     </div>
                 </div>
+                <br>
             </mat-tab>
 
             <mat-tab label="Membership">
@@ -112,15 +113,8 @@
                                 [model]="model" [value]="model.memberNo" [isRequired]="true" errorMessage="Member # is required">
                             </input-custom>
                         </div>
-                        <div class="col-md-3">
-                            <input-custom fieldType="text" fieldName="oldMemberNo" placeholderText="Old Member #" maxLength="35"
-                                [model]="model" [value]="model.oldMemberNo" [isRequired]="false" errorMessage="">
-                            </input-custom>
-                        </div>
-                        <div class="col-md-6">
-                            <input-custom fieldType="email" fieldName="eMailAddr" placeholderText="E-Mail" maxLength="35"
-                                [model]="model" [value]="model.eMailAddr" [isRequired]="false" errorMessage="">
-                            </input-custom>
+                        <div class="col-md-3 align-self-center" [hidden]="!isNewItem">
+                            <button mat-raised-button type="button" color="primary" (click)="onAssignMemberNo()" [disabled]="model.memberNo.length > 0" matTooltip="This is a new member, assign next member #">Assign</button>
                         </div>
                     </div>
                 </div>
@@ -204,7 +198,8 @@
                             </mat-form-field>
                         </div>
                     </div>
-                </div>        
+                </div>
+                <br>        
             </mat-tab>
 
             <mat-tab label="Miscellanous">
@@ -245,6 +240,7 @@
                 <br>
                 <br>
                 <br>
+                <br>
                 <br>        
             </mat-tab>
 
@@ -258,7 +254,9 @@
                 <div class="col-12">
                     <div class="text-right">
                         <button mat-button type="submit" matTooltip="Save"><mat-icon>done</mat-icon></button>
-                        <confirm-button-default [message]="'Delete this item ?'" [isValid]="true" (onClosing)="onDelete($event)"></confirm-button-default>
+                        <span [hidden]="isNewItem">
+                            <confirm-button-default [message]="'Delete this item ?'" [isValid]="true" (onClosing)="onDelete($event)"></confirm-button-default>
+                        </span>
                         <button mat-button type="button" matTooltip="Cancel" (click)="dialogRef.close()"><mat-icon>undo</mat-icon></button>
                     </div>
                 </div>

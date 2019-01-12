@@ -1,13 +1,13 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
-import { TitleService } from '../title.service';
-import { Member, MemberFilterOptions } from './member.model';
-import { MemberService } from './member.service';
-import { MemberModalContent } from './member.modal';
-import { MembershipUserService } from '../admin/membership-users/membership-user.service';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { JQueryService } from '../shared/jquery.service';
 import { Subscription } from 'rxjs';
+
+import { TitleService } from '../title.service';
+import { Member, MemberFilterOptions } from './member.model';
+import { MemberService } from './member.service';
+import { MemberModalContent } from './member.modal';
 
 @Component({
     templateUrl: './list-members.component.html',
@@ -33,7 +33,6 @@ export class ListMemberComponent implements OnInit, OnDestroy {
         private memberService: MemberService, 
         private titleService: TitleService,
         private jQueryService: JQueryService,
-        private membershipUserService: MembershipUserService, 
         private modalService: MatDialog
     ) {
         this.titleService.selector = 'list-members';
@@ -86,6 +85,13 @@ export class ListMemberComponent implements OnInit, OnDestroy {
                 break;
         }
         this.applyFilter(this.searchText);
+    }
+
+    addNew() {
+        const dialogConfig = new MatDialogConfig();
+        this.modalRef = this.modalService.open(MemberModalContent, dialogConfig);
+        this.modalRef.componentInstance.isNewItem = true;
+        this.modalRef.componentInstance.model = new Member();
     }
 
     edit(member:any) {

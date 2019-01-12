@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
 import { MatDialogRef } from '@angular/material';
 import { ConfirmResponses } from '../../shared/modal/confirm-btn-default';
 import { Observable } from 'rxjs';
@@ -23,6 +24,7 @@ export class TransactionCodeModalContent implements OnInit {
 
     constructor(
         private transactionCodeService: TransactionCodeService, 
+        public snackBar: MatSnackBar, 
         public dialogRef: MatDialogRef<TransactionCode>
     ) {
     }
@@ -37,8 +39,14 @@ export class TransactionCodeModalContent implements OnInit {
         }
         if (this.isNewItem) {
             this.transactionCodeService.addItem(this.model);
+            this.snackBar.open("Transaction Code added","", {
+                duration: 2000,
+            });          
         } else {
             this.transactionCodeService.updateItem(this.selectedItem, this.model);
+            this.snackBar.open("Transaction Code updated","", {
+                duration: 2000,
+            });          
         }
         this.dialogRef.close();
     }
@@ -46,6 +54,9 @@ export class TransactionCodeModalContent implements OnInit {
     onDelete($event:ConfirmResponses) {
         if ($event === ConfirmResponses.yes) {
             this.transactionCodeService.deleteItem(this.selectedItem);
+            this.snackBar.open("Transaction Code deleted","", {
+                duration: 2000,
+            });          
             this.dialogRef.close();
         }
     }

@@ -17,13 +17,14 @@
                                 </mat-select>
                             </mat-form-field>                                        
                         </div>
-                        <div class="col-sm-8 col-md-10">
+                        <div class="col-sm-7 col-md-9">
                             <mat-form-field>
                                 <mat-icon matPrefix class="search-icon">search</mat-icon>
                                 <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
                             </mat-form-field>
                         </div>
                     </div>
+                    <button mat-mini-fab matTooltip="Add member" color="primary" class="floating-fab" (click)="addNew()"><mat-icon>add</mat-icon></button>
                 </form>
             </div>
                                           

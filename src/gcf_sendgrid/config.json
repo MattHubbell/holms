@@ -1,0 +1,7 @@
+{
+  "EVENT_BUCKET": "holms-bucket",
+  "DATASET": "holms",
+  "TABLE": "events",
+  "USERNAME": "holms",
+  "PASSWORD": "rchrd1699"
+}

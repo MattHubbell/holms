@@ -64,7 +64,7 @@ export class AppService implements OnDestroy {
         }));
         this.user = new FirebaseUser();
         this.membershipUser = new MembershipUser();
-        this.profileImagePath = 'assets/holms4.jpg';
+        this.profileImagePath = 'assets/holms4.webp';
     }
 
     ngOnDestroy() {
@@ -83,7 +83,7 @@ export class AppService implements OnDestroy {
             if (this.user.picture) {
                 this.profileImagePath = this.user.picture;
             } else { 
-                this.profileImagePath = 'assets/holms4.jpg';
+                this.profileImagePath = 'assets/holms4.webp';
             }
             this.subscription.push(this.membershipUserService.getItemByKey(this.user.id).subscribe(x => {
                 this.checkForMemberShipUser(x); 

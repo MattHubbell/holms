@@ -103,10 +103,3 @@ confirm-button-default .dark-modal .modal-content {
 .mat-column-duesYear {
   max-width: 75px;
 }
-.mat-autocomplete-panel {
-  min-width: inherit !important;
-}
-.cdk-overlay-pane {
-  display: block;
-  min-width: 500px;
-}

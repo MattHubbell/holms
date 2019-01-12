@@ -38,7 +38,7 @@
                             <input type="text" placeholder="Member No" aria-label="Member No" matInput 
                                 name="donorMemberNo" [matAutocomplete]="auto" [(ngModel)]="model.donorMemberNo"
                                 (ngModelChange)="onMemberNoChange($event)" required>
-                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" panelWidth="500px">
                                 <mat-option *ngFor="let member of members | filter : 'memberNo' : model.donorMemberNo" [value]="member.memberNo">
                                     <div class="row">
                                         <div class="col-1">

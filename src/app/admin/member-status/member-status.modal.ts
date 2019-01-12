@@ -1,10 +1,12 @@
 
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
 import { MatDialogRef } from '@angular/material';
-import { MemberStatus } from './member-status.model';
-import { MemberStatusService } from './member-status.service';
 import { ConfirmResponses } from '../../shared/modal/confirm-btn-default';
 import { Observable } from 'rxjs';
+
+import { MemberStatus } from './member-status.model';
+import { MemberStatusService } from './member-status.service';
 
 @Component({
     selector: 'member-status-modal-content',
@@ -22,6 +24,7 @@ export class MemberStatusModalContent implements OnInit {
 
     constructor(
         private memberStatusService: MemberStatusService, 
+        public snackBar: MatSnackBar, 
         public dialogRef: MatDialogRef<MemberStatus>
     ) {
     }
@@ -36,8 +39,14 @@ export class MemberStatusModalContent implements OnInit {
         }
         if (this.isNewItem) {
             this.memberStatusService.addItem(this.model);
+            this.snackBar.open("Member Status added","", {
+                duration: 2000,
+            });          
         } else {
             this.memberStatusService.updateItem(this.selectedItem, this.model);
+            this.snackBar.open("Member Status updated","", {
+                duration: 2000,
+            });          
         }
         this.dialogRef.close();
     }
@@ -46,6 +55,9 @@ export class MemberStatusModalContent implements OnInit {
         if ($event === ConfirmResponses.yes) {
             this.memberStatusService.deleteItem(this.selectedItem);
             this.dialogRef.close();
+            this.snackBar.open("Member Status deleted","", {
+                duration: 2000,
+            });          
         }
     }
 

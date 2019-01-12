@@ -2,14 +2,14 @@
     Cash Receipts - Check Register - U.S. Funds
 </h2>
 
-<p style="font-size:130%; font-weight:bold; margin: 10pt 0;">
+<p style="font-size:100%; font-weight:bold; margin: 10pt 0;">
     Batch # {{batchNo}}
 </p>
 
 <div>
 <div style="border-top:2px solid black; margin-bottom:24pt; page-break-inside:avoid">
 
-    <div style="display:flex; font-weight:bold; margin: 0 0 2pt 0">
+    <div style="display:flex; font-size: 10pt; font-weight:bold; margin: 0 0 2pt 0">
         <div style="width:80px">
             Tran Date
         </div>
@@ -34,7 +34,7 @@
     </div>
 
     <div>
-        <div style="display: flex; margin: 0 0 2pt 0" *ngFor="let cashMaster of cashMasters">
+        <div style="display: flex; font-size: 8pt; margin: 0 0 2pt 0" *ngFor="let cashMaster of cashMasters">
             <div style="width:80px">
                 {{ cashMaster?.transDate |  date:'MM/dd/yy' }}
             </div>
@@ -63,7 +63,7 @@
             </div>
         </div>    
     </div>
-    <div style="display: flex; margin: 0 0 0 500px" >
+    <div style="display: flex; font-size: 8pt; margin: 0 0 0 500px" >
         <div style="width: 100px">
             Report Total: 
         </div>

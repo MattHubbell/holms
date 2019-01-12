@@ -1,10 +1,12 @@
 
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
 import { MatDialogRef } from '@angular/material';
-import { MemberType } from './member-type.model';
-import { MemberTypeService } from './member-type.service';
 import { ConfirmResponses } from '../../shared/modal/confirm-btn-default';
 import { Observable } from 'rxjs';
+
+import { MemberType } from './member-type.model';
+import { MemberTypeService } from './member-type.service';
 
 @Component({
     selector: 'member-type-modal-content',
@@ -22,6 +24,7 @@ export class MemberTypeModalContent implements OnInit {
 
     constructor(
         private memberTypeService: MemberTypeService, 
+        public snackBar: MatSnackBar, 
         public dialogRef: MatDialogRef<MemberType>
     ) {
     }
@@ -36,8 +39,14 @@ export class MemberTypeModalContent implements OnInit {
         }
         if (this.isNewItem) {
             this.memberTypeService.addItem(this.model);
+            this.snackBar.open("Member Type added","", {
+                duration: 2000,
+            });          
         } else {
             this.memberTypeService.updateItem(this.selectedItem, this.model);
+            this.snackBar.open("Member Type updated","", {
+                duration: 2000,
+            });          
         }
         this.dialogRef.close();
     }
@@ -45,6 +54,9 @@ export class MemberTypeModalContent implements OnInit {
     onDelete($event:ConfirmResponses) {
         if ($event === ConfirmResponses.yes) {
             this.memberTypeService.deleteItem(this.selectedItem);
+            this.snackBar.open("Member Type deleted","", {
+                duration: 2000,
+            });          
             this.dialogRef.close();
         }
     }
