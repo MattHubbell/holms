@@ -1,9 +1,12 @@
 import { Component, Input, ViewEncapsulation, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { ConfirmResponses } from '../../shared/modal/confirm-btn-default';
 import { MatSnackBar } from '@angular/material';
-
+import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
+  
 import { CashMaster } from './cash-master.model';
 import { CashMasterService } from './cash-master.service';
 import { CashDetail } from './cash-detail.model';
@@ -15,12 +18,6 @@ import { MemberType, MemberTypeService} from '../member-types';
 import { MemberStatus, MemberStatusService } from '../member-status';
 import { TransactionCode, TransactionCodeService } from '../transaction-codes';
 
-import { MatPaginator, MatTableDataSource } from '@angular/material';
-import { JQueryService }  from '../../shared/jquery.service';
-
-import { Observable } from 'rxjs';
-import { Subscription } from 'rxjs';
-  
 @Component({
     selector: 'cash-entry-modal-content',
     templateUrl: './cash-entry.modal.html',
@@ -58,7 +55,6 @@ export class CashEntryModalContent implements OnInit, OnDestroy {
         private memberTypeService: MemberTypeService,
         private memberStatusService: MemberStatusService,
         private transactionCodeService: TransactionCodeService,
-        private jQueryService: JQueryService, 
         private modalService: MatDialog,
         public dialogRef: MatDialogRef<CashMaster>,
         private snackBar: MatSnackBar
@@ -110,7 +106,7 @@ export class CashEntryModalContent implements OnInit, OnDestroy {
         this.selectedMember = new Member();
         let member:Member = this.members.find(x => x.memberNo == memberNo);
         if (member) {
-            let memberModel:Member = this.jQueryService.cloneObject(member);
+            let memberModel:Member = Member.clone(member);
             this.selectedMember = memberModel;
         }
     }
@@ -222,6 +218,6 @@ export class CashEntryModalContent implements OnInit, OnDestroy {
         this.modalRef.componentInstance.transactionCodes = this.transactionCodes;
         this.modalRef.componentInstance.isNewItem = false;
         this.modalRef.componentInstance.selectedItem = object;
-        this.modalRef.componentInstance.model = this.jQueryService.cloneObject(object);
+        this.modalRef.componentInstance.model = CashDetail.clone(object);
     }
 }

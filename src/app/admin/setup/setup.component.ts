@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { JQueryService }    from '../../shared/jquery.service';
 import { EmailService }     from '../../shared/email.service';
 import { Setup }            from './setup.model';
 import { SetupService }     from './setup.service';
@@ -21,7 +20,6 @@ export class SetupComponent implements OnInit, OnDestroy {
 
     constructor(
         private setupService: SetupService, 
-        private jQueryService: JQueryService,
         private emailService: EmailService,
         private titleService: TitleService,
         public snackBar: MatSnackBar 
@@ -31,7 +29,7 @@ export class SetupComponent implements OnInit, OnDestroy {
         this.setupService.getItem();
         this.subscription = this.setupService.item.subscribe(x => {
             this.selectedItem = x;
-            this.model = this.jQueryService.cloneObject(this.selectedItem);
+            this.model = Setup.clone(this.selectedItem);
             this.isNewItem = false;
         });
         this.titleService.selector = 'setup';

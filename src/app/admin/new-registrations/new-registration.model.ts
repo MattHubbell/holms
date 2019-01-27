@@ -1,3 +1,5 @@
+import * as f from '../../shared/functions';
+
 export class NewRegistration {
     email?: string;
     password?: string;
@@ -70,11 +72,15 @@ export class NewRegistration {
         this.existingMemberNo = (existingMemberNo) ? existingMemberNo : '';
     }
 
+    public static clone(model: NewRegistration): NewRegistration {
+        return f.clone(model);
+    }
+
     public static TableName(): string {
         return 'newRegistrations';
     }
     
-    public static setData(model:NewRegistration): any {
+    public static setData(model: NewRegistration): any {
         return {
             email : ((model.email) ? model.email : ''),
             password : ((model.password) ? model.password : ''),

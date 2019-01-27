@@ -2,23 +2,21 @@ import { NgModule }                 from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule }             from '@angular/common';  
 import { BrowserModule }            from '@angular/platform-browser';
-import { JQueryService }            from './jquery.service';
 import { EmailService }             from './email.service';
 import { NgbModule } 			    from '@ng-bootstrap/ng-bootstrap';
 import { ModalConfirmDefault }      from './modal/confirm-btn-default';
 import { ModalConfirmPrimary }      from './modal/confirm-btn-primary';
 import { ModalMessageOk, MessageBtnOkComponent } from './modal/message-btn-ok';
 import { EnumKeysPipe }             from './enum-keys.pipe';
-import { PhonePipe }                from './phone.pipe';
 import { CamelCasePipe }            from "./pipes";
 import { ShowHideInput }            from './show-hide.directive';
 import { PaypalButton }             from "./paypal-button";
 import { MaterialModule }           from "../material.module";
 import { HttpClientModule }         from '@angular/common/http'; 
 import { HttpModule }               from '@angular/http';
-import { InputCustomComponent }     from './input-custom.component';
 import { ValidateIdDirective }      from "./validate-id.directive";
 import { FilterPipe }               from "./filter-pipe";
+import { CustomInputDirective }     from "./custom-input.directive";
 @NgModule({
     imports: [ 
         NgbModule.forRoot(), 
@@ -35,22 +33,19 @@ import { FilterPipe }               from "./filter-pipe";
         ModalConfirmPrimary, 
         ModalMessageOk, 
         MessageBtnOkComponent, 
-        InputCustomComponent,
+        CustomInputDirective,
+        ValidateIdDirective,
         EnumKeysPipe,
-        PhonePipe,
         CamelCasePipe, 
         ShowHideInput, 
         PaypalButton,
-        ValidateIdDirective,
         FilterPipe
     ],
     entryComponents: [ 
         ModalMessageOk,
-        MessageBtnOkComponent,
-        InputCustomComponent
+        MessageBtnOkComponent
     ],
     providers: [ 
-        JQueryService, 
         EmailService 
     ],
     exports: [ 
@@ -58,9 +53,9 @@ import { FilterPipe }               from "./filter-pipe";
         ModalConfirmPrimary, 
         ModalMessageOk, 
         MessageBtnOkComponent,
-        InputCustomComponent, 
+        CustomInputDirective,
+        ValidateIdDirective,
         EnumKeysPipe,
-        PhonePipe,
         CamelCasePipe,
         FilterPipe,  
         ShowHideInput, 

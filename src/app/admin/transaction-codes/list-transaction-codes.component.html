@@ -37,6 +37,16 @@
                             </mat-cell>
                         </ng-container>
                     
+                        <ng-container matColumnDef="isGiftItem">
+                            <mat-header-cell *matHeaderCellDef> Gift </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> 
+                                <span [ngSwitch]="element.isGiftItem">
+                                    <span *ngSwitchCase="true"><i class="fa fa-check" aria-hidden="true"></i></span>
+                                    <span *ngSwitchCase="false"><i class="fa fa-remove" aria-hidden="true"></i></span>
+                                </span>
+                            </mat-cell>
+                        </ng-container>
+                    
                         <ng-container matColumnDef="itemType">
                             <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
                             <mat-cell *matCellDef="let element"> {{transactionCodeItemTypes[element?.itemType]}} </mat-cell>

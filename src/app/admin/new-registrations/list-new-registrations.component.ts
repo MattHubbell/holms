@@ -1,7 +1,6 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { TitleService } from '../../title.service';
 import { MatPaginator, MatTableDataSource, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
-import { JQueryService } from '../../shared/jquery.service';
 import { Subscription } from 'rxjs';
 
 import { NewRegistration } from './new-registration.model';
@@ -26,7 +25,6 @@ export class ListNewRegistrationComponent implements OnInit, OnDestroy{
     constructor(
         private newRegistrationService: NewRegistrationService, 
         private titleService: TitleService,
-        private jQueryService:JQueryService,
         private modalService: MatDialog
     ) {
         this.titleService.selector = 'list-new-registrations';
@@ -63,6 +61,6 @@ export class ListNewRegistrationComponent implements OnInit, OnDestroy{
         this.modalRef = this.modalService.open(NewRegistrationModalContent, this.dialogConfig);
         this.modalRef.componentInstance.isNewItem = false;
         this.modalRef.componentInstance.selectedItem = object;
-        this.modalRef.componentInstance.model = this.jQueryService.cloneObject(object);
+        this.modalRef.componentInstance.model = NewRegistration.clone(object);
    }
 }

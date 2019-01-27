@@ -109,4 +109,47 @@ export class EmailService {
         </p></body></html>`;
         return body;
     }
+    toGiftInvoiceBody(nameLit: string, paidThruDate: Date, comments: string, duesQuantity: number, duesAmount: number, merchandisePackageAmt: number, shippingCharges: number): string {
+        const membershipTotal = (duesQuantity * duesAmount) + merchandisePackageAmt + shippingCharges;
+        const body: string = `<html><head></head><body><p>
+        <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        </style> 
+        ` + nameLit + `, <br><br>
+        Thank you for your payment! <br><br>
+        Your PayPal Transaction ID is ` + comments + `<br>
+        <table>
+            <tr>
+                <td>GIFT DUES PAID           </td><td style="text-align: right;">$` + (duesAmount * duesQuantity)        + `</td>
+            </tr>
+            <tr>
+                <td>Merchandise Package      </td><td style="text-align: right;">$` + (merchandisePackageAmt)             + `</td>
+            </tr>
+            <tr>
+                <td>Shipping Charges        </td><td style="text-align: right;">$` + (shippingCharges)                    + `</td>
+            </tr>
+            <tr>
+                <td>                        </td><td style="text-align: right;">                              _____________ </td>
+            </tr>
+            <tr> 
+                <td>Total Paid ->            </td><td style="text-align: right;">$` + membershipTotal                    + `</td>
+            </tr>
+            <tr>
+                <td>                        </td><td style="text-align: right;">                                            </td>
+            </tr>
+            <tr> 
+                <td>Paid Through ->          </td><td style="text-align: right;"> ` + paidThruDate.toLocaleDateString() +  `</td>
+            </tr>
+        </table>        
+        </p></body></html>`;
+        return body;
+    }
 }

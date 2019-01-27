@@ -30,9 +30,12 @@
                             </mat-form-field>
                         </div>
                         <div class="col-md-5">
-                            <input-custom fieldType="uppercase" fieldName="registrationName" placeholderText="Registration Name (First Middle Last)" maxLength="35"
-                                [model]="model" [value]="model.registrationName" [isRequired]="true" errorMessage="Registration Name is required">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput maxLength="35" placeholder="Registration Name (First Middle Last)" name="registrationName" required
+                                    [(ngModel)]="model.registrationName" customInput="uppercase">
+                                <mat-hint align="end">{{model.registrationName?.length}} / 35</mat-hint>    
+                                <mat-error>Registration Name is required</mat-error>
+                            </mat-form-field>                        
                         </div>
                         <div class="offset-md-1 col-md-4 no-display-sm">
                             <div>
@@ -46,9 +49,12 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <input-custom fieldType="uppercase" fieldName="street1" placeholderText="Address Line 1" maxLength="35"
-                                [model]="model" [value]="model.street1" [isRequired]="true" errorMessage="Address Line 1 is required">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput maxLength="35" placeholder="Address Line 1" name="street1" required
+                                    [(ngModel)]="model.street1" customInput="uppercase">
+                                <mat-hint align="end">{{model.street1?.length}} / 35</mat-hint>    
+                                <mat-error>Address Line 1 is required</mat-error>
+                            </mat-form-field>                        
                         </div>
                         <div class="offset-md-2 col-md-3 no-display-sm">
                             <mat-form-field>
@@ -60,27 +66,38 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <input-custom fieldType="uppercase" fieldName="street2" placeholderText="Address Line 2" maxLength="35"
-                                [model]="model" [value]="model.street2" [isRequired]="false" errorMessage="">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput maxLength="35" placeholder="Address Line 2" name="street2"
+                                    [(ngModel)]="model.street2" customInput="uppercase">
+                                <mat-hint align="end">{{model.street2?.length}} / 35</mat-hint>    
+                            </mat-form-field>                        
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-3">
-                            <input-custom fieldType="uppercase" fieldName="city" placeholderText="City" maxLength="25"
-                                [model]="model" [value]="model.city" [isRequired]="true" errorMessage="City is required">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput maxLength="25" placeholder="City" name="city" required
+                                    [(ngModel)]="model.city" customInput="uppercase">
+                                <mat-hint align="end">{{model.city?.length}} / 25</mat-hint>    
+                                <mat-error>City is required</mat-error>
+                            </mat-form-field>                        
                         </div>
                         <div class="col-md-1">
-                            <input-custom fieldType="uppercase" fieldName="state" placeholderText="State" maxLength="2"
-                                [model]="model" [value]="model.state" [isRequired]="true" errorMessage="State is required">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput length="2" placeholder="State" name="state" required
+                                    [(ngModel)]="model.state" customInput="uppercase">
+                                <mat-hint align="end">{{model.state?.length}} / 2</mat-hint>    
+                                <mat-error>State is required</mat-error>
+                            </mat-form-field>                        
                         </div>
                         <div class="col-md-1">
-                            <input-custom fieldType="uppercase" fieldName="zip" placeholderText="Postal Code" maxLength="9"
-                                [model]="model" [value]="model.zip" [isRequired]="true" errorMessage="Postal Code is required">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput maxLength="9" placeholder="Postal Code" name="zip" required
+                                    [(ngModel)]="model.zip" customInput="uppercase">
+                                <mat-hint align="end">{{model.zip?.length}} / 9</mat-hint>    
+                                <mat-error>Postal Code is required</mat-error>
+                            </mat-form-field>                        
                         </div>
                         <div class="col-md-3">
                             <mat-form-field>
@@ -95,15 +112,20 @@
 
                     <div class="row">
                         <div class="col-md-3">
-                            <input-custom fieldType="phone" fieldName="phone" placeholderText="Phone (just digits)" maxLength="25"
-                                [model]="model" [value]="model.phone" [isRequired]="false" errorMessage="">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput maxLength="25" placeholder="Phone (digits only)" name="phone"
+                                    [(ngModel)]="model.phone" customInput="phone">
+                                <mat-hint align="end">{{model.city?.length}} / 25</mat-hint>    
+                            </mat-form-field>                        
                         </div>
                         <div class="col-md-5">
-                            <input-custom fieldType="camelcase" fieldName="annualName" 
-                                placeholderText="Annual Name (Enter your name as you would like it to appear in the HSML Annual)" maxLength="50"
-                                [model]="model" [value]="model.annualName" [isRequired]="true" errorMessage="Annual Name is required">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput maxLength="50" placeholder="Annual Name (Enter your name as you would like it to appear in the HSML Annual)" 
+                                    name="annualName" required
+                                    [(ngModel)]="model.annualName" customInput="camelcase">
+                                <mat-hint align="end">{{model.annualName?.length}} / 50</mat-hint>    
+                                <mat-error>Annual Name is required</mat-error>
+                            </mat-form-field>                        
                         </div>
                     </div>
                     
@@ -129,9 +151,12 @@
     
                     <div class="row">
                         <div class="col-md-4">
-                            <input-custom fieldType="email" fieldName="email" placeholderText="E-Mail Address" maxLength="50"
-                                [model]="model" [value]="model.email" [isRequired]="true" errorMessage="E-Mail Address is required">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput maxLength="50" placeholder="E-Mail Address" name="email" required
+                                    [(ngModel)]="model.email" type="email">
+                                <mat-hint align="end">{{model.email?.length}} / 50</mat-hint>    
+                                <mat-error>E-Mail Address is required</mat-error>
+                            </mat-form-field>                        
                         </div>
                         <div class="col-md-4">
                             <mat-form-field>

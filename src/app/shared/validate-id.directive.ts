@@ -2,11 +2,15 @@ import { Directive, Input } from '@angular/core';
 import { NG_ASYNC_VALIDATORS, Validator, AbstractControl } from '@angular/forms';
 import { FirebaseService } from '../firebase/firebase.service';
 
-export async function validateThisId(tableName:string, columnName:string, isKey:boolean, firebaseService:FirebaseService, control: AbstractControl) {
+export async function validateThisId(tableName:string, columnName:string, isKey:boolean, firebaseService:FirebaseService, control: AbstractControl, uppercaseRequired: boolean) {
     if (!control.value) return null;
     if (!isKey) return null;
     if (control.pristine) return null;
-    const id:any = await firebaseService.getItemsAsync(tableName, columnName, control.value);
+    let value:string = control.value;
+    if (uppercaseRequired) {
+        value = value.toUpperCase();
+    }
+    const id:any = await firebaseService.getItemsAsync(tableName, columnName, value);
     return id.length ? {asyncInvalid: true} : null;
 }
 
@@ -19,6 +23,7 @@ export async function validateThisId(tableName:string, columnName:string, isKey:
     @Input() tableName: string;
     @Input() columnName: string;
     @Input() isKey: boolean;
+    @Input() uppercaseRequired: boolean;
 
     constructor(
         private firebaseService: FirebaseService
@@ -26,7 +31,7 @@ export async function validateThisId(tableName:string, columnName:string, isKey:
     }
 
     validate(control: AbstractControl): {[key: string]: any} | null {
-        const val = validateThisId(this.tableName, this.columnName, this.isKey, this.firebaseService, control);
+        const val = validateThisId(this.tableName, this.columnName, this.isKey, this.firebaseService, control, this.uppercaseRequired);
         return val;
     }
 }

@@ -1,3 +1,5 @@
+import * as f from '../../shared/functions';
+
 export class MembershipUser {
     name?: string;
     memberId?: string;
@@ -9,11 +11,15 @@ export class MembershipUser {
         this.userType = (userType) ? userType : MembershipUserType.New;
     }
 
+    public static clone(model: any): MembershipUser {
+        return f.clone(model);
+    }
+
     public static TableName(): string {
         return 'membershipUsers';
     }
- 
-    public static setData(model:MembershipUser): any {
+  
+    public static setData(model: MembershipUser): any {
         return {
             name: ((model.name) ? model.name : ''), 
             memberId: ((model.memberId) ? model.memberId : 0),

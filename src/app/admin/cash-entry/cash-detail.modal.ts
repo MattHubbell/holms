@@ -7,9 +7,7 @@ import { TransactionCode, TransactionCodeItemTypes } from '../transaction-codes'
 import { MemberType, MemberTypeService } from '../member-types';
 
 import { ConfirmResponses } from '../../shared/modal/confirm-btn-default';
-import { JQueryService }  from '../../shared/jquery.service';
 import { Subscription } from 'rxjs';
-import * as f from '../../shared/functions';
 
 @Component({
     selector: 'cash-detail-modal-content',
@@ -33,7 +31,6 @@ export class CashDetailModalContent implements OnInit, OnDestroy {
     constructor(
         private cashDetailService: CashDetailService,
         private memberTypeService: MemberTypeService,
-        private jQueryService: JQueryService,
         public dialogRef: MatDialogRef<CashDetailModalContent>
     ) {
         this.subscription = new Array<Subscription>();
@@ -89,10 +86,6 @@ export class CashDetailModalContent implements OnInit, OnDestroy {
     onClose() {
         this.dialogRef.close();
     }
-
-	toUppercase(value:any, model:any, field:string) {
-        f.toUppercase(value, model, field);
-    }
     
     displayTranCode(tranCode?: string): string | undefined {
         return tranCode ? tranCode : undefined;
@@ -106,7 +99,7 @@ export class CashDetailModalContent implements OnInit, OnDestroy {
         this.selectedTransactionCode = null;
         let transactionCode:TransactionCode = this.transactionCodes.find(x => x.id == tranCode);
         if (transactionCode) {
-            let transactionCodeModel:TransactionCode = this.jQueryService.cloneObject(transactionCode);
+            let transactionCodeModel:TransactionCode = TransactionCode.clone(transactionCode);
             this.selectedTransactionCode = transactionCodeModel;
         }
     }
@@ -132,7 +125,7 @@ export class CashDetailModalContent implements OnInit, OnDestroy {
         } 
         let memberType:MemberType = this.memberTypes.find(x => x.id == duesCode);
         if (memberType) {
-            let memberTypeModel:MemberType = this.jQueryService.cloneObject(memberType);
+            let memberTypeModel:MemberType = MemberType.clone(memberType);
             this.selectedMemberType = memberTypeModel;
             this.model.distAmt = +this.selectedMemberType.price;
         }

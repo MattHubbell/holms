@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
-import { MatDialog } from '@angular/material';
-import { JQueryService } from '../shared/jquery.service';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+
 import { Setup, SetupService } from '../admin/setup';
 import { MembershipDues } from './membership-dues.model';
 import { MembershipDuesService } from './membership-dues.service';
@@ -13,6 +13,7 @@ import { TitleService } from '../title.service';
 import { AppService } from '../app.service';
 import { MatSnackBar } from '@angular/material';
 import { PayPalSubmit } from './paypal.component';
+import { UserModalComponent } from '../admin/user/user.modal';
 
 import { Observable } from 'rxjs';
 import { Subscription } from 'rxjs';
@@ -45,6 +46,7 @@ export class MembershipDuesComponent implements OnInit, OnDestroy {
     members: Member[];
     submitButtonText: string;
     subscription: Array<Subscription>;
+    editUserIsOpen: boolean;
 
     constructor(
         private setupService: SetupService,
@@ -52,9 +54,9 @@ export class MembershipDuesComponent implements OnInit, OnDestroy {
         private memberService: MemberService,
         private memberTypeService: MemberTypeService,
         private transactionCodeService: TransactionCodeService,
-        private jQueryService: JQueryService, 
         private titleService: TitleService,
         private appService: AppService,
+        private modalService: MatDialog,
         private dialog: MatDialog, 
         public snackBar: MatSnackBar
     ) {
@@ -64,6 +66,7 @@ export class MembershipDuesComponent implements OnInit, OnDestroy {
             this.setup = x;
         }));
         this.titleService.selector = 'membership-dues';
+        this.editUserIsOpen = false;
     }
 
     ngOnInit() {
@@ -97,7 +100,7 @@ export class MembershipDuesComponent implements OnInit, OnDestroy {
         } 
         let member:Member = this.members.find(x => x.memberNo == memberNo);
         if (member) {
-            let memberModel:Member = this.jQueryService.cloneObject(member);
+            let memberModel:Member = Member.clone(member);
             this.member = memberModel;
         }
     }
@@ -190,4 +193,29 @@ export class MembershipDuesComponent implements OnInit, OnDestroy {
             this.resetForm();
         }) 
     }
+
+    editUser() {
+        if (this.editUserIsOpen) return;
+        if (this.model.memberNo != '') {
+            let userSubscription = this.memberService.getItemByMemberID(this.model.memberNo)
+              .subscribe(x => {
+                this.openUserModal(x[0]);
+                userSubscription.unsubscribe();
+            })
+        }
+      }
+    
+      openUserModal(member:any) {
+        if (this.editUserIsOpen) return;
+        this.editUserIsOpen = true;
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        const modalRef = this.modalService.open(UserModalComponent, dialogConfig);
+        modalRef.componentInstance.selectedItem = member;
+        modalRef.componentInstance.model = Member.clone(member);
+        modalRef.afterClosed().subscribe(() => {
+          this.editUserIsOpen = false;
+        });
+      }    
 }

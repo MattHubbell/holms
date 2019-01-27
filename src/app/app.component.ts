@@ -1,12 +1,12 @@
 import { Component, ViewChild, OnInit, HostListener, OnDestroy } from '@angular/core';
-import { AppService } from './app.service';
-import { TitleService } from './title.service';
 import { MatDialog, MatSidenav, MatDialogConfig } from '@angular/material';
-import { UserModalComponent } from './admin/user/user.modal';
-import { MemberService } from './members'
-import { JQueryService } from './shared/jquery.service';
 import { Subscription } from 'rxjs';
+
+import { AppService } from './app.service';
 import { CookieService } from 'ngx-cookie-service';
+import { Member, MemberService } from './members'
+import { TitleService } from './title.service';
+import { UserModalComponent } from './admin/user/user.modal';
 
 @Component({
   selector: 'app-root',
@@ -40,7 +40,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private appService:AppService, 
     private titleService:TitleService,
     private memberService:MemberService,
-    private jQueryService:JQueryService,
     private modalService: MatDialog,
     private cookieService: CookieService
   ) {
@@ -86,7 +85,7 @@ export class AppComponent implements OnInit, OnDestroy {
     dialogConfig.autoFocus = true;
     const modalRef = this.modalService.open(UserModalComponent, dialogConfig);
     modalRef.componentInstance.selectedItem = member;
-    modalRef.componentInstance.model = this.jQueryService.cloneObject(member);
+    modalRef.componentInstance.model = Member.clone(member);
     modalRef.afterClosed().subscribe(() => {
       this.editUserIsOpen = false;
       this.subscription.unsubscribe();

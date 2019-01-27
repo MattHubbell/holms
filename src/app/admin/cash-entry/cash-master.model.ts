@@ -1,3 +1,5 @@
+import * as f from '../../shared/functions';
+
 import { toDatabaseDate } from "src/app/shared/functions";
 
 export class CashMaster {
@@ -33,11 +35,15 @@ export class CashMaster {
         this.batchNo = (batchNo) ? batchNo : '';
     }
 
+    public static clone(model: CashMaster): CashMaster {
+        return f.clone(model);
+    }
+
     public static TableName(): string {
         return 'cashMaster';
     }
 
-    public static setData(model:CashMaster): any {
+    public static setData(model: CashMaster): any {
         return {
             receiptNo: ((model.receiptNo) ? model.receiptNo : ''), 
             memberNo: ((model.memberNo) ? model.memberNo : ''), 

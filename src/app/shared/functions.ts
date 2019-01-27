@@ -1,24 +1,14 @@
-export function castNumber(value:any): number {
+declare var $ :any;
+
+export function clone(object:any) {
+    return $.extend(true, {}, object);
+}
+
+export function castNumber(value: any): number {
     return ((typeof value === 'string') ? parseInt((value.length > 0) ? value : '0') : value);
 }
 
-export function oldcamelCase(value:string): string {
-    let outputString:string = '';
-    let values = value.split(' ');
-    for (let i = 0, len = values.length; i < len; i++) {
-        if ((values[i].charAt(0) == 'I' || values[i].charAt(0) == 'V') && values[i].slice(1).length <= 3) {
-            // outputString += values[i].toUpperCase() + ' ';
-            outputString += values[i].toUpperCase();
-        } else {
-            // outputString += values[i].charAt(0).toUpperCase() + values[i].slice(1).toLowerCase() + ' ';
-            outputString += values[i].charAt(0).toUpperCase() + values[i].slice(1).toLowerCase();
-        }
-    }
-    // outputString = outputString.trim() + ' ';
-    return outputString;
-}
-
-export function camelCase(value:string): string {
+export function camelCase(value: string): string {
     let outputString:string = '';
     let lastSpace = 0;
     for (let i = 0, len = value.length; i < len; i++) {
@@ -43,36 +33,30 @@ export function camelCase(value:string): string {
     return outputString;
 }
 
-import { format } from 'libphonenumber-js';
-import { isoStringToDate } from '@angular/common/src/i18n/format_date';
-
-export function toFormatPhone(value:any, model:any, fieldName:string) {
-    setTimeout( () => {
-        if (value.length != 10 ) {
-            model[fieldName] = format(value, 'International');
+export function phone(value: string): string {
+    let formattedPhone: string = value;
+    if (value[0] != "+") {
+        if (value.length == 10) {
+            for (let i = 0, len = value.length; i < len; i++) {
+                if (i == 0) {
+                    formattedPhone = '(' + value[i];        
+                } else {
+                    if (i == 3) {
+                        formattedPhone += ') ' + value[i];
+                    } else {
+                        if (i == 6) {
+                            formattedPhone += '-' + value[i];
+                        } else {
+                            formattedPhone += value[i]
+                        }
+                    }
+                } 
+            }
+        } else {
+            formattedPhone = value.replace('(', '').replace(')', '').replace('-','').replace(' ', '');
         }
-        else {
-            model[fieldName] = format(value, 'US', 'National');
-        }
-    });
-}
-
-export function toUppercase(value:any, model:any, fieldName:string) {
-    setTimeout( () => {
-        model[fieldName] = String(value).toUpperCase();
-    });
-}
-
-export function toCamelCase(value:string, model:any, fieldName:string) {
-    setTimeout( () => {
-        model[fieldName] = camelCase(value);
-    });
-}
-
-export function toCheckDate(date:string, model:any, fieldName:string) {
-    setTimeout( () => {
-        model[fieldName] = date;
-    });
+    }
+    return formattedPhone;
 }
 
 export function toDatabaseDate(date: any) : string {
@@ -81,4 +65,10 @@ export function toDatabaseDate(date: any) : string {
     } else {
         return date.toISOString();
     }
+}
+
+export function pad(num: number, size: number): string {
+    let s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
 }

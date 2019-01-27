@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import { JQueryService }                                    from '../shared/jquery.service';
 import { Setup, SetupService }                              from '../admin/setup';
 import { MembershipDues }                                   from './membership-dues.model';
 import { Member, MemberService }                            from '../members';
@@ -15,8 +14,7 @@ export class MembershipDuesService {
         private setupService: SetupService,
         private memberService: MemberService,
         private cashMasterService: CashMasterService,
-        private cashDetailService: CashDetailService, 
-        private jQueryService: JQueryService 
+        private cashDetailService: CashDetailService
     ) {}
 
     assignReceiptNo(setup: Setup): string {
@@ -27,7 +25,7 @@ export class MembershipDuesService {
     }
 
     public postCashEntry(item:MembershipDues, member: Member, setup: Setup, transactionCodes: TransactionCode[]): void {
-        let memberModel:Member = this.jQueryService.cloneObject(member);
+        let memberModel:Member = Member.clone(member);
         let memberType:string = item.membershipTypeId;
     
         memberModel.lastDuesYear = setup.duesYear - 1 + item.duesQuantity;

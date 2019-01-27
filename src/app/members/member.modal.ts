@@ -24,6 +24,8 @@ export class MemberModalContent implements OnInit, OnDestroy {
     @Input() model: Member;
     @Input() isNewItem: Boolean;
 
+    isSubmitted: boolean;
+    tableName: string;
     salutations = Salutations;
 	countries = Countries;
     memberTypes: MemberType[];
@@ -64,6 +66,8 @@ export class MemberModalContent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.isSubmitted = false;
+        this.tableName = MemberStatus.TableName();
     }
 
     ngOnDestroy() {
@@ -77,6 +81,7 @@ export class MemberModalContent implements OnInit, OnDestroy {
     }
 
     onSubmit(isValid:boolean) {
+        this.isSubmitted = true;
         if(!isValid) {
             return;
         }

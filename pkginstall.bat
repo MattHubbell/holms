@@ -11,8 +11,9 @@ npm install ng2-validation --save
 npm install --save angular2-csv@0.2.5
 npm install @angular/flex-layout@latest --save
 npm install --save web-animations-js
-npm install libphonenumber-js --save
+-- npm install libphonenumber-js --save
 npm install /Users/matt/Downloads/wijmo-5.20181.462/NpmImages/wijmo-amd-min
 npm install ngx-cookie-service
 npm install crypto-ts
+npm install google-libphonenumber
 ng set defaults.styleExt scss

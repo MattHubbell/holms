@@ -1,3 +1,5 @@
+import * as f from '../../shared/functions';
+
 export class MemberType {
     id?: string;
     description?: string;
@@ -13,6 +15,10 @@ export class MemberType {
         this.description = (description) ? description : '';
         this.level = (level) ? level : 0 ;
         this.price = (price) ? price : '0.00';
+    }
+
+    public static clone(model: MemberType): MemberType {
+        return f.clone(model);
     }
 
     public static TableName(): string {

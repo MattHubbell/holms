@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { JQueryService }     from '../shared/jquery.service';
+
 import { TitleService }      from '../title.service';
 import { Editor }            from './editor.model';
 import { EditorService }     from './editor.service';
 import { environment }       from '../../environments/environment';
 import { Subscription }      from 'rxjs';
-declare var $ :any;
 
 @Component({
   selector: 'welcome-editor',
@@ -21,15 +20,14 @@ export class WelcomeEditorComponent implements OnInit, OnDestroy {
 
   constructor(
     private titleService: TitleService, 
-    private editorService: EditorService, 
-    private jQueryService: JQueryService
+    private editorService: EditorService 
   ) {
     this.model = new Editor();
     this.isNewItem = true;
     this.editorService.getItem();
     this.subscription = this.selectedItem =this.editorService.item.subscribe(x => {
       this.selectedItem = x;
-      this.model = this.jQueryService.cloneObject(this.selectedItem);
+      this.model = Editor.clone(this.selectedItem);
       this.isNewItem = false;
       });
     this.titleService.selector = 'welcome-editor';

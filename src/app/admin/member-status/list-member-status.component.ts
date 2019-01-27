@@ -1,11 +1,11 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
-import { TitleService } from '../../title.service';
+import { MatPaginator, MatTableDataSource, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
+import { Subscription } from 'rxjs';
+
 import { MemberStatus } from './member-status.model';
 import { MemberStatusService } from './member-status.service';
 import { MemberStatusModalContent } from './member-status.modal';
-import { MatPaginator, MatTableDataSource, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
-import { JQueryService } from '../../shared/jquery.service';
-import { Subscription } from 'rxjs';
+import { TitleService } from '../../title.service';
 
 @Component({
     templateUrl: './list-member-status.component.html',
@@ -25,7 +25,6 @@ export class ListMemberStatusComponent implements OnInit, OnDestroy{
     constructor(
         private memberStatusService: MemberStatusService, 
         private titleService: TitleService,
-        private jQueryService:JQueryService,
         private modalService: MatDialog
     ) {
         this.titleService.selector = 'list-member-status';
@@ -62,6 +61,6 @@ export class ListMemberStatusComponent implements OnInit, OnDestroy{
         this.modalRef = this.modalService.open(MemberStatusModalContent, this.dialogConfig);
         this.modalRef.componentInstance.isNewItem = false;
         this.modalRef.componentInstance.selectedItem = object;
-        this.modalRef.componentInstance.model = this.jQueryService.cloneObject(object);
+        this.modalRef.componentInstance.model = MemberStatus.clone(object);
    }
 }

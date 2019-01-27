@@ -1,7 +1,6 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { JQueryService } from '../shared/jquery.service';
 import { Subscription } from 'rxjs';
 
 import { TitleService } from '../title.service';
@@ -16,13 +15,14 @@ import { MemberModalContent } from './member.modal';
 
 export class ListMemberComponent implements OnInit, OnDestroy {
 
-    members: Member[];
-    searchText: string = '';
-    filterOptions = MemberFilterOptions;
     filterBy: number = 0;
+    filterOptions = MemberFilterOptions;
+    members: Member[];
+    modalRef: any;
+    searchText: string = '';
+
     dataSource = new MatTableDataSource<Member>(this.members);
     displayedColumns = ['memberNo', 'memberName', 'addrLine1', 'addrLine2', 'city', 'state', 'zip', 'meBook'];
-    modalRef: any;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -32,7 +32,6 @@ export class ListMemberComponent implements OnInit, OnDestroy {
     constructor(
         private memberService: MemberService, 
         private titleService: TitleService,
-        private jQueryService: JQueryService,
         private modalService: MatDialog
     ) {
         this.titleService.selector = 'list-members';
@@ -100,7 +99,7 @@ export class ListMemberComponent implements OnInit, OnDestroy {
         dialogConfig.autoFocus = true;
         this.modalRef = this.modalService.open(MemberModalContent, dialogConfig);
         this.modalRef.componentInstance.selectedItem = member;
-        this.modalRef.componentInstance.model = this.jQueryService.cloneObject(member);
+        this.modalRef.componentInstance.model = Member.clone(member);
     }
 
 }

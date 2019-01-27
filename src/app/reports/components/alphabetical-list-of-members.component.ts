@@ -50,9 +50,14 @@ export class AlphabeticalListOfMembers implements OnInit, OnDestroy {
         this.members = new wjcCore.CollectionView(members, {
             groupDescriptions: [
                 new wjcCore.PropertyGroupDescription('sortName',
-                    (item, propName) => {
-                        var value = item[propName];
-                        return value[0].toUpperCase();
+                    (item: any, propName: any) => {
+                        const value: string = item[propName];
+                        const firstChar: string = value[0];
+                        if (firstChar) {
+                            return firstChar.toUpperCase();
+                        } else {
+                            return "";
+                        }
                     }
                 )
             ],

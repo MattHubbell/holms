@@ -17,9 +17,12 @@
                         </mat-form-field>
                         </div>
                         <div class="col-md-6">
-                            <input-custom fieldType="uppercase" fieldName="memberName" placeholderText="Member Name" maxLength="35"
-                                [model]="model" [value]="model.memberName" [isRequired]="true" errorMessage="Member Name is required">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput maxLength="35" placeholder="Member Name (First Middle Last)" name="memberName" required
+                                    [(ngModel)]="model.memberName" customInput="uppercase">
+                                <mat-hint align="end">{{model.memberName?.length}} / 35</mat-hint>    
+                                <mat-error>Member Name is required</mat-error>
+                            </mat-form-field>                        
                         </div>
                     </div>
                 </div>
@@ -27,9 +30,12 @@
                 <div class="container">                                                
                     <div class="row">
                         <div class="col-md-6">
-                            <input-custom fieldType="uppercase" fieldName="addrLine1" placeholderText="Address Line 1" maxLength="35"
-                                [model]="model" [value]="model.addrLine1" [isRequired]="true" errorMessage="Address Line 1 is required">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput maxLength="35" placeholder="Address Line 1" name="addrLine1" required
+                                    [(ngModel)]="model.addrLine1" customInput="uppercase">
+                                <mat-hint align="end">{{model.addrLine1?.length}} / 35</mat-hint>    
+                                <mat-error>Address Line 1 is required</mat-error>
+                            </mat-form-field>                        
                         </div>
                     </div>
                 </div>
@@ -37,9 +43,11 @@
                 <div class="container">                                                
                     <div class="row">
                         <div class="col-md-6">
-                            <input-custom fieldType="uppercase" fieldName="addrLine2" placeholderText="Address Line 2" maxLength="35"
-                                [model]="model" [value]="model.addrLine2" [isRequired]="false" errorMessage="">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput maxLength="35" placeholder="Address Line 2" name="addrLine2"
+                                    [(ngModel)]="model.addrLine2" customInput="uppercase">
+                                <mat-hint align="end">{{model.addrLine2?.length}} / 35</mat-hint>    
+                            </mat-form-field>                        
                         </div>
                     </div>
                 </div>
@@ -47,19 +55,28 @@
                 <div class="container">                                                
                     <div class="row">
                         <div class="col-md-5">
-                            <input-custom fieldType="uppercase" fieldName="city" placeholderText="City" maxLength="25"
-                                [model]="model" [value]="model.city" [isRequired]="true" errorMessage="City is required">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput maxLength="25" placeholder="City" name="city" required
+                                    [(ngModel)]="model.city" customInput="uppercase">
+                                <mat-hint align="end">{{model.city?.length}} / 25</mat-hint>    
+                                <mat-error>City is required</mat-error>
+                            </mat-form-field>                        
                         </div>
                         <div class="col-md-1">
-                            <input-custom fieldType="uppercase" fieldName="state" placeholderText="State" maxLength="2"
-                                [model]="model" [value]="model.state" [isRequired]="true" errorMessage="State is required">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput length="2" placeholder="State" name="state" required
+                                    [(ngModel)]="model.state" customInput="uppercase">
+                                <mat-hint align="end">{{model.state?.length}} / 2</mat-hint>    
+                                <mat-error>State is required</mat-error>
+                            </mat-form-field>                        
                         </div>
                         <div class="col-md-2">
-                            <input-custom fieldType="uppercase" fieldName="zip" placeholderText="Postal Code" maxLength="9"
-                                [model]="model" [value]="model.zip" [isRequired]="true" errorMessage="Postal Code is required">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput maxLength="9" placeholder="Postal Code" name="zip" required
+                                    [(ngModel)]="model.zip" customInput="uppercase">
+                                <mat-hint align="end">{{model.zip?.length}} / 9</mat-hint>    
+                                <mat-error>Postal Code is required</mat-error>
+                            </mat-form-field>                        
                         </div>
                         <div class="col-md-3">
                             <mat-form-field>
@@ -76,14 +93,19 @@
                 <div class="container">                                                
                     <div class="row">
                         <div class="col-md-4">
-                            <input-custom fieldType="phone" fieldName="phone" placeholderText="Telephone" maxLength="25"
-                                [model]="model" [value]="model.phone" [isRequired]="false" errorMessage="">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput maxLength="25" placeholder="Phone (digits only)" name="phone"
+                                    [(ngModel)]="model.phone" customInput="phone">
+                                <mat-hint align="end">{{model.city?.length}} / 25</mat-hint>    
+                            </mat-form-field>                        
                         </div>
                         <div class="offset-md-1 col-md-6">
-                            <input-custom fieldType="email" fieldName="eMailAddr" placeholderText="E-Mail" maxLength="35"
-                                [model]="model" [value]="model.eMailAddr" [isRequired]="false" errorMessage="">
-                            </input-custom>
+                            <mat-form-field>
+                                <input matInput type="text" placeholder="E-Mail"
+                                    maxLength="35" class="form-control" name="eMailAddr" readonly="true"
+                                    [(ngModel)]="model.eMailAddr">
+                                <mat-hint align="end">{{model.eMailAddr.length}} / 35</mat-hint>
+                            </mat-form-field>
                         </div>
                     </div>
                 </div>
@@ -94,14 +116,21 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6">
-                            <input-custom fieldType="camelcase" fieldName="annualName" placeholderText="Annual Name" maxLength="50"
-                                [model]="model" [value]="model.annualName" [isRequired]="true" errorMessage="Annual Name is required">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput maxLength="50" placeholder="Annual Name (Enter your name as you would like it to appear in the HSML Annual)" 
+                                    name="annualName" required
+                                    [(ngModel)]="model.annualName" customInput="camelcase">
+                                <mat-hint align="end">{{model.annualName?.length}} / 50</mat-hint>    
+                                <mat-error>Annual Name is required</mat-error>
+                            </mat-form-field>                        
                         </div>
                         <div class="col-md-6">
-                            <input-custom fieldType="uppercase" fieldName="sortName" placeholderText="Sort Name" maxLength="35"
-                                [model]="model" [value]="model.sortName" [isRequired]="true" errorMessage="Sort Name is required">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput maxLength="35" placeholder="Sort Name" name="sortName" required
+                                    [(ngModel)]="model.sortName" customInput="uppercase">
+                                <mat-hint align="end">{{model.sortName?.length}} / 35</mat-hint>    
+                                <mat-error>Sort Name is required</mat-error>
+                            </mat-form-field>                        
                         </div>
                     </div>
                 </div>
@@ -109,12 +138,16 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-3">
-                            <input-custom fieldType="text" fieldName="memberNo" placeholderText="Member #" maxLength="35"
-                                [model]="model" [value]="model.memberNo" [isRequired]="true" errorMessage="Member # is required">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput placeholder="Member #" name="memberNo" required
+                                    validate-id [tableName]="tableName" columnName="memberNo" isKey="true" uppercaseRequired="true" 
+                                    [(ngModel)]="model.memberNo" customInput="uppercase">
+                                <mat-error>{{ model.memberNo?.length == 0 ? 'Member # is required' : 'Member # already used' }}</mat-error>
+                            </mat-form-field>                        
                         </div>
-                        <div class="col-md-3 align-self-center" [hidden]="!isNewItem">
-                            <button mat-raised-button type="button" color="primary" (click)="onAssignMemberNo()" [disabled]="model.memberNo.length > 0" matTooltip="This is a new member, assign next member #">Assign</button>
+                        <div class="col-md-3 align-self-center">
+                            <button mat-raised-button type="button" color="primary"  
+                            (click)="onAssignMemberNo()" [disabled]="model.memberNo?.length > 0" matTooltip="This is a new member, assign next member #">Assign</button>
                         </div>
                     </div>
                 </div>
@@ -122,19 +155,25 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-3">
-                            <input-custom fieldType="text" fieldName="hgBook" placeholderText="H&amp;G Book" maxLength="35"
-                                [model]="model" [value]="model.hgBook" [isRequired]="false" errorMessage="">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput maxLength="15" placeholder="H&amp;G Book" name="hgBook"
+                                    [(ngModel)]="model.hgBook">
+                                <mat-hint align="end">{{model.hgBook?.length}} / 15</mat-hint>    
+                            </mat-form-field>                        
                         </div>
                         <div class="col-md-3">
-                            <input-custom fieldType="text" fieldName="arBook" placeholderText="A&amp;R Book" maxLength="35"
-                                [model]="model" [value]="model.arBook" [isRequired]="false" errorMessage="">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput maxLength="15" placeholder="A&amp;R Book" name="arBook"
+                                    [(ngModel)]="model.arBook">
+                                <mat-hint align="end">{{model.arBook?.length}} / 15</mat-hint>    
+                            </mat-form-field>                        
                         </div>
                         <div class="col-md-3">
-                            <input-custom fieldType="text" fieldName="meBook" placeholderText="M&amp;E Book" maxLength="35"
-                                [model]="model" [value]="model.meBook" [isRequired]="false" errorMessage="">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput maxLength="15" placeholder="M&amp;E Book" name="meBook"
+                                    [(ngModel)]="model.meBook">
+                                <mat-hint align="end">{{model.meBook?.length}} / 15</mat-hint>    
+                            </mat-form-field>                        
                         </div>
                     </div>
                 </div>
@@ -160,9 +199,11 @@
                             </mat-form-field>
                         </div>
                         <div class="col-md-6">
-                            <input-custom fieldType="text" fieldName="comments" placeholderText="Comments" maxLength="35"
-                                [model]="model" [value]="model.comments" [isRequired]="false" errorMessage="">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput maxLength="35" placeholder="Comments" name="comments"
+                                    [(ngModel)]="model.comments">
+                                <mat-hint align="end">{{model.comments?.length}} / 35</mat-hint>    
+                            </mat-form-field>                        
                         </div>
                     </div>
                 </div>
@@ -212,9 +253,11 @@
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <input-custom fieldType="text" fieldName="giftFromMember" placeholderText="Gift From Member #" maxLength="35"
-                                [model]="model" [value]="model.giftFromMember" [isRequired]="false" errorMessage="">
-                            </input-custom>
+                            <mat-form-field class="width-full">
+                                <input matInput maxLength="15" placeholder="Gift From Member #" name="giftFromMember"
+                                    [(ngModel)]="model.giftFromMember">
+                                <mat-hint align="end">{{model.giftFromMember?.length}} / 15</mat-hint>    
+                            </mat-form-field>                        
                         </div>
                         <div class="col-md-2">
                             <div>
@@ -223,9 +266,11 @@
                             </div>
                         </div>
                         <div class="col-md-2">
-                                <input-custom fieldType="text" fieldName="certificationDate" placeholderText="Cert Date" maxLength="4"
-                                [model]="model" [value]="model.certificationDate" [isRequired]="false" errorMessage="">
-                            </input-custom>
+                            <mat-form-field>
+                                <input matInput name="certificationDate" [matDatepicker]="certificationDate" placeholder="Cert Date" [(ngModel)]="model.certificationDate">
+                                <mat-datepicker-toggle matSuffix [for]="certificationDate"></mat-datepicker-toggle>
+                                <mat-datepicker #certificationDate></mat-datepicker>
+                            </mat-form-field>
                         </div>
                     </div>
                 </div>
@@ -251,7 +296,14 @@
         <div class="container Custom-border">
             <br>
             <div class="row">
-                <div class="col-12">
+                <div class="col-4">
+                    <div class="callout" *ngIf="!formData.valid && isSubmitted">
+                        <ngb-alert type="danger" [dismissible]="false">
+                            Check each tab for required fields
+                        </ngb-alert>
+                    </div>
+                </div>
+                <div class="col-8">
                     <div class="text-right">
                         <button mat-button type="submit" matTooltip="Save"><mat-icon>done</mat-icon></button>
                         <span [hidden]="isNewItem">

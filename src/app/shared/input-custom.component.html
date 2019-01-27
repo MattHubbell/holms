@@ -1,7 +1,0 @@
-<mat-form-field class="width-full">
-    <input matInput #inputRef [type]="fieldType" [maxlength]="maxLength" [placeholder]="placeholderText" [name]="fieldName" 
-        [required]="isRequired ? 'required' : null" validate-id [tableName]="tableName" [columnName]="fieldName" [isKey]="isKey" 
-        [(ngModel)]="model[fieldName]" (ngModelChange)="onChange($event, model, fieldName)">
-    <mat-hint align="end" *ngIf="showHint">{{model[fieldName]?.length}} / {{maxLength}}</mat-hint>    
-    <mat-error>{{errorMessage}}</mat-error>
-</mat-form-field>                        

@@ -1,3 +1,4 @@
+import { MemberType } from '../admin/member-types';
 import * as f from '../shared/functions';
 
 export class GiftMembership {
@@ -20,7 +21,9 @@ export class GiftMembership {
     annualName: string;
     merchandisePackageAmount: number;
     shippingCharges: number;
+    isMerchandiseChecked: boolean;
     isMerchandiseShipped: boolean;
+    comments: string;
 
     constructor(
         donorMemberNo?: string,
@@ -42,7 +45,9 @@ export class GiftMembership {
         annualName?: string,
         merchandisePackageAmount?: number,
         shippingCharges?: number,
-        isMerchandiseShipped?: boolean
+        isMerchandiseChecked?: boolean,
+        isMerchandiseShipped?: boolean,
+        comments?: string
         ) {
         this.donorMemberNo = (donorMemberNo) ? donorMemberNo : '';
         this.tranDate = (tranDate) ? tranDate : null; 
@@ -63,7 +68,9 @@ export class GiftMembership {
         this.annualName = (annualName) ? annualName : '';
         this.merchandisePackageAmount = (merchandisePackageAmount) ? merchandisePackageAmount : 0;
         this.shippingCharges = (shippingCharges) ? shippingCharges : 0;
+        this.isMerchandiseChecked = (isMerchandiseChecked) ? isMerchandiseChecked : false;
         this.isMerchandiseShipped = (isMerchandiseShipped) ? isMerchandiseShipped : false;
+        this.comments = (comments) ? comments : '';
     }
 
     set membershipTotal(value:number) {
@@ -73,6 +80,39 @@ export class GiftMembership {
     get membershipTotal(): number {
         let total:number = f.castNumber(this.duesAmount * this.duesQuantity) + this.merchandisePackageAmount + this.shippingCharges;
         return total;
+    }
+
+    set memberTypes(value: any) {
+        this._memberTypes = value;
+    }
+    get memberTypes() {
+        return this._memberTypes;
+    }
+    private _memberTypes: MemberType[];
+
+    set membershipLevel(value:string) {
+        // needed to handle exception when deployed
+    }
+
+    get membershipLevel(): string {
+
+        if (this.memberTypes == undefined) {
+            return '';
+        }
+        let memberType:MemberType = this.memberTypes.filter((x: MemberType) => x.level == 10)[0];
+        return '* ' + memberType.description.charAt(0).toUpperCase() + memberType.description.slice(1).toLowerCase() + ' *';
+    }
+
+    get membershipTypeId(): string {
+        if (this.memberTypes == undefined) {
+            return '';
+        }
+        let memberType:MemberType = this.memberTypes.filter((x: MemberType) => x.level == 10)[0];
+        return memberType.id;
+    }
+
+    public static clone(model: GiftMembership): GiftMembership {
+        return f.clone(model);
     }
 
     public static TableName(): string {
@@ -98,7 +138,9 @@ export class GiftMembership {
             annualName: ((model.annualName) ? f.camelCase(model.annualName) : ''),
             merchandisePackageAmount: ((model.merchandisePackageAmount) ? model.merchandisePackageAmount : 0),
             shippingCharges: ((model.shippingCharges) ? model.shippingCharges : 0),
-            isMerchandiseShipped: ((model.isMerchandiseShipped) ? model.isMerchandiseShipped : false)
+            isMerchandiseChecked: ((model.isMerchandiseChecked) ? model.isMerchandiseChecked : false),
+            isMerchandiseShipped: ((model.isMerchandiseShipped) ? model.isMerchandiseShipped : false),
+            comments: ((model.comments) ? model.comments : '')
         };
     }
 }

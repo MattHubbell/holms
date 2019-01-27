@@ -12,9 +12,12 @@
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12">
-                        <input-custom fieldType="uppercase" fieldName="id" placeholderText="Id" [tableName]="tableName" isKey="true" maxLength="0"
-                            [model]="model" [value]="model.id" [isRequired]="true" [errorMessage]="model.id?.length == 0 ? 'Id is required' : 'Id already used'">
-                        </input-custom>
+                        <mat-form-field class="width-full">
+                            <input matInput placeholder="Id" name="id" required
+                                validate-id [tableName]="tableName" columnName="id" isKey="true" uppercaseRequired="true" 
+                                [(ngModel)]="model.id" customInput="uppercase">
+                            <mat-error>{{ model.id?.length == 0 ? 'Id is required' : 'Id already used' }}</mat-error>
+                        </mat-form-field>                        
                     </div>
                 </div>
             </div>
@@ -22,9 +25,12 @@
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12">
-                            <input-custom fieldType="uppercase" fieldName="description" placeholderText="Description" maxLength="0"
-                                [model]="model" [value]="model.description" [isRequired]="true" errorMessage="Description is required">
-                            </input-custom>
+                        <mat-form-field class="width-full">
+                            <input matInput maxLength="50" placeholder="Description" name="description" required
+                                [(ngModel)]="model.description" customInput="uppercase">
+                            <mat-hint align="end">{{model.description?.length}} / 50</mat-hint>    
+                            <mat-error>Description is required</mat-error>
+                        </mat-form-field>                        
                     </div>
                 </div>
             </div>
@@ -32,10 +38,12 @@
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12">
-                            <input-custom fieldType="uppercase" fieldName="level" placeholderText="Level" maxLength="0"
-                                [model]="model" [value]="model.level" [isRequired]="true" errorMessage="Level is required">
-                            </input-custom>
-                    </div>
+                        <mat-form-field class="width-full">
+                            <input matInput maxLength="5" placeholder="Level" name="level" required
+                                [(ngModel)]="model.level" customInput="uppercase">
+                            <mat-error>Level is required</mat-error>
+                        </mat-form-field>                        
+                   </div>
                 </div>            
             </div>            
 

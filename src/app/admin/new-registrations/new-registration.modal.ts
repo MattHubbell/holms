@@ -2,7 +2,7 @@ import { Component, Input, OnInit, OnDestroy, ViewEncapsulation, ViewChild } fro
 import { MatDialogRef, MatTableDataSource, MatPaginator } from '@angular/material';
 import { ConfirmResponses } from '../../shared/modal/confirm-btn-default';
 import { Observable, Subscription } from 'rxjs';
-import * as f from '../../shared/functions';
+import { MatSnackBar } from '@angular/material';
 
 import { NewRegistration } from './new-registration.model';
 import { NewRegistrationService } from './new-registration.service';
@@ -13,8 +13,7 @@ import { Salutations, Countries } from '../../shared';
 import { Setup, SetupService } from "../setup";
 import { MembershipUser, MembershipUserService, MembershipUserType } from "../membership-users";
 import { EmailService } from '../../shared/email.service';
-import { MatSnackBar } from '@angular/material';
-import { JQueryService } from '../../shared/jquery.service';
+import * as f from '../../shared/functions';
 
 @Component({
     selector: 'new-member-modal-content',
@@ -57,7 +56,6 @@ export class NewRegistrationModalContent implements OnInit, OnDestroy {
         private emailService: EmailService,
         private setupService: SetupService,
         private membershipUserService: MembershipUserService,
-        private jQueryService:JQueryService,
         public dialogRef: MatDialogRef<NewRegistration>,
         public snackBar: MatSnackBar
     ) {
@@ -119,14 +117,14 @@ export class NewRegistrationModalContent implements OnInit, OnDestroy {
         this.dialogRef.close();
     }
 
-    onDelete($event:ConfirmResponses) {
+    onDelete($event: ConfirmResponses) {
         if ($event === ConfirmResponses.yes) {
             this.newRegistrationService.deleteItem(this.selectedItem);
             this.dialogRef.close();
         }
     }
 
-    onClose($event:any) {
+    onClose() {
         this.dialogRef.close();
     }
 
@@ -150,7 +148,7 @@ export class NewRegistrationModalContent implements OnInit, OnDestroy {
         );
         this.subscription.push(this.membershipUserService.getItemByKey(this.key).subscribe(x => {
             this.selectedMembership = x;
-            this.membershipUser = this.jQueryService.cloneObject(this.selectedMembership);
+            this.membershipUser = MembershipUser.clone(this.selectedMembership);
         }));
     }
 
@@ -237,7 +235,7 @@ export class NewRegistrationModalContent implements OnInit, OnDestroy {
         member.isAlternateAddress = false;
         member.giftFromMember = '';
         member.printCertification = false;
-        member.certificationDate = '';
+        member.certificationDate = null;
         this.memberService.addItem(member);
     } 
     

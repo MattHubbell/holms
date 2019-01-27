@@ -1,3 +1,5 @@
+import * as f from '../../shared/functions';
+
 export class AppMenu {
     menuId: string;
     title: string;
@@ -19,11 +21,15 @@ export class AppMenu {
         this.userTypes = (userTypes) ? userTypes : [];
     }
 
+    public static clone(model: AppMenu): AppMenu {
+        return f.clone(model);
+    }
+
     public static TableName(): string {
         return 'appMenus';
     }
 
-    public static setMembers(model:AppMenu): any {
+    public static setMembers(model: AppMenu): any {
         return {
             menuId: ((model.menuId) ? model.menuId : ''), 
             title: ((model.title) ? model.title : ''), 

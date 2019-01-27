@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule }  from '@angular/forms';
 import { SharedModule }             from '../shared/shared.module';
 import { GiftMembershipComponent }  from './gift-membership.component';
 import { GiftMembershipService }    from './gift-membership.service';
+import { PayPalSubmit }             from './paypal.component';
 import { CustomFormsModule }        from 'ng2-validation';
 
 @NgModule({
@@ -14,7 +15,8 @@ import { CustomFormsModule }        from 'ng2-validation';
         SharedModule, 
         CustomFormsModule 
     ],
-    declarations: [ GiftMembershipComponent ],
+    declarations: [ GiftMembershipComponent, PayPalSubmit ],
+    entryComponents: [ PayPalSubmit ],
     providers: [ GiftMembershipService ], 
     })
 export class GiftMembershipModule {}

@@ -1,8 +1,6 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { TitleService } from '../../title.service';
 import { MatPaginator, MatTableDataSource, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
-import { JQueryService } from '../../shared/jquery.service';
 import { Subscription } from 'rxjs';
 
 import { AppMenu } from './app-menu.model';
@@ -25,10 +23,8 @@ export class ListAppMenuComponent implements OnInit, OnDestroy {
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     constructor(
-        private formBuilder: FormBuilder, 
         private appMenuService: AppMenuService, 
         private titleService: TitleService,
-        private jQueryService:JQueryService,
         private modalService: MatDialog
     ) {
         this.titleService.selector = 'list-app-menu';
@@ -62,6 +58,6 @@ export class ListAppMenuComponent implements OnInit, OnDestroy {
         this.modalRef = this.modalService.open(AppMenuModalContent, this.dialogConfig);
         this.modalRef.componentInstance.isNewItem = false;
         this.modalRef.componentInstance.selectedItem = object;
-        this.modalRef.componentInstance.model = this.jQueryService.cloneObject(object);
+        this.modalRef.componentInstance.model = AppMenu.clone(object);
    }
 }

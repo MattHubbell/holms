@@ -1,3 +1,5 @@
+import * as f from '../../shared/functions';
+
 export class Setup {
     duesYear?:number;
     membershipChairEmail?:string;
@@ -29,6 +31,10 @@ export class Setup {
         this.regEmailMessage = (regEmailMessage) ? regEmailMessage : '';
         this.nextCashEntryReceiptNo = (nextCashEntryReceiptNo) ? nextCashEntryReceiptNo : 0;
         this.nextCashEntryBatchNo = (nextCashEntryBatchNo) ? nextCashEntryBatchNo : 0;
+    }
+
+    public static clone(model: Setup): Setup {
+        return f.clone(model);
     }
 
     public static TableName(): string {

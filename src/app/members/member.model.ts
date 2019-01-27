@@ -29,7 +29,7 @@ export class Member {
     isAlternateAddress: boolean;
     giftFromMember: string;
     printCertification: boolean;
-    certificationDate: string;
+    certificationDate: Date;
 
     constructor(
         memberNo?: string,
@@ -60,7 +60,7 @@ export class Member {
         isAlternateAddress?: boolean,
         giftFromMember?: string,
         printCertification?: boolean,
-        certificationDate?: string
+        certificationDate?: Date
     ) {
         this.memberNo = (memberNo) ? memberNo : '';
         this.oldMemberNo = (oldMemberNo) ? oldMemberNo : 0;
@@ -80,8 +80,8 @@ export class Member {
         this.annualName = (annualName) ? annualName : '';
         this.lastDuesYear = (lastDuesYear) ? lastDuesYear : 0;
         this.startYear = (startYear) ? startYear : 0;
-        this.anniversary = (anniversary) ? anniversary : null,
-        this.paidThruDate = (paidThruDate) ? paidThruDate : null, 
+        this.anniversary = (anniversary) ? anniversary : null;
+        this.paidThruDate = (paidThruDate) ? paidThruDate : null; 
         this.memberType = (memberType) ? memberType : '';
         this.memberStatus = (memberStatus) ? memberStatus : '';
         this.eMailAddr = (eMailAddr) ? eMailAddr : '';
@@ -90,7 +90,15 @@ export class Member {
         this.isAlternateAddress = (isAlternateAddress) ? isAlternateAddress : false;
         this.giftFromMember = (giftFromMember) ? giftFromMember : '';
         this.printCertification = (printCertification) ? printCertification : false;
-        this.certificationDate = (certificationDate) ? certificationDate : '';
+        this.certificationDate = (certificationDate) ? certificationDate : null;
+    }
+
+    get memberNoNumeric(): string {
+       return f.pad(+this.memberNo, 10);;
+    }
+    
+    public static clone(model: Member): Member {
+        return f.clone(model);
     }
 
     public static TableName(): string {
@@ -127,7 +135,7 @@ export class Member {
             isAlternateAddress: ((model.isAlternateAddress) ? model.isAlternateAddress : false),
             giftFromMember: ((model.giftFromMember) ? model.giftFromMember : ''),
             printCertification: ((model.printCertification) ? model.printCertification : false),
-            certificationDate: ((model.certificationDate) ? model.certificationDate : '')
+            certificationDate: ((model.certificationDate) ? model.certificationDate : null)
         };
     }
 }

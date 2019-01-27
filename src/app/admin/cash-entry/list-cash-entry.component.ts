@@ -1,5 +1,10 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
-import { TitleService } from '../../title.service';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatSnackBar } from '@angular/material';
+import { Subscription } from 'rxjs';
+
 import { CashMaster } from './cash-master.model';
 import { CashMasterService } from './cash-master.service';
 import { CashDetail } from './cash-detail.model';
@@ -12,14 +17,9 @@ import { CashEntryModalContent } from './cash-entry.modal';
 import { CheckRegisterModalContent } from './check-register.modal';
 import { DistributionSummaryModalContent } from './distribution-summary.modal';
 import { MemberService, Member } from '../../members';
-import { TransactionCodeService, TransactionCode } from '../transaction-codes';
 import { Setup, SetupService } from "../setup";
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
-import { SelectionModel } from '@angular/cdk/collections';
-import { JQueryService } from '../../shared/jquery.service';
-import { MatSnackBar } from '@angular/material';
-import { Subscription } from 'rxjs';
+import { TransactionCodeService, TransactionCode } from '../transaction-codes';
+import { TitleService } from '../../title.service';
 
 @Component({
     templateUrl: './list-cash-entry.component.html',
@@ -55,7 +55,6 @@ export class ListCashEntryComponent implements OnInit, OnDestroy {
         private transactionCodeService: TransactionCodeService,
         private setupService: SetupService,
         private titleService: TitleService,
-        private jQueryService:JQueryService,
         private modalService: MatDialog,
         private snackBar: MatSnackBar
     ) {
@@ -179,7 +178,7 @@ export class ListCashEntryComponent implements OnInit, OnDestroy {
         this.modalRef.componentInstance.members = this.members;
         this.modalRef.componentInstance.isNewItem = false;
         this.modalRef.componentInstance.selectedItem = object;
-        this.modalRef.componentInstance.model = this.jQueryService.cloneObject(object);
+        this.modalRef.componentInstance.model = CashMaster.clone(object);
     }
 
     setBatch() {
