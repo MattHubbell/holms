@@ -1,11 +1,14 @@
 import { Component, OnInit, OnDestroy, Input, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
+import { Subscription } from 'rxjs';
+
 import { Member, MemberService } from '../../members';
 import { AppService } from '../../app.service';
 import { Salutations, Countries } from '../../shared';
 import { MemberType, MemberTypeService} from '../member-types';
 import { MemberStatus, MemberStatusService } from '../member-status';
-import { Subscription } from 'rxjs';
+import { FirebaseService } from '../../firebase';
+import * as f from '../../shared/functions';
 
 @Component({
   selector: 'user-modal',
@@ -29,7 +32,8 @@ export class UserModalComponent implements OnInit, OnDestroy {
     private memberService: MemberService, 
     private memberTypeService: MemberTypeService,
     private memberStatusService: MemberStatusService,
-    private appService:AppService,
+    private appService: AppService,
+    private firebaseService: FirebaseService,
     public snackBar: MatSnackBar, 
     public dialogRef: MatDialogRef<Member>
   ) {
@@ -62,6 +66,14 @@ export class UserModalComponent implements OnInit, OnDestroy {
   onSubmit(isValid:boolean) {
     if (!isValid) return;
     this.memberService.updateItem(this.selectedItem, this.model);
+    const item = Member.clone(this.selectedItem);
+    if (f.camelCase(item.memberName) != f.camelCase(this.model.memberName)) {
+      this.firebaseService.updateProfile(f.camelCase(this.model.memberName));
+      this.appService.profileName = f.camelCase(this.model.memberName);
+    }
+    if (item.eMailAddr != this.model.eMailAddr) {
+      this.firebaseService.changeEmail(this.model.eMailAddr);
+    }
     this.snackBar.open("Account updated","", {
       duration: 2000,
     });    

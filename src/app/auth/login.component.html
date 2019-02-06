@@ -25,7 +25,7 @@
                                     <mat-icon matPrefix>email</mat-icon>
                                     <input matInput placeholder="E-Mail Address" type="email" spellcheck="false"
                                         maxLength="50" class="form-control" formControlName="email" autocomplete="off" required>
-                                     <mat-hint align="end">{{email?.length}} / 50 </mat-hint>
+                                     <mat-hint align="end">{{formData?.value.email.length}} / 50 </mat-hint>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -40,7 +40,7 @@
                                         maxLength="50" class="form-control" formControlName="password" autocomplete="off" required>
                                         <a mat-icon-button matSuffix matTooltip="Hold left mouse button down to view password" matTooltipPosition="right" disabled="password.length === 0"
                                             (mousedown)="onPasswordMouseDown()" (mouseup)="onPasswordMouseUp()"><i class="fa fa-eye"></i></a>
-                                     <mat-hint align="end">{{password?.length}} / 50 </mat-hint>
+                                     <mat-hint align="end">{{formData?.value.password.length}} / 50 </mat-hint>
                                 </mat-form-field>
                             </div>
                         </div>

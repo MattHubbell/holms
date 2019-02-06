@@ -3,7 +3,9 @@
         <mat-card-content>
 
             <div class="callout" *ngIf="error">
-                <p> {{ error }} </p>
+                <ngb-alert type="danger" [dismissible]="false">
+                    <strong>Oops!</strong> {{error}}
+                </ngb-alert>
             </div>
 
             <!--Header-->

@@ -152,4 +152,44 @@ export class EmailService {
         </p></body></html>`;
         return body;
     }
+
+    toRegisterBody(email: string, registrationName: string, street1: string, street2: string, city: string, state: string, zip: string, country: string) {
+        const body: string = `<html><head></head><body><p>
+        <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        </style> 
+        Membership Chair, <br><br>
+        A new member has registered: <br>
+        <table>
+            <tr>
+                <td>E-Mail            </td><td>` + email + `</td>
+            </tr>
+            <tr>
+                <td>Registration Name </td><td>` + registrationName + `</td>
+            </tr>
+            <tr>
+                <td>Street 1          </td><td>` + street1 + `</td>
+            </tr>
+            <tr> 
+                <td>Street 2          </td><td>` + street2 + `</td>
+            </tr>
+            <tr> 
+                <td>City, State, Zip  </td><td>` + city + `, ` + state + `  ` + zip + `</td>
+            </tr>
+            <tr> 
+                <td>Country          </td><td>` + country + `</td>
+            </tr>
+        </table>        
+        </p></body></html>`;
+        return body;
+
+    }
 }

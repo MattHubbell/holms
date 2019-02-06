@@ -1,4 +1,7 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Subscription } from "rxjs";
+
 import { FirebaseService } from '../firebase';
 import { NewRegistration } from '../admin/new-registrations/new-registration.model';
 import { NewRegistrationService } from '../admin/new-registrations/new-registration.service';
@@ -10,8 +13,7 @@ import { AppService } from '../app.service';
 import { Salutations, Countries } from '../shared';
 import { Setup, SetupService } from '../admin/setup';
 import { EmailService } from '../shared/email.service';
-import { Observable } from 'rxjs';
-import { Subscription } from "rxjs";
+import * as f from '../shared/functions';
 
 @Component({
 	templateUrl: './register.component.html',
@@ -68,6 +70,7 @@ export class RegisterComponent implements OnInit, OnDestroy{
 		this.submitted = true;
 		this.firebaseService.createUser(this.model.email, this.model.password)
 			.then(() => {
+			this.firebaseService.updateProfile(f.camelCase(this.model.registrationName));
 			this.successfulAdd(this.model);
 			this.completeEmailSignin(this.model.email, this.model.password);
 		}).catch((err) => {
@@ -145,16 +148,17 @@ export class RegisterComponent implements OnInit, OnDestroy{
 	}
 
 	sendMembershipCharEmail(): string {
-        let emailMsg:string = '';
-        this.emailService.sendMail(this.setup.membershipChairEmail, this.setup.holmsEmail,  this.setup.appSubTitle + ' - New Member'
-            , 'A new member has registered:' +`\r\n\r\n
-			   e-mail            = ` + this.model.email + `\r\n
-			   Registration Name = ` + this.model.registrationName + `\r\n
-               Street            = ` + this.model.street1 + `\r\n
-               Street 2          = ` + this.model.street2 + `\r\n
-               City, State, Zip  = ` + this.model.city + `, ` + this.model.state + `  ` + this.model.zip + `\r\n
-               Country           = ` + this.model.country + `\r\n
-            `)
+		let emailMsg: string = '';
+		const body: string = this.emailService.toRegisterBody(this.model.email, this.model.registrationName, this.model.street1, this.model.street2, this.model.city, this.model.state, this.model.zip, this.model.country);
+        this.emailService.sendMail(this.setup.membershipChairEmail, this.setup.holmsEmail,  this.setup.appSubTitle + ' - New Member', body)
+            // , 'A new member has registered:' +`\r\n\r\n
+			//    e-mail            = ` + this.model.email + `\r\n
+			//    Registration Name = ` + this.model.registrationName + `\r\n
+            //    Street            = ` + this.model.street1 + `\r\n
+            //    Street 2          = ` + this.model.street2 + `\r\n
+            //    City, State, Zip  = ` + this.model.city + `, ` + this.model.state + `  ` + this.model.zip + `\r\n
+            //    Country           = ` + this.model.country + `\r\n
+            // `)
             .subscribe(
             message  => {
                 emailMsg = message;

@@ -49,18 +49,38 @@ export class FirebaseService {
         return this.afAuth.auth.signInWithEmailAndPassword(email, password);
     }
 
-    resetPassword(email:string): Promise<any> {
-        return this.afAuth.auth.sendPasswordResetEmail(email)
-         .then( (response) => {
-           console.log('Sent successfully');
-         })
-         .catch( (error) => {
-           console.log(error);
-         })
+    async resetPassword(email:string): Promise<any> {
+        try {
+            await this.afAuth.auth.sendPasswordResetEmail(email);
+            console.log('Password successfully updated');
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+    async changeEmail(email: string): Promise<any> {
+        try {
+            await this.afAuth.auth.currentUser.updateEmail(email);
+            console.log('Email successfully updated');
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+    async updateProfile(displayName: string): Promise<any> {
+        try {
+            await this.afAuth.auth.currentUser.updateProfile({displayName: displayName, photoURL: ''});
+            console.log('Profile successfully updated');
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
 
     createUser(email:string, password:string): Promise<any> {
-        return this.afAuth.auth.createUserWithEmailAndPassword(email,password);
+        return this.afAuth.auth.createUserWithEmailAndPassword(email, password);
     }
 
     // createFacebookUser(): any {
