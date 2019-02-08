@@ -263,9 +263,10 @@ export class NewRegistrationModalContent implements OnInit, OnDestroy {
     }
     
     sendAckowledgmentEmail(): string {
-        let emailMsg:string = '';
-        this.emailService.sendMail(this.model.email, this.setup.holmsEmail,  this.setup.appSubTitle + ' - Welcome Member!'
-            , f.camelCase(this.model.registrationName) + ',\r\n\r\n' + this.setup.regEmailMessage)
+        let emailMsg: string = '';
+        const body: string = this.emailService.toAcknowledgementBody(this.model.registrationName, this.setup.regEmailMessage);
+        this.emailService.sendMail(this.model.email, this.setup.holmsEmail,  this.setup.appSubTitle + ' - Welcome Member!', body)
+            // , f.camelCase(this.model.registrationName) + ',\r\n\r\n' + this.setup.regEmailMessage)
             .subscribe(
             message  => {
                 emailMsg = message;

@@ -7,6 +7,7 @@ import 'rxjs/add/operator/take';
 import * as firebase from 'firebase/app';
 import { FirebaseUser } from './firebase-user.model';
 import { environment } from '../../environments/environment';
+import { reject } from 'q';
 
 @Injectable()
 export class FirebaseService {
@@ -66,6 +67,7 @@ export class FirebaseService {
         }
         catch (error) {
             console.log(error);
+            return Promise.reject(error);
         }
     }
 
@@ -76,6 +78,7 @@ export class FirebaseService {
         }
         catch (error) {
             console.log(error);
+            return Promise.reject(error);
         }
     }
 

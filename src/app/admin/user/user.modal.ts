@@ -65,15 +65,29 @@ export class UserModalComponent implements OnInit, OnDestroy {
 
   onSubmit(isValid:boolean) {
     if (!isValid) return;
-    this.memberService.updateItem(this.selectedItem, this.model);
     const item = Member.clone(this.selectedItem);
     if (f.camelCase(item.memberName) != f.camelCase(this.model.memberName)) {
       this.firebaseService.updateProfile(f.camelCase(this.model.memberName));
       this.appService.profileName = f.camelCase(this.model.memberName);
     }
     if (item.eMailAddr != this.model.eMailAddr) {
-      this.firebaseService.changeEmail(this.model.eMailAddr);
+      this.firebaseService.changeEmail(this.model.eMailAddr)
+      .then(() => {
+        this.completeUpdateItem();
+      })
+      .catch(reason => {
+        this.snackBar.open(reason.message,"", {
+          duration: 2000,
+        });
+        return;    
+      });
+    } else {
+      this.completeUpdateItem();
     }
+  }
+
+  completeUpdateItem() {
+    this.memberService.updateItem(this.selectedItem, this.model);
     this.snackBar.open("Account updated","", {
       duration: 2000,
     });    

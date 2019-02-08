@@ -190,6 +190,24 @@ export class EmailService {
         </table>        
         </p></body></html>`;
         return body;
+    }
 
+    toAcknowledgementBody(registrationName: string, regEmailMessage: string) {
+        const body: string = `<html><head></head><body><p>
+        <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        </style> 
+        ` + registrationName + `, <br><br>
+        ` + regEmailMessage + ` <br><br>
+        </p></body></html>`;
+        return body;
     }
 }
