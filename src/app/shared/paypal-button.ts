@@ -28,7 +28,7 @@ import { environment } from '../../environments/environment';
     public ngOnInit(): void {
         (window as any).paypal.Button.render({
 
-            env: 'sandbox', // Or 'sandbox',
+            env: 'production', // Or 'sandbox',
 
             client: environment.paypalClient,
         

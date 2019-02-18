@@ -63,7 +63,7 @@ export class EmailService {
         return true;
     }
 
-    toInvoiceBody(nameLit: string, foundationLit: string, museum_libraryLit: string, scholarshipLit: string, paidThruDate: Date, comments: string, duesQuantity: number, duesAmount: number, foundation: number, museum_library: number, scholarship: number): string {
+    toInvoiceBody(nameLit: string, foundationLit: string, museum_libraryLit: string, scholarshipLit: string, paidThruDate: string, comments: string, duesQuantity: number, duesAmount: number, foundation: number, museum_library: number, scholarship: number): string {
         const membershipTotal = (duesQuantity * duesAmount) + foundation + museum_library + scholarship;
         const body: string = `<html><head></head><body><p>
         <style>
@@ -103,7 +103,7 @@ export class EmailService {
                 <td>                        </td><td style="text-align: right;">                                            </td>
             </tr>
             <tr> 
-                <td>Paid Through ->          </td><td style="text-align: right;"> ` + paidThruDate.toLocaleDateString() +  `</td>
+                <td>Paid Through ->          </td><td style="text-align: right;"> ` + paidThruDate                      +  `</td>
             </tr>
         </table>        
         </p></body></html>`;

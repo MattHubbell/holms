@@ -8,6 +8,7 @@ export class Setup {
     appSubTitle?:string;
     nextMemberNo?:number;
     regEmailMessage?:string;
+    newRegDisplayMessage?:string;
     nextCashEntryReceiptNo?:number;
     nextCashEntryBatchNo?:number;
 
@@ -19,6 +20,7 @@ export class Setup {
         appSubTitle?:string, 
         nextMemberNo?:number, 
         regEmailMessage?:string,
+        newRegDisplayMessage?:string,
         nextCashEntryReceiptNo?:number,
         nextCashEntryBatchNo?:number
     ) {
@@ -29,6 +31,7 @@ export class Setup {
         this.appSubTitle = (appSubTitle) ? appSubTitle : '';
         this.nextMemberNo = (nextMemberNo) ? nextMemberNo : 0;
         this.regEmailMessage = (regEmailMessage) ? regEmailMessage : '';
+        this.newRegDisplayMessage = (newRegDisplayMessage) ? newRegDisplayMessage : '';
         this.nextCashEntryReceiptNo = (nextCashEntryReceiptNo) ? nextCashEntryReceiptNo : 0;
         this.nextCashEntryBatchNo = (nextCashEntryBatchNo) ? nextCashEntryBatchNo : 0;
     }
@@ -50,6 +53,7 @@ export class Setup {
             appSubTitle : ((model.appSubTitle) ? model.appSubTitle : ''),
             nextMemberNo : ((model.nextMemberNo) ? model.nextMemberNo : 0),
             regEmailMessage : ((model.regEmailMessage) ? model.regEmailMessage : ''),
+            newRegDisplayMessage : ((model.newRegDisplayMessage) ? model.newRegDisplayMessage : ''),
             nextCashEntryReceiptNo : ((model.nextCashEntryReceiptNo) ? model.nextCashEntryReceiptNo : 0),
             nextCashEntryBatchNo : ((model.nextCashEntryBatchNo) ? model.nextCashEntryBatchNo : 0),
         };

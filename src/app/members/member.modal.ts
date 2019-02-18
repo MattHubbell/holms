@@ -110,6 +110,8 @@ export class MemberModalContent implements OnInit, OnDestroy {
     }
 
     onClose() {
+        // console.log(this.model.paidThruDate);
+        // console.log(new Date(this.model.paidThruDate).toLocaleDateString());
         this.dialogRef.close();
     }
 }

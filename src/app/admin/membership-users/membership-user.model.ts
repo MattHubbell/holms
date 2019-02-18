@@ -6,7 +6,7 @@ export class MembershipUser {
     userType?: number;
 
     constructor(name?:string, memberId?:string, userType?:MembershipUserType) {
-        this.name = (name) ? name : '';
+        this.name = (name) ? (name.toUpperCase()) : '';
         this.memberId = (memberId) ? memberId : '';
         this.userType = (userType) ? userType : MembershipUserType.New;
     }
@@ -21,7 +21,7 @@ export class MembershipUser {
   
     public static setData(model: MembershipUser): any {
         return {
-            name: ((model.name) ? model.name : ''), 
+            name: ((model.name) ? (model.name.toUpperCase()) : ''), 
             memberId: ((model.memberId) ? model.memberId : 0),
             userType: ((model.userType) ? model.userType : 0),
         };

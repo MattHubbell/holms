@@ -102,7 +102,7 @@
                         <div class="offset-md-1 col-md-6">
                             <mat-form-field>
                                 <input matInput type="text" placeholder="E-Mail"
-                                    maxLength="35" class="form-control" name="eMailAddr" readonly="true"
+                                    maxLength="35" class="form-control" name="eMailAddr" 
                                     [(ngModel)]="model.eMailAddr">
                                 <mat-hint align="end">{{model.eMailAddr.length}} / 35</mat-hint>
                             </mat-form-field>
@@ -309,7 +309,7 @@
                         <span [hidden]="isNewItem">
                             <confirm-button-default [message]="'Delete this item ?'" [isValid]="true" (onClosing)="onDelete($event)"></confirm-button-default>
                         </span>
-                        <button mat-button type="button" matTooltip="Cancel" (click)="dialogRef.close()"><mat-icon>undo</mat-icon></button>
+                        <button mat-button type="button" matTooltip="Cancel" (click)="onClose()"><mat-icon>undo</mat-icon></button>
                     </div>
                 </div>
             </div>

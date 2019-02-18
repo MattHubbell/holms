@@ -74,7 +74,15 @@
                     </div>
                     <div class="col-md-8" style="margin-left: -15px;">
                         <mat-form-field>
-                            <textarea matInput placeholder="New Member Welcome Message" matTextareaAutosize matAutosizeMinRows="5" matAutosizweMaxRows="5"
+                            <textarea matInput placeholder="New Registration Display Message" matTextareaAutosize matAutosizeMinRows="5" matAutosizweMaxRows="5"
+                                maxLength="300" name="newRegDisplayMessage" [(ngModel)]="model.newRegDisplayMessage" autocomplete="off" required>
+                            </textarea>
+                            <mat-hint align="end">{{model.newRegDisplayMessage?.length}} / 300</mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-8" style="margin-left: -15px;">
+                        <mat-form-field>
+                            <textarea matInput placeholder="New Member Email Welcome Message" matTextareaAutosize matAutosizeMinRows="5" matAutosizweMaxRows="5"
                                 maxLength="300" name="regEmailMessage" [(ngModel)]="model.regEmailMessage" autocomplete="off" required>
                             </textarea>
                             <mat-hint align="end">{{model.regEmailMessage?.length}} / 300</mat-hint>

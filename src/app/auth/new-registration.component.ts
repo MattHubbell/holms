@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Subscription } from "rxjs";
+
+import { Setup, SetupService } from '../admin/setup';
 import { TitleService } from '../title.service';
 
 @Component({
@@ -8,8 +11,18 @@ import { TitleService } from '../title.service';
 })
 export class NewRegistrationComponent {
     
-    constructor(private titleService:TitleService) {
+    public setup: Setup;
+    subscription: Array<Subscription>;
+
+    constructor(
+        private setupService: SetupService,
+        private titleService:TitleService
+    ) {
+        this.subscription = new Array<Subscription>();
+		this.setupService.getItem();
+		this.subscription.push(this.setupService.item.subscribe(x => {
+            this.setup = x;
+        }));
         this.titleService.selector = 'new-registration';
     }
 }
-

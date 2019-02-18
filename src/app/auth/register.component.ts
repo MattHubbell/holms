@@ -7,6 +7,7 @@ import { NewRegistration } from '../admin/new-registrations/new-registration.mod
 import { NewRegistrationService } from '../admin/new-registrations/new-registration.service';
 import { ShowHideInput } from '../shared/show-hide.directive';
 import { MatDialog } from '@angular/material';
+import { Member, MemberService } from '../members';
 import { MembershipUser, MembershipUserType } from '../admin/membership-users/membership-user.model';
 import { MembershipUserService } from '../admin/membership-users/membership-user.service';
 import { AppService } from '../app.service';
@@ -14,6 +15,7 @@ import { Salutations, Countries } from '../shared';
 import { Setup, SetupService } from '../admin/setup';
 import { EmailService } from '../shared/email.service';
 import * as f from '../shared/functions';
+import { RegisterDialog } from './register-dialog.component';
 
 @Component({
 	templateUrl: './register.component.html',
@@ -25,6 +27,7 @@ export class RegisterComponent implements OnInit, OnDestroy{
 	public registrationFilled: boolean = false;
 	public submitted: boolean = false;
 	public model: NewRegistration;
+    public members: Member[];
 	public events: any[] = [];
 	public salutations = Salutations;
 	public countries = Countries;
@@ -39,8 +42,9 @@ export class RegisterComponent implements OnInit, OnDestroy{
 
 	constructor(
 		private firebaseService: FirebaseService, 
-		public dialog: MatDialog,
+		private dialog: MatDialog,
 		private newRegistrationService: NewRegistrationService,
+        private memberService: MemberService,
 		private membershipUserService: MembershipUserService,
         private setupService: SetupService,
         private emailService: EmailService,
@@ -51,6 +55,12 @@ export class RegisterComponent implements OnInit, OnDestroy{
 		this.subscription.push(this.setupService.item.subscribe(x => {
             this.setup = x;
         }));
+        this.memberService.getList();
+        this.subscription.push(this.memberService.list
+            .subscribe( x=> {
+				this.members = x;
+            })
+        );
 	}
 
 	ngOnInit() {
@@ -59,7 +69,6 @@ export class RegisterComponent implements OnInit, OnDestroy{
 
 	ngOnDestroy() {
 		this.subscription.forEach(x => x.unsubscribe);
-	
 	}
 
 	onSubmit(isValid:boolean) {
@@ -111,10 +120,14 @@ export class RegisterComponent implements OnInit, OnDestroy{
 	}
 
 	successfulAdd(newRegistration:NewRegistration) {
-		let membershipUser = new MembershipUser(newRegistration.registrationName, '', MembershipUserType.New);
+		let membershipUser = new MembershipUser(newRegistration.registrationName, newRegistration.existingMemberNo, MembershipUserType.New);
+		if (newRegistration.existingMemberNo.length > 0) {
+			membershipUser.userType = MembershipUserType.Member;
+		} else {
+			this.sendMembershipCharEmail();
+			this.newRegistrationService.addItem(this.firebaseService.user.id, newRegistration);
+		}
 		this.membershipUserService.addItem(this.firebaseService.user.id, membershipUser);
-		this.newRegistrationService.addItem(this.firebaseService.user.id, newRegistration);
-		this.sendMembershipCharEmail();
 	}
 
 	completeEmailSignin(email: string, password: string) {
@@ -147,6 +160,50 @@ export class RegisterComponent implements OnInit, OnDestroy{
         this.input.changeType("password");
 	}
 
+	onMemberNoChange(memberNo:any) {
+        if (!this.members) {
+            return;
+        } 
+		this.model = new NewRegistration();
+		this.model.existingMemberNo = memberNo;
+		this.model.isExistingMember = true;
+        let member:Member = this.members.find(x => x.memberNo == memberNo);
+        if (member) {
+            let memberModel:Member = Member.clone(member);
+			this.model.memberNo = memberModel.memberNo;
+			this.model.registrationName = memberModel.memberName;
+			this.model.street1 = memberModel.addrLine1;
+			this.model.street2 = memberModel.addrLine2;
+			this.model.city = memberModel.city;
+			this.model.state = memberModel.state;
+			this.model.zip = memberModel.zip;
+			this.model.country = memberModel.country;
+			this.model.phone = memberModel.phone;
+			this.model.salutation = memberModel.salutation;
+			this.model.sortName = memberModel.sortName;
+			this.model.memberStatus = memberModel.memberStatus;
+			this.model.memberType = memberModel.memberType;
+			this.model.annualName = memberModel.annualName;
+			this.model.arBook = memberModel.arBook;
+			this.model.hgBook = memberModel.hgBook;
+			this.model.meBook = memberModel.meBook;
+			this.model.email = memberModel.eMailAddr;
+			this.model.lastDuesYear = memberModel.lastDuesYear;
+		}
+		
+		const dialogRef = this.dialog.open(RegisterDialog, {
+			width: '500px',
+			disableClose: true,
+			data: this.model
+		});
+	
+		dialogRef.afterClosed().subscribe(result => {
+			if (result != true) {
+				this.model = new NewRegistration();
+			}
+		});	
+	}
+	
 	sendMembershipCharEmail(): string {
 		let emailMsg: string = '';
 		const body: string = this.emailService.toRegisterBody(this.model.email, this.model.registrationName, this.model.street1, this.model.street2, this.model.city, this.model.state, this.model.zip, this.model.country);

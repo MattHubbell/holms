@@ -64,7 +64,8 @@ export class SetupComponent implements OnInit, OnDestroy {
 
     onTestEmail() {
         this.emailMsg = '';
-        const body = this.emailService.toInvoiceBody('Membership Chair', 'FOUNDATION', 'MUSEUM LIBRARY', 'SCHOLARSHIP' , new Date(), 'COMMENTS', 1, 20, 10, 5, 15);
+        let paidThruDate: string = new Date().toLocaleDateString();
+        const body = this.emailService.toInvoiceBody('Membership Chair', 'FOUNDATION', 'MUSEUM LIBRARY', 'SCHOLARSHIP' , paidThruDate, 'COMMENTS', 1, 20, 10, 5, 15);
         this.emailService.sendMail(this.model.membershipChairEmail, this.model.holmsEmail,  this.model.appSubTitle + ' - Test Dues Acknowledgment', body)
             .subscribe(
             message  => {
