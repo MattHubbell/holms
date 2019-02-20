@@ -9,6 +9,7 @@ import { Member } from './member.model';
 import { MemberService } from './member.service';
 import { MemberType, MemberTypeService} from '../admin/member-types';
 import { MemberStatus, MemberStatusService } from '../admin/member-status';
+import { MembershipUser, MembershipUserService } from '../admin/membership-users';
 import { Setup, SetupService } from "../admin/setup";
 import { Salutations, Countries } from '../shared';
 
@@ -30,6 +31,7 @@ export class MemberModalContent implements OnInit, OnDestroy {
 	countries = Countries;
     memberTypes: MemberType[];
     memberStatuses: MemberStatus[];
+    membershipUser: MembershipUser;
     setup: Setup;
     subscription: Array<Subscription>;
     selectedTabIndex: number;
@@ -38,6 +40,7 @@ export class MemberModalContent implements OnInit, OnDestroy {
         private memberService: MemberService,
         private memberTypeService: MemberTypeService,
         private memberStatusService: MemberStatusService,
+        private membershipUserService: MembershipUserService,
         private setupService: SetupService,
         public snackBar: MatSnackBar, 
         public dialogRef: MatDialogRef<MemberModalContent>
@@ -57,7 +60,7 @@ export class MemberModalContent implements OnInit, OnDestroy {
         );
         this.setupService.getItem();
         this.subscription.push(this.setupService.item
-            .subscribe(x => {
+            .subscribe((x: Setup) => {
                 if (x) {
                     this.setup = x;
                 }
@@ -67,7 +70,16 @@ export class MemberModalContent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.isSubmitted = false;
-        this.tableName = MemberStatus.TableName();
+        this.tableName = Member.TableName();
+        this.membershipUser = new MembershipUser();
+        if (this.model.memberNo) {
+            this.subscription.push(this.membershipUserService
+                .getItemByID(this.model.memberNo)
+                .subscribe((x: MembershipUser) => {
+                    this.membershipUser = x[0];
+                })
+            );
+        }
     }
 
     ngOnDestroy() {

@@ -1,7 +1,7 @@
 {
     "rules": {
         "members": {
-            ".read":  "auth != null",
+            ".read":  true,
             ".write":  "auth != null",
             ".indexOn": ["memberNo"]  
         },

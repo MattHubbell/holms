@@ -15,7 +15,7 @@ export class MembershipUserService {
     }
 
     getItemByID(equalTo:string): any {
-        return this.fs.getItems(MembershipUser.TableName(), 'id', equalTo);
+        return this.fs.getItems(MembershipUser.TableName(), 'memberId', equalTo);
     }
 
     getItemByKey(key:any): any {

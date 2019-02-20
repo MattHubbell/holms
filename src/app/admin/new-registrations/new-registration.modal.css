@@ -60,6 +60,8 @@ confirm-button-default .dark-modal .modal-content {
   max-width: 70px;
 }
 .mat-dialog-container {
+  overflow: hidden;
+  width: 100%;
   padding: 0;
 }
 .mat-card {

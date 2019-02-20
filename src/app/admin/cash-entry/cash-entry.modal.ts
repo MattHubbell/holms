@@ -118,7 +118,7 @@ export class CashEntryModalContent implements OnInit, OnDestroy {
     calculateRemaining() {
         this.remaining = +this.model.checkAmt;
         this.entries.forEach(cashDetail => {
-            this.remaining -= cashDetail.distAmt;
+            this.remaining -= (cashDetail.distAmt * cashDetail.distQty);
         });        
     }
 
