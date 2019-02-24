@@ -101,6 +101,14 @@
                                 <mat-hint align="end">{{model.city?.length}} / 25</mat-hint>    
                             </mat-form-field>                        
                         </div>
+                        <div class="col-md-4">
+                            <mat-form-field>
+                                <input matInput type="text" placeholder="E-Mail"
+                                    maxLength="35" class="form-control" name="eMailAddr"
+                                    [(ngModel)]="model.eMailAddr">
+                                <mat-hint align="end">{{model.eMailAddr.length}} / 35</mat-hint>
+                            </mat-form-field>
+                        </div>
                     </div>
                 </div>
                 <br>
@@ -128,14 +136,6 @@
                                 <input matInput type="text" placeholder="Member #"
                                     maxLength="35" class="form-control" name="memberNo" 
                                     [(ngModel)]="model.memberNo" readonly="true">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-4">
-                            <mat-form-field>
-                                <input matInput type="text" placeholder="E-Mail"
-                                    maxLength="35" class="form-control" name="eMailAddr"
-                                    [(ngModel)]="model.eMailAddr">
-                                <mat-hint align="end">{{model.eMailAddr.length}} / 35</mat-hint>
                             </mat-form-field>
                         </div>
                     </div>

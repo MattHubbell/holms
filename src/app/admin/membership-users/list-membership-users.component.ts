@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
-import { MatPaginator, MatTableDataSource, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatDialog, MatDialogConfig, MatDialogRef, MatSort } from '@angular/material';
 import { Subscription } from 'rxjs';
 
 import { TitleService } from '../../title.service';
@@ -22,6 +22,7 @@ export class ListMembershipUserComponent implements OnInit, OnDestroy{
     membershipUserType:typeof MembershipUserType = MembershipUserType;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild(MatSort) sort: MatSort;
 
     constructor(
         private membershipUserService: MembershipUserService, 
@@ -35,6 +36,7 @@ export class ListMembershipUserComponent implements OnInit, OnDestroy{
         this.membershipUserService.getList();
         this.subscription = this.membershipUserService.list.subscribe(list => {
             this.dataSource = new MatTableDataSource<MembershipUser>(list);
+            this.dataSource.sort = this.sort;
             this.dataSource.paginator = this.paginator;
         });
         this.dialogConfig = new MatDialogConfig();

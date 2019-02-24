@@ -34,7 +34,7 @@
                         <div class="col-md-5">
                             <mat-form-field class="width-full">
                                 <input matInput maxLength="35" placeholder="Registration Name (First Middle Last)" name="registrationName" required
-                                    [(ngModel)]="model.registrationName" customInput="uppercase"  [readonly]="model.isExistingMember">
+                                    [(ngModel)]="model.registrationName" customInput="uppercase">
                                 <mat-hint align="end">{{model.registrationName?.length}} / 35</mat-hint>    
                                 <mat-error>Registration Name is required</mat-error>
                             </mat-form-field>                        
@@ -53,7 +53,7 @@
                         <div class="col-md-6">
                             <mat-form-field class="width-full">
                                 <input matInput maxLength="35" placeholder="Address Line 1" name="street1" required
-                                    [(ngModel)]="model.street1" customInput="uppercase" [readonly]="model.isExistingMember">
+                                    [(ngModel)]="model.street1" customInput="uppercase">
                                 <mat-hint align="end">{{model.street1?.length}} / 35</mat-hint>    
                                 <mat-error>Address Line 1 is required</mat-error>
                             </mat-form-field>                        
@@ -71,7 +71,7 @@
                         <div class="col-md-6">
                             <mat-form-field class="width-full">
                                 <input matInput maxLength="35" placeholder="Address Line 2" name="street2"
-                                    [(ngModel)]="model.street2" customInput="uppercase" [readonly]="model.isExistingMember">
+                                    [(ngModel)]="model.street2" customInput="uppercase">
                                 <mat-hint align="end">{{model.street2?.length}} / 35</mat-hint>    
                             </mat-form-field>                        
                         </div>
@@ -81,7 +81,7 @@
                         <div class="col-md-3">
                             <mat-form-field class="width-full">
                                 <input matInput maxLength="25" placeholder="City" name="city" required
-                                    [(ngModel)]="model.city" customInput="uppercase" [readonly]="model.isExistingMember">
+                                    [(ngModel)]="model.city" customInput="uppercase">
                                 <mat-hint align="end">{{model.city?.length}} / 25</mat-hint>    
                                 <mat-error>City is required</mat-error>
                             </mat-form-field>                        
@@ -89,7 +89,7 @@
                         <div class="col-md-1">
                             <mat-form-field class="width-full">
                                 <input matInput length="2" placeholder="State" name="state" required
-                                    [(ngModel)]="model.state" customInput="uppercase" [readonly]="model.isExistingMember">
+                                    [(ngModel)]="model.state" customInput="uppercase">
                                 <mat-hint align="end">{{model.state?.length}} / 2</mat-hint>    
                                 <mat-error>State is required</mat-error>
                             </mat-form-field>                        
@@ -97,7 +97,7 @@
                         <div class="col-md-1">
                             <mat-form-field class="width-full">
                                 <input matInput maxLength="9" placeholder="Postal Code" name="zip" required
-                                    [(ngModel)]="model.zip" customInput="uppercase" [readonly]="model.isExistingMember">
+                                    [(ngModel)]="model.zip" customInput="uppercase">
                                 <mat-hint align="end">{{model.zip?.length}} / 9</mat-hint>    
                                 <mat-error>Postal Code is required</mat-error>
                             </mat-form-field>                        
@@ -117,14 +117,14 @@
                         <div class="col-md-3">
                             <mat-form-field class="width-full">
                                 <input matInput maxLength="25" placeholder="Phone (digits only)" name="phone"
-                                    [(ngModel)]="model.phone" customInput="phone" [readonly]="model.isExistingMember">
+                                    [(ngModel)]="model.phone" customInput="phone">
                                 <mat-hint align="end">{{model.city?.length}} / 25</mat-hint>    
                             </mat-form-field>                        
                         </div>
                         <div class="col-md-5">
                             <mat-form-field class="width-full">
                                 <input matInput maxLength="50" placeholder="Annual Name (Enter your name as you would like it to appear in the HSML Annual)" 
-                                    name="annualName" required  [readonly]="model.isExistingMember"
+                                    name="annualName" required 
                                     [(ngModel)]="model.annualName" customInput="camelcase">
                                 <mat-hint align="end">{{model.annualName?.length}} / 50</mat-hint>    
                                 <mat-error>Annual Name is required</mat-error>
@@ -157,7 +157,7 @@
                         <div class="col-md-4">
                             <mat-form-field class="width-full">
                                 <input matInput maxLength="50" placeholder="E-Mail Address" name="email" required
-                                    [(ngModel)]="model.email" type="email" [readonly]="model.isExistingMember">
+                                    [(ngModel)]="model.email" type="email">
                                 <mat-hint align="end">{{model.email?.length}} / 50</mat-hint>    
                                 <mat-error>E-Mail Address is required</mat-error>
                             </mat-form-field>                        
