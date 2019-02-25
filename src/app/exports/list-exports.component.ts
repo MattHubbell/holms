@@ -24,8 +24,8 @@ export class ListExportsComponent implements OnInit, OnDestroy {
 
     members: Array<ExportMember>;
     transactionCodes: Array<TransactionCode>;
-    cashMasters: Array<CashMaster>;
-    cashDetails: Array<CashDetail>;
+    cashMasters: Array<ExportCashMaster>;
+    cashDetails: Array<ExportCashDetail>;
     cashMastersHistory: Array<ExportCashMasterHistory>;
     cashDetailsHistory: Array<ExportCashDetailHistory>;
     memberStatuses: Array<MemberStatus>;
@@ -140,21 +140,21 @@ export class ListExportsComponent implements OnInit, OnDestroy {
         );
         this.elementCashMaster = {tableName: 'Cash Master', rowCount: 0};
         this.elementData.push(this.elementCashMaster);
-        this.cashMasters = new Array<CashMaster>();
+        this.cashMasters = new Array<ExportCashMaster>();
         this.cashMasterService.getList();
         this.subscription.push(this.cashMasterService.list
             .subscribe(x => {
                 x.forEach((xx: CashMaster) => {
-                    const cashMaster = new CashMaster();
-                    cashMaster.batchNo = xx.batchNo;
+                    const cashMaster = new ExportCashMaster();
+                    cashMaster.batchNo = +xx.batchNo;
                     cashMaster.checkAmt = xx.checkAmt;
-                    cashMaster.checkDate = xx.checkDate;
+                    cashMaster.checkDate = (xx.checkDate) ? datePipe.transform(xx.checkDate, 'MM-dd-yyyy') : undefined;
                     cashMaster.checkNo = xx.checkNo;
                     cashMaster.comments= xx.comments;
                     cashMaster.currencyCode = xx.currencyCode;
-                    cashMaster.memberNo = xx.memberNo;
-                    cashMaster.receiptNo = xx.receiptNo;
-                    cashMaster.transDate = xx.transDate;
+                    cashMaster.memberNo = +xx.memberNo;
+                    cashMaster.receiptNo = +xx.receiptNo;
+                    cashMaster.transDate = (xx.transDate) ? datePipe.transform(xx.transDate, 'MM-dd-yyyy') : undefined;
                     this.cashMasters.push(cashMaster);
                 });
                 this.elementCashMaster.rowCount = x.length;
@@ -162,21 +162,21 @@ export class ListExportsComponent implements OnInit, OnDestroy {
         );
         this.elementCashDetail = {tableName: 'Cash Detail', rowCount: 0};
         this.elementData.push(this.elementCashDetail);
-        this.cashDetails = new Array<CashDetail>();
+        this.cashDetails = new Array<ExportCashDetail>();
         this.cashDetailService.getList();
         this.subscription.push(this.cashDetailService.list
             .subscribe(x => {
                 x.forEach((xx: CashDetail) => {
-                    const cashDetail = new CashDetail();
-                    cashDetail.batchNo = xx.batchNo;
+                    const cashDetail = new ExportCashDetail();
+                    cashDetail.batchNo = +xx.batchNo;
                     cashDetail.distAmt = xx.distAmt;
                     cashDetail.distQty = xx.distQty;
                     cashDetail.duesCode = xx.duesCode;
                     cashDetail.duesYear = xx.duesYear;
-                    cashDetail.memberNo = xx.memberNo;
-                    cashDetail.receiptNo = xx.receiptNo;
+                    cashDetail.memberNo = +xx.memberNo;
+                    cashDetail.receiptNo = +xx.receiptNo;
                     cashDetail.tranCode = xx.tranCode;
-                    cashDetail.transDate = xx.transDate;
+                    cashDetail.transDate = new Date(xx.transDate).toLocaleDateString();
                     this.cashDetails.push(cashDetail);
                 });
                 this.elementCashDetail.rowCount = x.length;
@@ -427,6 +427,74 @@ export class ExportMember {
         this.NewMemberCertificationDate = (certificationDate) ? certificationDate : null;
         this.AnniversaryDate = (anniversary) ? anniversary : null;
         this.PaidThruDate = (paidThruDate) ? paidThruDate : null; 
+    }
+}
+
+export class ExportCashMaster {
+    receiptNo: number;
+    memberNo: number;
+    transDate: string;
+    checkNo: string;
+    checkDate: string;
+    checkAmt: number;
+    currencyCode: string;
+    comments: string;
+    batchNo: number;
+
+    constructor(
+        receiptNo?: number,
+        memberNo?: number,
+        transDate?: string,
+        checkNo?: string,
+        checkDate?: string,
+        checkAmt?: number,
+        currencyCode?: string,
+        comments?: string,
+        batchNo?: number
+    ) {
+        this.receiptNo = (receiptNo) ? receiptNo : null;
+        this.memberNo = (memberNo) ? memberNo : null;
+        this.transDate = (transDate) ? transDate : null;
+        this.checkNo = (checkNo) ? checkNo : '';
+        this.checkDate = (checkDate) ? checkDate : null;
+        this.checkAmt = (checkAmt) ? checkAmt : 0;
+        this.currencyCode = (currencyCode) ? currencyCode : '';
+        this.comments = (comments) ? comments : '';
+        this.batchNo = (batchNo) ? batchNo : null;
+    }
+}
+
+export class ExportCashDetail {
+    receiptNo: number;
+    memberNo: number;
+    transDate: string;
+    tranCode: string;
+    distAmt: number;
+    distQty: number;
+    duesCode: string;
+    duesYear: number;
+    batchNo: number;
+    
+    constructor(
+        receiptNo?: number,
+        memberNo?: number,
+        transDate?: string,
+        tranCode?: string,
+        distAmt?: number,
+        distQty?: number,
+        duesCode?: string,
+        duesYear?: number,
+        batchNo?: number
+        ) {
+        this.receiptNo = (receiptNo) ? receiptNo : null;
+        this.memberNo = (memberNo) ? memberNo : null;
+        this.transDate = (transDate) ? transDate : null;
+        this.tranCode = (tranCode) ? tranCode : '';
+        this.distAmt = (distAmt) ? distAmt : 0;
+        this.distQty = (distQty) ? distQty : 0;
+        this.duesCode = (duesCode) ? duesCode : '';
+        this.duesYear = (duesYear) ? duesYear : 0;
+        this.batchNo = (batchNo) ? batchNo : null;
     }
 }
 
