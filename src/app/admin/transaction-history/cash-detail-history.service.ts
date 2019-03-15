@@ -14,6 +14,10 @@ export class CashDetailHistoryService {
         this.list = this.fs.getItems(CashDetailHistory.TableName());
     }
 
+    getListByReceiptNo(receiptNo: string) {
+        this.list = this.fs.getItems(CashDetailHistory.TableName(), 'receiptNo', receiptNo);
+    }
+
     addItem(model: CashDetailHistory) { 
         let data = CashDetailHistory.setData(model);
         this.fs.addItem(CashDetailHistory.TableName(), data);

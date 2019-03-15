@@ -155,6 +155,10 @@ export class FirebaseService {
     }
 
     public deleteItem(tableName:string, key:string) {
+        if (key == undefined) {
+            console.log('key undefined');
+            return;
+        }
         this.getItemsRef(tableName).remove(key)
             .then(_ => console.log(tableName + ' deleted'))
             .catch(err => console.log(tableName + ' error: ' + err));

@@ -8,7 +8,7 @@
 <div *ngIf="members">
 
     <div 
-        style="border-top:2px solid black; margin-bottom:24pt; page-break-inside:avoid"
+        style="border-top:2px solid black; margin-bottom:24pt;"
         *ngFor="let initial of members.groups">
 
         <p style="font-size:140%; font-weight:bold; margin: 10pt 0;">
@@ -34,7 +34,7 @@
         </div>
 
         <div *ngIf="initial" >
-            <div style="display: flex; font-size: 0.75rem; margin: 0 0 6pt 20pt" *ngFor="let member of initial.items">
+            <div style="display: flex; font-size: 0.75rem; margin: 0 0 6pt 20pt; page-break-inside:avoid;" *ngFor="let member of initial.items">
                 <div style="width:90px">
                     {{ member?.memberNo }}
                 </div>

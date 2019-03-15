@@ -1,13 +1,14 @@
-import { Component, EventEmitter, Inject, NgModule, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ModuleWithProviders } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { MemberService } from "../../members/member.service";
-import { MemberTypeService } from "../../admin/member-types/member-type.service";
 import { Subscription } from 'rxjs';
 
-import * as wjcCore from 'wijmo/wijmo';
+import { MemberService } from "../../members/member.service";
+import { MemberTypeService } from "../../admin/member-types/member-type.service";
 import { MemberType } from '../../admin/member-types';
+
+import * as wjcCore from 'wijmo/wijmo';
+import { environment } from '../../../environments/environment';
 
 @Component({
     selector: 'members-by-member-type-cmp',
@@ -25,6 +26,7 @@ export class MembersByMemberType implements OnInit, OnDestroy {
         private memberService: MemberService,
         private memberTypeService: MemberTypeService
     ) {
+        wjcCore.setLicenseKey(environment.wijmoDistributionKey);
         this.subscription = new Array<Subscription>();
     } 
     

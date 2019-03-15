@@ -29,3 +29,10 @@
     margin: 0;
     padding: 0;
 }
+.mat-header-row {
+    -webkit-text-fill-color:white;
+    background:royalblue;
+}
+.field-top-margin {
+    margin-top: -22px;
+}

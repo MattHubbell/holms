@@ -1,16 +1,6 @@
-import * as wjcCore from 'wijmo/wijmo';
-
-// Angular
-import { Component, EventEmitter, Inject, ViewChild, enableProdMode, Input, AfterViewInit, ElementRef, NgModule, NgZone } from '@angular/core';
-import { ComponentFactoryResolver, OnDestroy } from '@angular/core';
-
-import { ModuleWithProviders }      from '@angular/core';
-import { BrowserModule }            from '@angular/platform-browser';
-import { CommonModule }             from '@angular/common';
-import { platformBrowserDynamic }   from '@angular/platform-browser-dynamic';
+import { Component, Inject, ViewChild, AfterViewInit, ElementRef, NgZone } from '@angular/core';
+import { ComponentFactoryResolver } from '@angular/core';
 import { Router, ActivatedRoute }   from '@angular/router';
-import { WjInputModule }            from 'wijmo/wijmo.angular2.input';
-// import { DataSvc }                  from './services/DataSvc';
 import { TitleService }             from '../title.service';
 
 import { AdDirective } from './ad.directive';
@@ -18,7 +8,9 @@ import { AdItem }      from './ad-item';
 import { AdComponent } from './ad.component';
 import { AdService }   from './ad.service';
 
-'use strict';
+import * as wjcCore from 'wijmo/wijmo';
+import { environment } from '../../environments/environment';
+
 
 @Component({
     templateUrl: './reports.component.html',
@@ -43,6 +35,7 @@ export class ReportsComponent implements AfterViewInit {
         private componentFactoryResolver: ComponentFactoryResolver, 
         private adService: AdService
     ) {
+        wjcCore.setLicenseKey(environment.wijmoDistributionKey);
         this.titleService.selector = 'reports';
 
         // report list
@@ -85,20 +78,17 @@ export class ReportsComponent implements AfterViewInit {
     print() {
         
         // create document
-        var doc = new wjcCore.PrintDocument({
+        const doc = new wjcCore.PrintDocument({
             title: this.reports.currentItem.header
         });
 
         // add content to it
-        //var view = <HTMLElement>document.querySelector('.zoom')
-        var view = this.zoomEle.nativeElement;
+        const view = this.zoomEle.nativeElement;
         for (var i = 0; i < view.children.length; i++) {
             doc.append(view.children[i]);
         }
         // and print it
         doc.print();
-        // work around the "More tasks executed then were scheduled." exception
-        //this.ngZone.runOutsideAngular(() => doc.print());
     }
 
     loadComponent(reportName:string) {

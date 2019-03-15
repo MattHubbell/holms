@@ -61,11 +61,13 @@
         },
         "cashMasterHistory": {
             ".read":  "auth != null",
-            ".write":  "auth != null"
+            ".write":  "auth != null",
+            ".indexOn": ["memberNo"]  
         },
         "cashDetailHistory": {
             ".read":  "auth != null",
-            ".write":  "auth != null"
+            ".write":  "auth != null",
+            ".indexOn": ["receiptNo"]   
         },
         "appMenus": {
             ".read":  "auth != null",

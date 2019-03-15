@@ -1,25 +1,18 @@
 <div class="container">
     <div class="container">
         <p class="textline">
-            Select a report to see a quick preview.
             Click the print button to print, preview, or export to PDF:
         </p>
 
         <div class="shadow">
             <div class="toolbar {{ viewsLoaded < 6 ? 'disabledtoolbar': ''}}"  >
-                <!-- select report -->
-                <wj-combo-box style="width:300px"
-                              [itemsSource]="reports"
-                              [displayMemberPath]="'header'">
-                </wj-combo-box>
-
                 <!-- zoom -->
                 <button mat-icon-button (click)="zoomLevels.moveCurrentToPrevious()" placement="bottom" ngbTooltip="Zoom Out">
                     <i class="material-icons">remove</i>
                 </button>
                 <wj-combo-box style="width:150px"
-                              [itemsSource]="zoomLevels"
-                              [displayMemberPath]="'header'">
+                                [itemsSource]="zoomLevels"
+                                [displayMemberPath]="'header'">
                 </wj-combo-box>
                 <button mat-icon-button (click)="zoomLevels.moveCurrentToNext()" placement="bottom" ngbTooltip="Zoom In">
                     <i class="material-icons">add</i>
@@ -30,12 +23,16 @@
                     <i class="material-icons">print</i>
                 </button>
 
+                <!-- close -->
+                <button mat-icon-button (click)="onClose()" placement="bottom" ngbTooltip="Close">
+                    <i class="material-icons">exit_to_app</i>
+                </button>
             </div>
 
             <div class="report">
                 <div class="zoom" #zoomEle>
                     <div>
-                        <ng-template ad-host #adHost></ng-template>
+                        <invoice [member]="member" [cashMaster]="cashMaster"></invoice>
                     </div>
                 </div>
             </div>

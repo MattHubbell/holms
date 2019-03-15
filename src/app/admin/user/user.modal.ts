@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy, Input, ViewEncapsulation } from '@angular/core';
-import { MatDialogRef, MatSnackBar } from '@angular/material';
+import { Component, OnInit, OnDestroy, Input, ViewEncapsulation, ViewChild } from '@angular/core';
+import { MatDialogRef, MatSnackBar, MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
 
 import { Member, MemberService } from '../../members';
@@ -7,6 +7,10 @@ import { AppService } from '../../app.service';
 import { Salutations, Countries } from '../../shared';
 import { MemberType, MemberTypeService} from '../member-types';
 import { MemberStatus, MemberStatusService } from '../member-status';
+import { InvoiceModalContent } from './invoice.modal';
+import { CashMasterHistory } from '../transaction-history/cash-master-history.model';
+import { CashMasterHistoryService } from '../transaction-history/cash-master-history.service';
+
 import { FirebaseService } from '../../firebase';
 import * as f from '../../shared/functions';
 
@@ -20,20 +24,27 @@ export class UserModalComponent implements OnInit, OnDestroy {
 
   @Input() selectedItem: any;
   @Input() model: Member;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   isAdmin: boolean;
   events: any[] = [];
   salutations = Salutations;
   countries = Countries;
   memberTypes: MemberType[];
   memberStatuses: MemberStatus[];
+  entries: CashMasterHistory[];
+  dataSource = new MatTableDataSource<CashMasterHistory>(this.entries);
+  displayedColumns = ['transDate', 'checkNo', 'checkDate', 'checkAmt'];
   subscription: Array<Subscription>;
 
   constructor(
     private memberService: MemberService, 
     private memberTypeService: MemberTypeService,
     private memberStatusService: MemberStatusService,
+    private cashMasterHistoryService: CashMasterHistoryService,
     private appService: AppService,
     private firebaseService: FirebaseService,
+    private modalService: MatDialog,
     public snackBar: MatSnackBar, 
     public dialogRef: MatDialogRef<Member>
   ) {
@@ -50,7 +61,15 @@ export class UserModalComponent implements OnInit, OnDestroy {
             this.memberStatuses = x;
         })
     );
-  }
+    this.cashMasterHistoryService.getListByMemberNo(this.appService.membershipUser.memberId);
+    this.subscription.push(this.cashMasterHistoryService.list
+        .subscribe(x => {
+            this.entries = x;
+            this.dataSource = new MatTableDataSource<CashMasterHistory>(this.entries);
+            this.dataSource.paginator = this.paginator;
+        })
+    );
+}
 
   ngOnInit() {
     this.isAdmin = false;
@@ -96,5 +115,11 @@ export class UserModalComponent implements OnInit, OnDestroy {
 
   onCancel() {
     this.dialogRef.close();
+  }
+
+  displayInvoice(cashMaster: any) {
+    const modalRef = this.modalService.open(InvoiceModalContent);
+    modalRef.componentInstance.member = this.model;
+    modalRef.componentInstance.cashMaster = cashMaster;
   }
 }

@@ -119,8 +119,7 @@ export class AppService implements OnDestroy {
 
     checkForNewMember(membershipUser: MembershipUser) {
         if (membershipUser.userType == MembershipUserType.New) {
-            console.log('new-registration');
-            this.router.navigate(['/new-registration']);
+            this.navigateTo('/new-registration');
         } else {
             if (membershipUser.name) {
                 this.memberSubscription = this.memberService.getItemByMemberID(membershipUser.memberId)
@@ -129,8 +128,7 @@ export class AppService implements OnDestroy {
                     }
                 );
             } else {
-                console.log('register');
-                this.router.navigate(['/register']);
+                this.navigateTo('/register');
             }
         }
     }
@@ -139,22 +137,19 @@ export class AppService implements OnDestroy {
         if (this.isMemberChecked) { return; }
         this.isMemberChecked = true;
         if (member === undefined) {
-            console.log('new-member');
-            this.router.navigate(['/new-member']);
+            this.navigateTo('/new-member');
         } else {
             const currentDate: Date = new Date();
             const paidThruDate: Date = new Date(member.paidThruDate);
             if (member.lastDuesYear < this.setup.duesYear || paidThruDate < currentDate) {
                 this.isPastDue = true;
-                console.log('membership-dues');
-                this.router.navigate(['/membership-dues']);
+                this.navigateTo('/membership-dues');
             } else {
                 this.isPastDue = false;
                 if (this.isAutoLogin && this.returnUrl != '' && this.returnUrl != '/login') {
-                    this.router.navigate([this.returnUrl]);
+                    this.navigateTo(this.returnUrl);
                 } else {
-                    console.log('dashboard');
-                    this.router.navigate(['/dashboard']);
+                    this.navigateTo('/dashboard');
                 }
             }
         }
@@ -173,6 +168,11 @@ export class AppService implements OnDestroy {
         }
         this.appMenuList = list;
       }
+
+    navigateTo(destination: string) {
+        console.log(destination);
+        this.router.navigate([destination]);
+    }
     
     onLogout() {
         this.isLoggedOn = false;

@@ -11,6 +11,7 @@ import { SharedModule }                       from '../shared/shared.module';
 import { MaterialModule }                     from '../material.module';
 import { AdminRouting }                       from './admin.routing';
 import { SetupComponent, SetupService }       from './setup';
+import { UserComponent }                      from './user/user.component';
 import { UserModalComponent }                 from './user/user.modal';
 import { ListTransactionCodeComponent, TransactionCodeModalContent, TransactionCodeService }  from './transaction-codes';
 import { ListMembershipUserComponent, MembershipUserModalContent, MembershipUserService }  from './membership-users';
@@ -19,6 +20,8 @@ import { ListMemberTypeComponent, MemberTypeService, MemberTypeModalContent } fr
 import { ListMemberStatusComponent, MemberStatusService, MemberStatusModalContent } from './member-status';
 import { CashMasterHistoryService, CashDetailHistoryService } from './transaction-history';
 import { CashMasterService, CashDetailService, ListCashEntryComponent, CashEntryModalContent, CashDetailModalContent, CheckRegisterComponent, CheckRegisterModalContent, DistributionSummaryComponent, DistributionSummaryModalContent } from './cash-entry';
+import { InvoiceComponent } from './user/invoice.component';
+import { InvoiceModalContent } from './user/invoice.modal';
 import { AppMenuService, ListAppMenuComponent, AppMenuModalContent } from './app-menus';
 
 @NgModule({
@@ -32,7 +35,7 @@ import { AppMenuService, ListAppMenuComponent, AppMenuModalContent } from './app
     AdminRouting,
     WjInputModule 
   ],
-  declarations: [ 
+  declarations: [
     SetupComponent,
     ListTransactionCodeComponent, 
     TransactionCodeModalContent, 
@@ -40,6 +43,7 @@ import { AppMenuService, ListAppMenuComponent, AppMenuModalContent } from './app
     MembershipUserModalContent,
     ListNewRegistrationComponent,
     NewRegistrationModalContent,
+    UserComponent, 
     UserModalComponent,
     ListMemberTypeComponent,
     MemberTypeModalContent,
@@ -54,12 +58,15 @@ import { AppMenuService, ListAppMenuComponent, AppMenuModalContent } from './app
     CheckRegisterModalContent,
     DistributionSummaryComponent,
     DistributionSummaryModalContent,
+    InvoiceComponent,
+    InvoiceModalContent,
     AdDirective
   ],
   entryComponents: [ 
     TransactionCodeModalContent, 
     MembershipUserModalContent, 
     NewRegistrationModalContent, 
+    UserComponent, 
     UserModalComponent, 
     MemberTypeModalContent,
     MemberStatusModalContent,
@@ -69,7 +76,9 @@ import { AppMenuService, ListAppMenuComponent, AppMenuModalContent } from './app
     CheckRegisterComponent,
     CheckRegisterModalContent, 
     DistributionSummaryComponent,
-    DistributionSummaryModalContent
+    DistributionSummaryModalContent,
+    InvoiceComponent,
+    InvoiceModalContent
   ],
   providers: [ 
     SetupService, 

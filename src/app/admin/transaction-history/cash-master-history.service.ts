@@ -14,6 +14,10 @@ export class CashMasterHistoryService {
         this.list = this.fs.getItems(CashMasterHistory.TableName());
     }
 
+    getListByMemberNo(memberNo: string) {
+        this.list = this.fs.getItems(CashMasterHistory.TableName(), 'memberNo', memberNo);
+    }
+
     addItem(model: CashMasterHistory) { 
         let data = CashMasterHistory.setData(model);
         this.fs.addItem(CashMasterHistory.TableName(), data);

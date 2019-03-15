@@ -27,7 +27,7 @@ export class DistributionSummaryComponent  {
         let amount:number = 0;
         this.cashDetails.forEach(x => {
             if (x.tranCode == transCode && x.batchNo == this.batchNo) {
-                amount += (+x.distAmt * +x.distQty)
+                amount += ((+x.distQty != 0) ? (+x.distAmt * +x.distQty) : +x.distAmt);
             }
         });
         return amount;
@@ -37,7 +37,7 @@ export class DistributionSummaryComponent  {
         let batchTotal:number = 0;
         this.cashDetails.forEach(x => {
             if (x.batchNo == this.batchNo) {
-                batchTotal += (+x.distAmt * +x.distQty)
+                batchTotal += ((+x.distQty != 0) ? (+x.distAmt * +x.distQty) : +x.distAmt);
             }
         });
         return batchTotal;

@@ -7,7 +7,7 @@
     </p>
     
     <div>
-    <div style="border-top:2px solid black; margin-bottom:24pt; page-break-inside:avoid">
+    <div style="border-top:2px solid black; margin-bottom:24pt">
     
         <div style="display:flex; font-size: 8pt; font-weight:bold; margin: 0 0 2pt 0">
             <div style="width:300px">
@@ -29,7 +29,7 @@
                     </p>
                 </div>
                 <div style="width:100px; text-align:right; margin-right: 10px;">
-                    {{ calculateCount(transactionCode?.id) }}
+                    {{ calculateCount(transactionCode?.id) | number }}
                 </div>
                 <div style="width:100px; text-align:right; margin-right: 10px;">
                     {{ calculateAmount(transactionCode?.id) | currency }}

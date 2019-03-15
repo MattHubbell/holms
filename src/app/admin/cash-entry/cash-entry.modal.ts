@@ -118,7 +118,7 @@ export class CashEntryModalContent implements OnInit, OnDestroy {
     calculateRemaining() {
         this.remaining = +this.model.checkAmt;
         this.entries.forEach(cashDetail => {
-            this.remaining -= (cashDetail.distAmt * cashDetail.distQty);
+            this.remaining -= ((cashDetail.distQty != 0) ? (cashDetail.distAmt * cashDetail.distQty) : cashDetail.distAmt);
         });        
     }
 
@@ -170,8 +170,7 @@ export class CashEntryModalContent implements OnInit, OnDestroy {
         if ($event === ConfirmResponses.yes) {
             this.entries.forEach(cashDetail => {
                 if (cashDetail.receiptNo == this.model.receiptNo) {
-                    let selectedCashDetail = this.cashDetailService.getItemByKey(cashDetail['key']);
-                    this.cashDetailService.deleteItem(selectedCashDetail);
+                    this.cashDetailService.deleteItem(cashDetail);
                 }
             });
             if (!this.isNewItem) {

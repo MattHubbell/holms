@@ -24,7 +24,7 @@ export class MembershipDuesService {
         return receiptNo;
     }
 
-    public postCashEntry(item:MembershipDues, member: Member, setup: Setup, transactionCodes: TransactionCode[]): void {
+    public postCashEntry(item: MembershipDues, member: Member, setup: Setup, transactionCodes: TransactionCode[]): void {
         let memberModel:Member = Member.clone(member);
         let memberType:string = item.membershipTypeId;
     

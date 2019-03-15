@@ -43,6 +43,8 @@ export class ListCashEntryComponent implements OnInit, OnDestroy {
     subscription: Array<Subscription>;
     dialogConfig: MatDialogConfig;
     modalRef: MatDialogRef<any,any>;
+    cashMasterPosted: Array<CashMaster>;
+    cashDetailPosted: Array<CashDetail>;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -220,50 +222,87 @@ export class ListCashEntryComponent implements OnInit, OnDestroy {
     }
 
     post() {
-        let cashMasterPosted: any = new Array<string>();
+        this.cashMasterPosted = new Array<CashMaster>();
+        this.cashDetailPosted = new Array<CashDetail>();
+
         this.entries.forEach(cashMaster => {
             if (cashMaster.batchNo == this.batchNo) {
-                let cashMasterHistory:CashMasterHistory = new CashMasterHistory();
-                cashMasterHistory.receiptNo = cashMaster.receiptNo;
-                cashMasterHistory.memberNo = cashMaster.memberNo;
-                cashMasterHistory.transDate = cashMaster.transDate;
-                cashMasterHistory.checkNo = cashMaster.checkNo;
-                cashMasterHistory.checkDate = cashMaster.checkDate;
-                cashMasterHistory.checkAmt = cashMaster.checkAmt;
-                cashMasterHistory.currencyCode = cashMaster.currencyCode;
-                cashMasterHistory.comments = cashMaster.comments;
-                cashMasterHistory.batchNo = cashMaster.batchNo;
-                this.cashMasterHistoryService.addItem(cashMasterHistory);
-                cashMasterPosted.push(cashMaster['key']);
+                this.postCashMaster(cashMaster);
             }
         });
-        let cashDetailPosted: any = new Array<string>();
-        this.details.forEach(cashDetail => {
-            if (cashDetail.batchNo == this.batchNo) {
-                let cashDetailHistory:CashDetailHistory = new CashDetailHistory();
-                cashDetailHistory.receiptNo = cashDetail.receiptNo;
-                cashDetailHistory.memberNo = cashDetail.memberNo;
-                cashDetailHistory.transDate = cashDetail.transDate;
-                cashDetailHistory.tranCode = cashDetail.tranCode;
-                cashDetailHistory.distAmt = cashDetail.distAmt;
-                cashDetailHistory.distQty = cashDetail.distQty;
-                cashDetailHistory.duesCode = cashDetail.duesCode;
-                cashDetailHistory.duesYear = cashDetail.duesYear;
-                cashDetailHistory.batchNo = cashDetail.batchNo;
-                this.cashDetailHistoryService.addItem(cashDetailHistory);
-                cashDetailPosted.push(cashDetail['key']);
-            }
-        });
-        cashMasterPosted.forEach(key => {
-            let cashMaster = this.cashMasterService.getItemByKey(key);
+        this.cashMasterPosted.forEach((cashMaster) => {
             this.cashMasterService.deleteItem(cashMaster);
         });
-        cashDetailPosted.forEach(key => {
-            let cashDetail = this.cashDetailService.getItemByKey(key);
+        this.cashDetailPosted.forEach((cashDetail) => {
             this.cashDetailService.deleteItem(cashDetail);
         });
         this.snackBar.open('Posting Complete','', {
             duration: 2000,
         });
+    }
+
+    postCashMaster(cashMaster: CashMaster) {
+        let cashMasterHistory:CashMasterHistory = new CashMasterHistory();
+        cashMasterHistory.receiptNo = cashMaster.receiptNo;
+        cashMasterHistory.memberNo = cashMaster.memberNo;
+        cashMasterHistory.transDate = cashMaster.transDate;
+        cashMasterHistory.checkNo = cashMaster.checkNo;
+        cashMasterHistory.checkDate = cashMaster.checkDate;
+        cashMasterHistory.checkAmt = cashMaster.checkAmt;
+        cashMasterHistory.currencyCode = cashMaster.currencyCode;
+        cashMasterHistory.comments = cashMaster.comments;
+        cashMasterHistory.batchNo = cashMaster.batchNo;
+        this.cashMasterHistoryService.addItem(cashMasterHistory);
+        this.cashMasterPosted.push(cashMaster);
+        this.details.forEach(cashDetail => {
+            if (cashDetail.batchNo == this.batchNo && cashDetail.receiptNo == cashMaster.receiptNo) {
+                this.postCashDetail(cashDetail);
+                if (cashDetail.duesCode.length > 0 ) {
+                    let memberSubscription:Subscription = this.memberService.getItemByMemberID(cashMaster.memberNo)
+                        .subscribe((member:Member) => {
+                            console.log(member[0]);
+                            this.updateMember(member[0], cashMaster, cashDetail);
+                            memberSubscription.unsubscribe();
+                        }
+                    );
+                }
+            }
+        });
+    }
+
+    postCashDetail(cashDetail: CashDetail) {
+        let cashDetailHistory:CashDetailHistory = new CashDetailHistory();
+        cashDetailHistory.receiptNo = cashDetail.receiptNo;
+        cashDetailHistory.memberNo = cashDetail.memberNo;
+        cashDetailHistory.transDate = cashDetail.transDate;
+        cashDetailHistory.tranCode = cashDetail.tranCode;
+        cashDetailHistory.distAmt = cashDetail.distAmt;
+        cashDetailHistory.distQty = cashDetail.distQty;
+        cashDetailHistory.duesCode = cashDetail.duesCode;
+        cashDetailHistory.duesYear = cashDetail.duesYear;
+        cashDetailHistory.batchNo = cashDetail.batchNo;
+        this.cashDetailHistoryService.addItem(cashDetailHistory);
+        this.cashDetailPosted.push(cashDetail);
+}
+
+    updateMember(member: Member, cashMaster: CashMaster, cashDetail: CashDetail) {
+        let memberModel:Member = Member.clone(member);
+    
+        memberModel.lastDuesYear = this.setup.duesYear - 1 + cashDetail.distQty;
+        memberModel.memberType = cashDetail.duesCode;
+        memberModel.memberStatus = 'A';
+
+        const currentDate = new Date(cashMaster.checkDate);
+        const yyyy: number = currentDate.getFullYear() + cashDetail.distQty;
+        let paidThruDate: Date = new Date(cashMaster.checkDate);
+        paidThruDate.setFullYear(yyyy);
+        memberModel.paidThruDate = paidThruDate;
+
+        if (memberModel.anniversary === undefined) {
+            const aniversary: Date = new Date(cashMaster.checkDate);
+            memberModel.anniversary = aniversary;
+        }
+
+        this.memberService.updateItem(member, memberModel);
     }
 }

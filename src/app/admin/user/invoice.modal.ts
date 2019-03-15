@@ -1,29 +1,31 @@
 import { Component, ViewChild, Input, ElementRef, AfterViewInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 
-import { CashMaster } from './cash-master.model';
-import { Member } from '../../members/member.model';
+import { CashDetailHistory } from '../transaction-history/cash-detail-history.model';
+import { TransactionCode } from '../transaction-codes/transaction-code.model';
 
 import * as wjcCore from 'wijmo/wijmo';
-import * as wjcPdf from 'wijmo/wijmo.pdf';
 import { environment } from '../../../environments/environment';
+import { CashMaster } from '../cash-entry';
+import { Member } from 'src/app/members';
 
 @Component({
-    templateUrl: './check-register.modal.html',
-    styleUrls: [ './check-register.modal.css' ]
+    templateUrl: './invoice.modal.html',
+    styleUrls: [ './invoice.modal.css' ]
 })
 
-export class CheckRegisterModalContent implements AfterViewInit {
+export class InvoiceModalContent implements AfterViewInit {
 
     zoomLevels: wjcCore.CollectionView;
-    @Input() batchNo: string;
-    @Input() cashMasters: CashMaster[];
-    @Input() members: Member[];
+    @Input() member: Member;
+    @Input() cashMaster: CashMaster;
+    @Input() cashDetails: CashDetailHistory[];
+    @Input() transactionCodes: TransactionCode[];
     @ViewChild('zoomEle') zoomEle: ElementRef;
     viewsLoaded: number;
-
+    
     constructor(
-        public dialogRef: MatDialogRef<CheckRegisterModalContent>
+        public dialogRef: MatDialogRef<InvoiceModalContent>
     ) {
         wjcCore.setLicenseKey(environment.wijmoDistributionKey);
         // zoom levels
@@ -51,17 +53,20 @@ export class CheckRegisterModalContent implements AfterViewInit {
     print() {
         
         // create document
-        const doc = new wjcCore.PrintDocument({
-            title: "Cash Receipts Check Register"
+        var doc = new wjcCore.PrintDocument({
+            title: "Invoice"
         });
 
         // add content to it
-        const view = this.zoomEle.nativeElement;
+        var view = this.zoomEle.nativeElement;
         for (var i = 0; i < view.children.length; i++) {
             doc.append(view.children[i]);
         }
         // and print it
-        doc.print();
+        setTimeout( () => {
+            doc.print();
+            }, 250
+        );
     }
 
     onClose() {

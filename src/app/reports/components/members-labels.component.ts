@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Inject, NgModule, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ModuleWithProviders } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { MemberService } from "../../members/member.service";
 import { Subscription } from 'rxjs';
 
+import { MemberService } from "../../members/member.service";
+
 import * as wjcCore from 'wijmo/wijmo';
+import { environment } from '../../../environments/environment';
 
 @Component({
     selector: 'member-labels-cmp',
@@ -19,6 +20,7 @@ export class MemberLabels implements OnInit, OnDestroy {
     subscription: Array<Subscription>;
 
     constructor( private memberService: MemberService) {
+        wjcCore.setLicenseKey(environment.wijmoDistributionKey);
         this.subscription = new Array<Subscription>();
     }
 

@@ -1,9 +1,11 @@
 import { Component, ViewChild, Input, ElementRef, AfterViewInit } from '@angular/core';
-import { WjInputModule } from 'wijmo/wijmo.angular2.input';
 import { MatDialogRef } from '@angular/material';
+
 import { CashDetail } from './cash-detail.model';
 import { TransactionCode } from '../transaction-codes/transaction-code.model';
+
 import * as wjcCore from 'wijmo/wijmo';
+import { environment } from '../../../environments/environment';
 
 @Component({
     templateUrl: './distribution-summary.modal.html',
@@ -22,6 +24,7 @@ export class DistributionSummaryModalContent implements AfterViewInit {
     constructor(
         public dialogRef: MatDialogRef<DistributionSummaryModalContent>
     ) {
+        wjcCore.setLicenseKey(environment.wijmoDistributionKey);
         // zoom levels
         this.zoomLevels = new wjcCore.CollectionView([
             { header: '25%', value: 0.25 },

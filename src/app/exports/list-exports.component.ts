@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, CurrencyPipe } from '@angular/common';
 import { MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
@@ -75,6 +75,7 @@ export class ListExportsComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         const datePipe = new DatePipe('en-US');
+        const currencyPipe = new  CurrencyPipe('en-US');
         this.dataSource = new MatTableDataSource<ElementData>(this.elementData);
         this.elementMembers = {tableName: 'Members', rowCount: 0};
         this.elementData.push(this.elementMembers);
@@ -147,7 +148,7 @@ export class ListExportsComponent implements OnInit, OnDestroy {
                 x.forEach((xx: CashMaster) => {
                     const cashMaster = new ExportCashMaster();
                     cashMaster.batchNo = +xx.batchNo;
-                    cashMaster.checkAmt = xx.checkAmt;
+                    cashMaster.checkAmt = (xx.checkAmt) ? currencyPipe.transform(xx.checkAmt, 'USD') : undefined;
                     cashMaster.checkDate = (xx.checkDate) ? datePipe.transform(xx.checkDate, 'MM-dd-yyyy') : undefined;
                     cashMaster.checkNo = xx.checkNo;
                     cashMaster.comments= xx.comments;
@@ -169,7 +170,7 @@ export class ListExportsComponent implements OnInit, OnDestroy {
                 x.forEach((xx: CashDetail) => {
                     const cashDetail = new ExportCashDetail();
                     cashDetail.batchNo = +xx.batchNo;
-                    cashDetail.distAmt = xx.distAmt;
+                    cashDetail.distAmt = (xx.distAmt) ? currencyPipe.transform(xx.distAmt, 'USD') : undefined;
                     cashDetail.distQty = xx.distQty;
                     cashDetail.duesCode = xx.duesCode;
                     cashDetail.duesYear = xx.duesYear;
@@ -191,7 +192,7 @@ export class ListExportsComponent implements OnInit, OnDestroy {
                 x.forEach((xx: CashMasterHistory) => {
                     const cashMasterHistory = new ExportCashMasterHistory();
                     cashMasterHistory.batchNo = xx.batchNo;
-                    cashMasterHistory.checkAmt = xx.checkAmt;
+                    cashMasterHistory.checkAmt = (xx.checkAmt) ? currencyPipe.transform(xx.checkAmt, 'USD') : undefined;
                     cashMasterHistory.checkDate = (xx.checkDate) ? datePipe.transform(xx.checkDate, 'MM-dd-yyyy') : undefined;
                     cashMasterHistory.checkNo = xx.checkNo;
                     cashMasterHistory.comments= xx.comments;
@@ -213,7 +214,7 @@ export class ListExportsComponent implements OnInit, OnDestroy {
                 x.forEach((xx: CashDetailHistory) => {
                     const cashDetailHistory = new ExportCashDetailHistory();
                     cashDetailHistory.batchNo = xx.batchNo;
-                    cashDetailHistory.distAmt = xx.distAmt;
+                    cashDetailHistory.distAmt = (xx.distAmt) ? currencyPipe.transform(xx.distAmt, 'USD') : undefined;
                     cashDetailHistory.distQty = xx.distQty;
                     cashDetailHistory.duesCode = xx.duesCode;
                     cashDetailHistory.duesYear = xx.duesYear;
@@ -436,7 +437,7 @@ export class ExportCashMaster {
     transDate: string;
     checkNo: string;
     checkDate: string;
-    checkAmt: number;
+    checkAmt: string;
     currencyCode: string;
     comments: string;
     batchNo: number;
@@ -447,7 +448,7 @@ export class ExportCashMaster {
         transDate?: string,
         checkNo?: string,
         checkDate?: string,
-        checkAmt?: number,
+        checkAmt?: string,
         currencyCode?: string,
         comments?: string,
         batchNo?: number
@@ -457,7 +458,7 @@ export class ExportCashMaster {
         this.transDate = (transDate) ? transDate : null;
         this.checkNo = (checkNo) ? checkNo : '';
         this.checkDate = (checkDate) ? checkDate : null;
-        this.checkAmt = (checkAmt) ? checkAmt : 0;
+        this.checkAmt = (checkAmt) ? checkAmt : '';
         this.currencyCode = (currencyCode) ? currencyCode : '';
         this.comments = (comments) ? comments : '';
         this.batchNo = (batchNo) ? batchNo : null;
@@ -469,7 +470,7 @@ export class ExportCashDetail {
     memberNo: number;
     transDate: string;
     tranCode: string;
-    distAmt: number;
+    distAmt: string;
     distQty: number;
     duesCode: string;
     duesYear: number;
@@ -480,7 +481,7 @@ export class ExportCashDetail {
         memberNo?: number,
         transDate?: string,
         tranCode?: string,
-        distAmt?: number,
+        distAmt?: string,
         distQty?: number,
         duesCode?: string,
         duesYear?: number,
@@ -490,7 +491,7 @@ export class ExportCashDetail {
         this.memberNo = (memberNo) ? memberNo : null;
         this.transDate = (transDate) ? transDate : null;
         this.tranCode = (tranCode) ? tranCode : '';
-        this.distAmt = (distAmt) ? distAmt : 0;
+        this.distAmt = (distAmt) ? distAmt : '';
         this.distQty = (distQty) ? distQty : 0;
         this.duesCode = (duesCode) ? duesCode : '';
         this.duesYear = (duesYear) ? duesYear : 0;
@@ -504,7 +505,7 @@ export class ExportCashMasterHistory {
     transDate: string;
     checkNo: string;
     checkDate: string;
-    checkAmt: number;
+    checkAmt: string;
     currencyCode: string;
     comments: string;
     batchNo: string;
@@ -515,7 +516,7 @@ export class ExportCashMasterHistory {
         transDate?: string,
         checkNo?: string,
         checkDate?: string,
-        checkAmt?: number,
+        checkAmt?: string,
         currencyCode?: string,
         comments?: string,
         batchNo?: string
@@ -525,7 +526,7 @@ export class ExportCashMasterHistory {
         this.transDate = (transDate) ? transDate : null;
         this.checkNo = (checkNo) ? checkNo : '';
         this.checkDate = (checkDate) ? checkDate : null;
-        this.checkAmt = (checkAmt) ? checkAmt : 0;
+        this.checkAmt = (checkAmt) ? checkAmt : '';
         this.currencyCode = (currencyCode) ? currencyCode : '';
         this.comments = (comments) ? comments : '';
         this.batchNo = (batchNo) ? batchNo : '';
@@ -537,7 +538,7 @@ export class ExportCashDetailHistory {
     memberNo: number;
     transDate: string;
     tranCode: string;
-    distAmt: number;
+    distAmt: string;
     distQty: number;
     duesCode: string;
     duesYear: number;
@@ -548,7 +549,7 @@ export class ExportCashDetailHistory {
         memberNo?: number,
         transDate?: string,
         tranCode?: string,
-        distAmt?: number,
+        distAmt?: string,
         distQty?: number,
         duesCode?: string,
         duesYear?: number,
@@ -558,7 +559,7 @@ export class ExportCashDetailHistory {
         this.memberNo = (memberNo) ? memberNo : 0;
         this.transDate = (transDate) ? transDate : '';
         this.tranCode = (tranCode) ? tranCode : '';
-        this.distAmt = (distAmt) ? distAmt : 0;
+        this.distAmt = (distAmt) ? distAmt : '';
         this.distQty = (distQty) ? distQty : 0;
         this.duesCode = (duesCode) ? duesCode : '';
         this.duesYear = (duesYear) ? duesYear : 0;

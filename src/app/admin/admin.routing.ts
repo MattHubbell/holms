@@ -1,6 +1,7 @@
 import { ModuleWithProviders }  from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { UserComponent }                from './user/user.component';
 import { SetupComponent }               from './setup/setup.component';
 import { ListCashEntryComponent }       from './cash-entry/list-cash-entry.component';
 import { ListTransactionCodeComponent } from './transaction-codes/list-transaction-codes.component';
@@ -13,6 +14,7 @@ import { ListAppMenuComponent }         from './app-menus/list-app-menu.componen
 import { AuthGuard }                    from '../firebase/auth-guard';
 
 const appRoutes: Routes = [
+  { path: 'my-account', component: UserComponent, canActivate: [ AuthGuard ] },
   { path: 'setup', component: SetupComponent, canActivate: [ AuthGuard ] },
   { path: 'list-cash-entry', component: ListCashEntryComponent, canActivate: [ AuthGuard ] },
   { path: 'list-transaction-codes', component: ListTransactionCodeComponent, canActivate: [ AuthGuard ] },
