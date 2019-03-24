@@ -18,6 +18,10 @@ export class CashMasterHistoryService {
         this.list = this.fs.getItems(CashMasterHistory.TableName(), 'memberNo', memberNo);
     }
 
+    getItemsByReceiptNoAsync(receiptNo: string) {
+        return this.fs.getItemsAsync1(CashMasterHistory.TableName(),'receiptNo', receiptNo);
+    }
+
     addItem(model: CashMasterHistory) { 
         let data = CashMasterHistory.setData(model);
         this.fs.addItem(CashMasterHistory.TableName(), data);

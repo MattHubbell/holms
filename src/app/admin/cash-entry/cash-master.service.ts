@@ -18,6 +18,10 @@ export class CashMasterService {
         return this.fs.getItemByKey(CashMaster.TableName(), key);
     }
 
+    getItemsByReceiptNoAsync(receiptNo: string) {
+        return this.fs.getItemsAsync1(CashMaster.TableName(),'receiptNo', receiptNo);
+    }
+
     addItem(model: CashMaster) { 
         let data = CashMaster.setData(model);
         this.fs.addItem(CashMaster.TableName(), data);

@@ -1,0 +1,124 @@
+<h2>
+    Cash Receipts Distribution
+</h2>
+
+<div *ngIf="cashMasterHistory">
+
+    <div *ngFor="let initial of cashMasterHistory.groups">
+        <p style="font-size:100%; font-weight:bold; margin: 10pt 0;">
+            Batch # {{initial.name}}
+        </p>
+
+        <div>
+        <div style="border-top:2px solid black; margin-bottom:24pt">
+
+            <div style="display:flex; font-size: 10pt; font-weight:bold; margin: 0 0 2pt 0; page-break-inside:avoid">
+                <div style="width: 80px">
+                    Tran Date
+                </div>
+                <div style="width: 60px">
+                    No.
+                </div>
+                <div style="width: 120px">
+                    Member
+                </div>
+                <div style="width: 100px">
+                    Type
+                </div>
+                <div style="width: 80px;">
+                    Count
+                </div>
+                <div style="width: 80px;">
+                    Check #
+                </div>
+                <div style="width: 80px;">
+                    Date
+                </div>
+                <div style="width: 80px; text-align: right; margin-right: 10px;">
+                    Amount
+                </div>
+                <div style="width: 30px">
+                    CC
+                </div>
+            </div>
+
+            <div *ngFor="let cashMaster of initial.items">
+                <div style="display: flex; font-size: 8pt; margin: 0 0 0 0; page-break-inside:avoid">
+
+                    <div style="width:80px">
+                        {{ cashMaster?.transDate |  date:'MM/dd/yy' }}
+                    </div>
+                    <div style="width:60px">
+                        {{ cashMaster?.memberNo }}
+                    </div>
+                    <div style="width:300px">
+                        {{ findMember(cashMaster?.memberNo)?.memberName }} 
+                    </div>
+                    <div style="width:80px">
+                        {{ cashMaster?.checkNo }}
+                    </div>
+                    <div style="width:80px">
+                        {{ cashMaster?.checkDate | date:'MM/dd/yy' }}
+                    </div>
+                    <div style="width:80px; text-align:right; margin-right: 10px;">
+                        {{ cashMaster?.checkAmt | currency }}
+                    </div>
+                    <div style="width:30px">
+                        {{ cashMaster?.currencyCode }}
+                    </div>
+                </div>
+
+                <div style="display: flex; font-size: 8pt; margin: 0 0 2pt 0; page-break-inside:avoid">
+                    <div style="width:300px; margin-left:140px">
+                        <p style="margin-bottom: 2pt;">
+                            {{ findMember(cashMaster?.memberNo)?.addrLine1 }} <br *ngIf="findMember(cashMaster?.memberNo)?.addrLine1.length > 0">
+                            {{ findMember(cashMaster?.memberNo)?.addrLine2 }} <br *ngIf="findMember(cashMaster?.memberNo)?.addrLine2.length > 0">
+                            {{ findMember(cashMaster?.memberNo)?.city }}, {{ findMember(cashMaster?.memberNo)?.state }} {{ findMember(cashMaster?.memberNo)?.zip }}
+                        </p>
+                    </div>
+                    <div style="width:270px">
+                        {{ cashMaster?.comments }}
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 1rem">
+                    <div *ngFor="let cashDetail of cashDetailHistory | filter : 'receiptNo' : cashMaster?.receiptNo : 'equals' ">
+                        <div style="display: flex; font-size: 8pt; margin: 0 0 0 0; page-break-inside:avoid">
+                            <div style="width: 260px">
+                                {{ findTransactionCode(cashDetail?.tranCode)?.description }}
+                            </div>
+                            <div style="width: 100px">
+                                {{ findMemberType(cashDetail?.duesCode)?.description }}
+                            </div>
+                            <div style="width: 290px">
+                                {{ cashDetail?.distQty == 0 ? '' : cashDetail?.distQty }}
+                            </div>
+                            <div style="width: 80px">
+                                {{ cashDetail?.distQty == 0 ? (cashDetail?.distAmt | currency) : ((cashDetail?.distQty * cashDetail?.distAmt) | currency) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; font-size: 8pt; margin: 0 0 0 500px; page-break-inside:avoid">
+                <div style="width: 100px">
+                    Batch Total: 
+                </div>
+                <div style="border-top:2px solid black; width: 80px; text-align:right; margin-right: 5px;">
+                    {{ getBatchTotal(initial.name) | currency }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="display: flex; font-size: 8pt; margin: 0 0 0 500px; page-break-inside:avoid">
+    <div style="width: 100px">
+        Report Total: 
+    </div>
+    <div style="border-top:2px solid black; width: 80px; text-align:right; margin-right: 5px;">
+        {{getReportTotal() | currency}}
+    </div>
+</div>
+

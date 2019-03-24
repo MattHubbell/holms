@@ -155,11 +155,38 @@ export class ListCashEntryComponent implements OnInit, OnDestroy {
         this.setupService.updateItem(this.setup);
     }
 
-    assignReceiptNo(): string {
-        let receiptNo:string = this.setup.nextCashEntryReceiptNo.toString();
-        this.setup.nextCashEntryReceiptNo += 1;
+    async assignReceiptNo() {
+        let receiptNo = await this.incrementReceiptNo(this.setup.nextCashEntryReceiptNo);
+        this.setup.nextCashEntryReceiptNo = receiptNo + 1;
         this.setupService.updateItem(this.setup);
-        return receiptNo;
+        return receiptNo.toString();
+    }
+
+    async incrementReceiptNo(receiptNo: number) {
+        let resp = await this.validateReceiptNo(receiptNo);
+        if (resp) {
+            receiptNo += 1;
+            return this.incrementReceiptNo(receiptNo);
+        } else {
+            return receiptNo;
+        }   
+    }
+
+    async validateReceiptNo(receiptNo: number) {
+        let resp = null;
+        let val = await this.cashMasterHistoryService.getItemsByReceiptNoAsync(receiptNo.toString()).toPromise();
+        if (val.length > 0) {
+            resp = true;
+        } else {
+            val = await this.cashMasterService.getItemsByReceiptNoAsync(receiptNo.toString()).toPromise();
+            if (val.length > 0) {
+                resp = true;
+            } else {
+                resp = false;
+            }
+            resp = false;
+        }
+        return resp;
     }
 
     addNew() {
@@ -167,7 +194,9 @@ export class ListCashEntryComponent implements OnInit, OnDestroy {
         this.modalRef.componentInstance.members = this.members;
         this.modalRef.componentInstance.isNewItem = true;
         let model:CashMaster = new CashMaster();
-        model.receiptNo = this.assignReceiptNo();
+        this.assignReceiptNo().then(x => {
+            model.receiptNo = x;
+        });
         model.memberNo = '';
         model.batchNo = '';
         model.transDate =  new Date();

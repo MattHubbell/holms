@@ -127,6 +127,14 @@ export class FirebaseService {
         ).take(1).toPromise();
     }
 
+    public getItemsAsync1(tableName:string, child:string = '', equalTo:string = '') {
+        return this.getItemsRef(tableName, child, equalTo).snapshotChanges().pipe(
+            map(changes => (
+                changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+            ))
+        ).take(1);
+    }
+
     public findDuplicateId(tableName:string, equalTo:string, id:any) {
         return this.db.list(tableName).snapshotChanges()
             .map(records => {

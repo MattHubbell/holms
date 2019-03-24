@@ -41,6 +41,7 @@ export class ReportsComponent implements AfterViewInit {
         // report list
         this.reports = new wjcCore.CollectionView([
             { header: 'Alphabetical List of Members', name: 'alphabeticalListOfMembers' },
+            { header: 'Cash Receipts Distribution', name: 'cashReceiptsDistributionHistory' },
             { header: 'Members by Member Type', name: 'membersByMemberType' },
             { header: 'Member Labels', name: 'memberLabels' },
         ], {

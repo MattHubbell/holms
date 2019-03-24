@@ -8,6 +8,7 @@ import { ReportsComponent }         from './reports.component';
 import { AlphabeticalListOfMembers }        from './components/alphabetical-list-of-members.component';
 import { MembersByMemberType }              from "./components/members-by-member-type.component";
 import { MemberLabels }                     from "./components/members-labels.component";
+import { CashReceiptsDistributionHistory }  from "./components/cash-receipts-distribution-history.component";
 
 import { AdService }   from './ad.service';
 import { AdDirective } from './ad.directive';
@@ -25,6 +26,7 @@ import { AdDirective } from './ad.directive';
         AlphabeticalListOfMembers,
         MembersByMemberType,
         MemberLabels,
+        CashReceiptsDistributionHistory,
         AdDirective
     ],
     providers: [ AdService ],
@@ -32,6 +34,7 @@ import { AdDirective } from './ad.directive';
         AlphabeticalListOfMembers,
         MembersByMemberType,
         MemberLabels,
+        CashReceiptsDistributionHistory
     ]
 })
 export class ReportsModule {}

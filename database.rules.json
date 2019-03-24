@@ -62,7 +62,7 @@
         "cashMasterHistory": {
             ".read":  "auth != null",
             ".write":  "auth != null",
-            ".indexOn": ["memberNo"]  
+            ".indexOn": ["memberNo", "receiptNo"]  
         },
         "cashDetailHistory": {
             ".read":  "auth != null",

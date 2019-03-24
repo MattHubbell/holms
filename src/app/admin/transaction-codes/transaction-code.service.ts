@@ -25,7 +25,7 @@ export class TransactionCodeService {
     }
 
     findDuplicateId(id:any) {
-        this.fs.findDuplicateId(TransactionCode.TableName(), 'id', id)
+        this.fs.findDuplicateId(TransactionCode.TableName(), 'id', id);
     }
 
     addItem(model: TransactionCode) { 
