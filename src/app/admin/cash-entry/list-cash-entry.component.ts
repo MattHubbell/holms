@@ -190,18 +190,18 @@ export class ListCashEntryComponent implements OnInit, OnDestroy {
     }
 
     addNew() {
-        this.modalRef = this.modalService.open(CashEntryModalContent, this.dialogConfig);
-        this.modalRef.componentInstance.members = this.members;
-        this.modalRef.componentInstance.isNewItem = true;
-        let model:CashMaster = new CashMaster();
         this.assignReceiptNo().then(x => {
+            this.modalRef = this.modalService.open(CashEntryModalContent, this.dialogConfig);
+            this.modalRef.componentInstance.members = this.members;
+            this.modalRef.componentInstance.isNewItem = true;
+            let model:CashMaster = new CashMaster();
             model.receiptNo = x;
+            model.memberNo = '';
+            model.batchNo = '';
+            model.transDate =  new Date();
+            model.currencyCode = 'USD';
+            this.modalRef.componentInstance.model = model;
         });
-        model.memberNo = '';
-        model.batchNo = '';
-        model.transDate =  new Date();
-        model.currencyCode = 'USD';
-        this.modalRef.componentInstance.model = model;
     }
 
     edit(object:any) {        
@@ -333,5 +333,22 @@ export class ListCashEntryComponent implements OnInit, OnDestroy {
         }
 
         this.memberService.updateItem(member, memberModel);
+    }
+
+    repairCashRecords() {
+        let cashDetails = new Array<CashDetail>();
+        this.details.forEach((cashDetail:CashDetail) => {
+            const cashMaster = this.entries.find(x => x.receiptNo == cashDetail.receiptNo);
+            if (cashMaster == undefined) {
+                cashDetails.push(cashDetail);
+            }
+        });        
+        cashDetails.forEach((cashDetail) => {
+            //console.log(cashDetail);
+            this.cashDetailService.deleteItem(cashDetail);
+        });
+        this.snackBar.open('Repair Complete','', {
+            duration: 2000,
+        });
     }
 }

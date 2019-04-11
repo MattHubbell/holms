@@ -16,16 +16,18 @@ export function camelCase(value: string): string {
             outputString += value[i].charAt(0).toUpperCase();
         }
         else {
-            if (value[i].charAt(0) == ' ') {
+            const cc:string = value[(i)].charAt(0); // current character in value
+            if (cc == ' ') {
                 lastSpace = i;
             }
-            if (value[(i - 1)].charAt(0) == ' ') {
-                outputString += value[i].charAt(0).toUpperCase();
+            const pc:string = value[(i - 1)].charAt(0); // previous character in value
+            if (pc == ' ') {
+                outputString += cc.toUpperCase();
             } else {
-                if ((value[(i - 1)].charAt(0) == 'I' || value[(i - 1)].charAt(0) == 'V' || value[(i - 1)].charAt(0) == 'M') && (value.trim().length - lastSpace) <= 4) {
-                    outputString += value[i].charAt(0).toUpperCase();
+                if ((pc == '/') || ((pc == 'I' || pc == 'V' || pc == 'M'  || pc == 'D') && (value.trim().length - lastSpace) <= 4)) {
+                    outputString += cc.toUpperCase();
                 } else {
-                    outputString += value[i].charAt(0).toLowerCase();
+                    outputString += cc.toLowerCase();
                 }
             }
         }

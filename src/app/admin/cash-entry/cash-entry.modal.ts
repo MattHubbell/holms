@@ -108,6 +108,9 @@ export class CashEntryModalContent implements OnInit, OnDestroy {
         if (member) {
             let memberModel:Member = Member.clone(member);
             this.selectedMember = memberModel;
+            this.entries.forEach((cashDetail:CashDetail) => {
+                cashDetail.memberNo = member.memberNo;
+            });
         }
     }
 
@@ -124,17 +127,40 @@ export class CashEntryModalContent implements OnInit, OnDestroy {
 
     resetForm() {
         this.onMemberNoChange(this.model.memberNo);
-        this.subscription.push(this.cashDetailService
-            .getItemByID(this.model.receiptNo)
-            .subscribe(x => {
-                this.entries = x;
-                this.dataSource = new MatTableDataSource<CashDetail>(this.entries);
-                this.dataSource.paginator = this.paginator;
-                this.dataSource.filterPredicate = (data: CashDetail, filter: string) => data.receiptNo == this.model.receiptNo;
-                this.dataSource.filter = this.model.receiptNo;
-                this.calculateRemaining();
-            })
-        );
+        this.entries = new Array<CashDetail>();
+        this.dataSource = new MatTableDataSource<CashDetail>(this.entries);
+        if (this.model.receiptNo.length > 0) {
+            this.cashDetailService.getListByID(this.model.receiptNo);
+            this.subscription.push(this.cashDetailService.list
+                .subscribe(x => {
+                    this.entries = x;
+                    this.dataSource = new MatTableDataSource<CashDetail>(this.entries);
+                    this.dataSource.paginator = this.paginator;
+                    this.dataSource.filterPredicate = (data: CashDetail, filter: string) => data.receiptNo == this.model.receiptNo;
+                    this.dataSource.filter = this.model.receiptNo;
+                    this.calculateRemaining();
+                })
+            );
+        }
+    }
+
+    resetFormOld() {
+        this.onMemberNoChange(this.model.memberNo);
+        this.entries = new Array<CashDetail>();
+        this.dataSource = new MatTableDataSource<CashDetail>(this.entries);
+        if (this.model.receiptNo.length > 0) {
+            this.subscription.push(this.cashDetailService
+                .getItemByID(this.model.receiptNo)
+                .subscribe(x => {
+                    this.entries = x;
+                    this.dataSource = new MatTableDataSource<CashDetail>(this.entries);
+                    this.dataSource.paginator = this.paginator;
+                    this.dataSource.filterPredicate = (data: CashDetail, filter: string) => data.receiptNo == this.model.receiptNo;
+                    this.dataSource.filter = this.model.receiptNo;
+                    this.calculateRemaining();
+                })
+            );
+        }
     }
 
     find(tranCode:string): TransactionCode {
@@ -163,6 +189,9 @@ export class CashEntryModalContent implements OnInit, OnDestroy {
         } else {
             this.cashMasterService.updateItem(this.selectedItem, this.model);
         }
+        this.entries.forEach((cashDetail:CashDetail) => {
+            this.cashDetailService.updateItem(cashDetail, cashDetail);
+        });
         this.dialogRef.close();
     }
 

@@ -14,6 +14,10 @@ export class CashDetailService {
         this.list = this.fs.getItems(CashDetail.TableName());
     }
 
+    getListByID(equalTo:string) {
+        this.list = this.fs.getItems(CashDetail.TableName(), 'receiptNo', equalTo);
+    }
+
     getItemByID(equalTo:string): any {
         return this.fs.getItems(CashDetail.TableName(), 'receiptNo', equalTo);
     }
