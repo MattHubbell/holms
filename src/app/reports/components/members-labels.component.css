@@ -8,6 +8,7 @@
     height: 1.125in; /* plus .125 inches from padding */
     padding: 0.01in 0 0.1in 0.05in;
     margin-right: 0; /* the gutter */
+    font-family: 'Times New Roman';
 
     display: inline-block;
 

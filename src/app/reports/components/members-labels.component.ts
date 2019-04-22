@@ -43,17 +43,3 @@ export class MemberLabels implements OnInit, OnDestroy {
         });
     }
 }
-
-const routing: ModuleWithProviders = RouterModule.forChild([
-    { path: '', component: MemberLabels }
-]);
-
-// @NgModule({
-//     imports: [CommonModule, routing],
-//     declarations: [MemberLabels],
-// })
-// export class MemberLabelsModule {
-// }
-
-// old style
-// style="width:2.63in; height:1in; padding:6px; border:1px dotted #e0e0e0; page-break-inside:avoid" 

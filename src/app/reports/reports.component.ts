@@ -1,6 +1,5 @@
-import { Component, Inject, ViewChild, AfterViewInit, ElementRef, NgZone } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ElementRef, NgZone } from '@angular/core';
 import { ComponentFactoryResolver } from '@angular/core';
-import { Router, ActivatedRoute }   from '@angular/router';
 import { TitleService }             from '../title.service';
 
 import { AdDirective } from './ad.directive';
@@ -29,9 +28,9 @@ export class ReportsComponent implements AfterViewInit {
     
     constructor(
         private titleService:TitleService, 
-        @Inject(Router) private router: Router, 
-        private route: ActivatedRoute, 
-        @Inject(NgZone) private ngZone: NgZone, 
+        // @Inject(Router) private router: Router, 
+        // private route: ActivatedRoute, 
+        // @Inject(NgZone) private ngZone: NgZone, 
         private componentFactoryResolver: ComponentFactoryResolver, 
         private adService: AdService
     ) {
@@ -40,13 +39,17 @@ export class ReportsComponent implements AfterViewInit {
 
         // report list
         this.reports = new wjcCore.CollectionView([
+            { header: 'Select Report ...', name: 'select' },
+            { header: 'Active Members by Member Type', name: 'activeMembersByMemberType' },
             { header: 'Alphabetical List of Members', name: 'alphabeticalListOfMembers' },
             { header: 'Cash Receipts Distribution', name: 'cashReceiptsDistributionHistory' },
             { header: 'Members by Member Type', name: 'membersByMemberType' },
             { header: 'Member Labels', name: 'memberLabels' },
         ], {
             currentChanged: (s, e) => {
-                 this.loadComponent(s.currentItem.name);
+                if (s.currentItem.name != 'select') {
+                    this.loadComponent(s.currentItem.name);
+                }
            }
         });
 
@@ -71,8 +74,8 @@ export class ReportsComponent implements AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.zoomLevels.moveCurrentToPosition(2);
-        this.loadComponent('alphabeticalListOfMembers');        
+        this.zoomLevels.moveCurrentToPosition(3);
+        // this.loadComponent('activeMembersByMemberType');        
     }
 
     // commands

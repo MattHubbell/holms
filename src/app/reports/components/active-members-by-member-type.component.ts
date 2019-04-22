@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ModuleWithProviders } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 
+import { Member } from "../../members/member.model";
 import { MemberService } from "../../members/member.service";
 import { MemberTypeService } from "../../admin/member-types/member-type.service";
 import { MemberType } from '../../admin/member-types';
@@ -11,11 +10,11 @@ import * as wjcCore from 'wijmo/wijmo';
 import { environment } from '../../../environments/environment';
 
 @Component({
-    selector: 'members-by-member-type-cmp',
-    templateUrl: './members-by-member-type.component.html'
+    selector: 'active-members-by-member-type-cmp',
+    templateUrl: './active-members-by-member-type.component.html'
 })
 
-export class MembersByMemberType implements OnInit, OnDestroy {
+export class ActiveMembersByMemberType implements OnInit, OnDestroy {
 
     members: wjcCore.CollectionView;
     memberTypes: MemberType[];
@@ -31,16 +30,16 @@ export class MembersByMemberType implements OnInit, OnDestroy {
     } 
     
     ngOnInit() {
-        this.memberService.getList();
-        this.subscription.push(this.memberService.list
-            .subscribe(x => {
-                this.loadData(x);
-            })
-        );
         this.memberTypeService.getList();
         this.subscription.push(this.memberTypeService.list
             .subscribe(x => {
                 this.memberTypes = x;
+                this.memberService.getList();
+                this.subscription.push(this.memberService.list
+                    .subscribe(x => {
+                        this.loadData(x);
+                    })
+                );
             })
         );
     }
@@ -59,9 +58,30 @@ export class MembersByMemberType implements OnInit, OnDestroy {
                     }
                 )
             ],
-            sortDescriptions: ['memberType']
+            sortDescriptions: ['sortName', 'memberName']
+        });
+        const today:Date = new Date();
+        this.members.filter = function(item:Member) { 
+            let paidThruDate = new Date(item.paidThruDate);
+            return paidThruDate >= today; 
+        };
+    
+        this.members.groups.sort((a,b): number => {
+            return this.sortMemberType(a.name, b.name);
         });
     }
+
+    sortMemberType(a: string, b: string) {
+        let aMemberType:MemberType = this.findMemberType(a);
+        let bMemberType:MemberType = this.findMemberType(b);
+        if (aMemberType.level < bMemberType.level) {
+            return -1;
+        }
+        if (aMemberType.level > bMemberType.level) {
+            return 1;
+        }
+        return 0;
+}
 
     findMemberType(id:string): MemberType {
         if (this.memberTypes) {

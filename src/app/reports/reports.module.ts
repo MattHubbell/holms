@@ -6,6 +6,7 @@ import { WjInputModule }            from 'wijmo/wijmo.angular2.input';
 import { ReportsComponent }         from './reports.component';
 
 import { AlphabeticalListOfMembers }        from './components/alphabetical-list-of-members.component';
+import { ActiveMembersByMemberType }              from "./components/active-members-by-member-type.component";
 import { MembersByMemberType }              from "./components/members-by-member-type.component";
 import { MemberLabels }                     from "./components/members-labels.component";
 import { CashReceiptsDistributionHistory }  from "./components/cash-receipts-distribution-history.component";
@@ -23,6 +24,7 @@ import { AdDirective } from './ad.directive';
     ],
     declarations: [ 
         ReportsComponent,
+        ActiveMembersByMemberType,
         AlphabeticalListOfMembers,
         MembersByMemberType,
         MemberLabels,
@@ -30,7 +32,8 @@ import { AdDirective } from './ad.directive';
         AdDirective
     ],
     providers: [ AdService ],
-    entryComponents: [ 
+    entryComponents: [
+        ActiveMembersByMemberType, 
         AlphabeticalListOfMembers,
         MembersByMemberType,
         MemberLabels,

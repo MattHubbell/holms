@@ -78,14 +78,3 @@ export class AlphabeticalListOfMembers implements OnInit, OnDestroy {
     }
 
 }
-
-const routing: ModuleWithProviders = RouterModule.forChild([
-    { path: '', component: AlphabeticalListOfMembers }
-]);
-
-// @NgModule({
-//     imports: [CommonModule, routing],
-//     declarations: [AlphabeticalListOfMembers],
-// })
-// export class AlphabeticalListOfMembersModule {
-// }
