@@ -24,7 +24,7 @@ export function camelCase(value: string): string {
             if (pc == ' ') {
                 outputString += cc.toUpperCase();
             } else {
-                if ((pc == '/') || ((pc == 'I' || pc == 'V' || pc == 'M'  || pc == 'D') && (value.trim().length - lastSpace) <= 4)) {
+                if ((pc == '-') || (pc == '/') || ((pc == 'I' || pc == 'V' || pc == 'M'  || pc == 'D') && (value.trim().length - lastSpace) <= 4)) {
                     outputString += cc.toUpperCase();
                 } else {
                     outputString += cc.toLowerCase();
