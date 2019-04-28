@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, NgZone } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ElementRef, NgZone, ComponentRef } from '@angular/core';
 import { ComponentFactoryResolver } from '@angular/core';
 import { TitleService }             from '../title.service';
 
@@ -21,6 +21,9 @@ export class ReportsComponent implements AfterViewInit {
     reports: wjcCore.CollectionView;
     zoomLevels: wjcCore.CollectionView;
     viewsLoaded: number;
+    componentRef: ComponentRef<any>;
+    reportOptions: boolean;
+
     @ViewChild('zoomEle') zoomEle: ElementRef;
     @ViewChild(AdDirective) adHost: AdDirective;
 
@@ -42,7 +45,9 @@ export class ReportsComponent implements AfterViewInit {
             { header: 'Select Report ...', name: 'select' },
             { header: 'Active Members by Member Type', name: 'activeMembersByMemberType' },
             { header: 'Alphabetical List of Members', name: 'alphabeticalListOfMembers' },
-            { header: 'Cash Receipts Distribution', name: 'cashReceiptsDistributionHistory' },
+            { header: 'Annual Membership', name: 'AnnualMembership' },
+            { header: 'Cash Receipts Distribution History', name: 'cashReceiptsDistributionHistory' },
+            { header: 'Cash Receipts Distribution Summary', name: 'cashReceiptsDistributionSummary' },
             { header: 'Members by Member Type', name: 'membersByMemberType' },
             { header: 'Member Labels', name: 'memberLabels' },
         ], {
@@ -71,6 +76,7 @@ export class ReportsComponent implements AfterViewInit {
          });
 
          this.ads = this.adService.getAds();
+         this.reportOptions = false;
     }
 
     ngAfterViewInit() {
@@ -103,6 +109,12 @@ export class ReportsComponent implements AfterViewInit {
             viewContainerRef.clear();
             let componentRef = viewContainerRef.createComponent(componentFactory);
             (<AdComponent>componentRef.instance).data = adItem.data;
+            this.componentRef = componentRef;
+            this.reportOptions = (componentRef.instance.reportOptions ? true: false); 
         });
+    }
+
+    changeReportOptions() {
+        this.componentRef.instance.setReportOptions();
     }
 }

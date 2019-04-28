@@ -8,7 +8,7 @@
         <div class="shadow">
             <div class="toolbar {{ viewsLoaded < 6 ? 'disabledtoolbar': ''}}"  >
                 <!-- select report -->
-                <wj-combo-box style="width:300px"
+                <wj-combo-box style="width:350px"
                               [itemsSource]="reports"
                               [displayMemberPath]="'header'">
                 </wj-combo-box>
@@ -30,6 +30,10 @@
                     <i class="material-icons">print</i>
                 </button>
 
+                <!-- report options -->
+                <button mat-icon-button (click)="changeReportOptions()" placement="bottom" ngbTooltip="Report Options" *ngIf="reportOptions">
+                    <i class="material-icons">settings</i>
+                </button>    
             </div>
 
             <div class="report">

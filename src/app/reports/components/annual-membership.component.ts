@@ -7,22 +7,25 @@ import { MemberTypeService } from "../../admin/member-types/member-type.service"
 import { MemberType } from '../../admin/member-types';
 
 import { MatDialog } from '@angular/material';
-import { ReportOptionsDialog } from '../reports.modal';
+import { ReportOptionsDialog, DialogData } from '../reports.modal';
 
 import * as wjcCore from 'wijmo/wijmo';
 import { environment } from '../../../environments/environment';
 
 @Component({
-    selector: 'active-members-by-member-type-cmp',
-    templateUrl: './active-members-by-member-type.component.html'
+    selector: 'annual-membership-cmp',
+    templateUrl: './annual-membership.component.html'
 })
 
-export class ActiveMembersByMemberType implements OnInit, OnDestroy {
+export class AnnualMembership implements OnInit, OnDestroy {
 
+    selectedYear: Date;
     members: wjcCore.CollectionView;
     memberTypes: MemberType[];
     today = new Date();
     subscription: Array<Subscription>;
+
+    public reportOptions: boolean = true;
 
     constructor( 
         private memberService: MemberService,
@@ -34,14 +37,26 @@ export class ActiveMembersByMemberType implements OnInit, OnDestroy {
     } 
     
     ngOnInit() {
-        this.loadData();
+        this.selectedYear = new Date();
+        setTimeout(() => {
+            this.setReportOptions();
+        });
     }
 
+    setReportOptions() {
+        const dialogRef = this.dialog.open(ReportOptionsDialog, {
+            data: { useSelectedYear: true, selectedYear: this.selectedYear }
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+            this.loadData(result.selectedYear);
+        });
+    }
     ngOnDestroy() {
         this.subscription.forEach(x => x.unsubscribe());
     }
 
-    loadData() {
+    loadData(selectedYear: Date) {
+        this.selectedYear = selectedYear;
         this.memberTypeService.getList();
         this.subscription.push(this.memberTypeService.list
             .subscribe(x => {
@@ -49,7 +64,7 @@ export class ActiveMembersByMemberType implements OnInit, OnDestroy {
                 this.memberService.getList();
                 this.subscription.push(this.memberService.list
                     .subscribe(x => {
-                        this.loadCollection(x);
+                        this.loadCollection(x.filter(y => y.lastDuesYear == selectedYear.getFullYear() && y.memberStatus != 'N' && y.memberStatus != 'B'));
                     })
                 );
             })

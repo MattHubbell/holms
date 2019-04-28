@@ -172,7 +172,7 @@ export class GiftMembershipComponent implements OnInit, OnDestroy {
         this.subscription.push(this.memberTypeService.list
             .subscribe(x => {
                 this.model.memberTypes = x.sort(this.compareNumbersDescending);
-                this.gift = x.filter(x =>x.level == 10)[0];
+                this.gift = x.filter(x => x.level == 10)[0];
                 this.minPrice = +this.gift.price;
                 this.model.duesAmount = this.minPrice;
             })

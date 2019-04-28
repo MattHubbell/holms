@@ -1,12 +1,16 @@
 <h2>
-    Cash Receipts Distribution
+    Cash Receipts Distribution History
 </h2>
 
 <div *ngIf="cashMasterHistory">
 
+    <p style="font-size:100%; font-weight:bold; margin: 10pt 0;">
+        Period: {{ startDate | date:'MM/dd/yy' }} thru {{ endDate | date:'MM/dd/yy' }}
+    </p>
+    
     <div *ngFor="let initial of cashMasterHistory.groups">
         <p style="font-size:100%; font-weight:bold; margin: 10pt 0;">
-            Batch # {{initial.name}}
+            Batch # {{ initial.name }} 
         </p>
 
         <div>

@@ -6,6 +6,9 @@ import { Member, MemberService } from "../../members";
 import { MemberType, MemberTypeService } from "../../admin/member-types";
 import { TransactionCode, TransactionCodeService } from "../../admin/transaction-codes";
 
+import { MatDialog } from '@angular/material';
+import { ReportOptionsDialog } from '../reports.modal';
+
 
 import * as wjcCore from 'wijmo/wijmo';
 import { environment } from '../../../environments/environment';
@@ -24,29 +27,51 @@ export class CashReceiptsDistributionHistory implements OnInit, OnDestroy {
     transactionCodes: TransactionCode[];
     today = new Date();
     subscription: Array<Subscription>;
+    startDate: Date;
+    endDate: Date;
+    
+    public reportOptions: boolean = true;
 
     constructor(
         private cashMasterHistoryService: CashMasterHistoryService, 
         private cashDetailHistoryService: CashDetailHistoryService, 
         private memberService: MemberService,
         private memberTypeService: MemberTypeService,
-        private transactionCodeService: TransactionCodeService
+        private transactionCodeService: TransactionCodeService,
+        public dialog: MatDialog
     ) {
         wjcCore.setLicenseKey(environment.wijmoDistributionKey);
         this.subscription = new Array<Subscription>();
     } 
     
     ngOnInit() {
+        setTimeout(() => {
+            this.setReportOptions();
+        });
+    }
+
+    setReportOptions() {
+        const dialogRef = this.dialog.open(ReportOptionsDialog, {
+            data: { useDateRange: true, startDate: this.startDate, endDate: this.endDate }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            this.loadData(result.startDate, result.endDate);
+        });
+    }
+
+    loadData(startDate: Date, endDate: Date) {
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.cashMasterHistoryService.getList();
         this.subscription.push(this.cashMasterHistoryService.list
             .subscribe(x => {
-                this.loadCashMastHistory(x);
+                this.loadCashMastHistory(x.filter(y => new Date(y.transDate) >= startDate && new Date(y.transDate) <= endDate));
             })
         );
         this.cashDetailHistoryService.getList();
         this.subscription.push(this.cashDetailHistoryService.list
             .subscribe(x => {
-                this.cashDetailHistory = x;
+                this.cashDetailHistory = x.filter(y => new Date(y.transDate) >= startDate && new Date(y.transDate) <= endDate);
             })
         );
         this.memberService.getList();
