@@ -13,10 +13,6 @@
                         <mat-datepicker #startDate></mat-datepicker>
                     </mat-form-field>
                 </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row" *ngIf="data.useDateRange">
                 <div class="col-sm-5">
                     <mat-form-field>
                         <input matInput [matDatepicker]="endDate" placeholder="End Date"
@@ -34,7 +30,14 @@
                 </div>
             </div>
         </div>
-    </div>
+        <div class="container">
+                <div class="row" *ngIf="data.useTotalsOnly">
+                    <div class="col-sm-5">
+                        <mat-checkbox [(ngModel)]="data.isTotalsOnly">Totals Only</mat-checkbox>
+                    </div>
+                </div>
+            </div>
+        </div>
     <div class="modal-footer">
         <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
     </div>

@@ -5,7 +5,7 @@ import { CashDetailHistoryService, CashDetailHistory } from "../../admin/transac
 import { TransactionCode, TransactionCodeService } from "../../admin/transaction-codes";
 
 import { MatDialog } from '@angular/material';
-import { ReportOptionsDialog } from '../reports.modal';
+import { ReportOptionsDialog, DialogData } from '../reports.modal';
 
 
 import * as wjcCore from 'wijmo/wijmo';
@@ -24,6 +24,7 @@ export class CashReceiptsDistributionSummary implements OnInit, OnDestroy {
     subscription: Array<Subscription>;
     startDate: Date;
     endDate: Date;
+    isTotalsOnly: boolean;
     
     public reportOptions: boolean = true;
 
@@ -44,20 +45,21 @@ export class CashReceiptsDistributionSummary implements OnInit, OnDestroy {
 
     setReportOptions() {
         const dialogRef = this.dialog.open(ReportOptionsDialog, {
-            data: { useDateRange: true, startDate: this.startDate, endDate: this.endDate }
+            data: { useDateRange: true, startDate: this.startDate, endDate: this.endDate, useTotalsOnly: true, isTotalsOnly: this.isTotalsOnly }
         });
         dialogRef.afterClosed().subscribe(result => {
-            this.loadData(result.startDate, result.endDate);
+            this.loadData(result);
         });
     }
 
-    loadData(startDate: Date, endDate: Date) {
-        this.startDate = startDate;
-        this.endDate = endDate;
+    loadData(data: DialogData) {
+        this.startDate = data.startDate;
+        this.endDate = data.endDate;
+        this.isTotalsOnly = data.isTotalsOnly;
         this.cashDetailHistoryService.getList();
         this.subscription.push(this.cashDetailHistoryService.list
             .subscribe(x => {
-                this.loadCashDetailHistory(x.filter(y => new Date(y.transDate) >= startDate && new Date(y.transDate) <= endDate));
+                this.loadCashDetailHistory(x.filter(y => new Date(y.transDate) >= data.startDate && new Date(y.transDate) <= data.endDate));
                 this.transactionCodes = new Array<TransactionCode>();
                 this.transactionCodeService.getList();
                 this.subscription.push(this.transactionCodeService.list

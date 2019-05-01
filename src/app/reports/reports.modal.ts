@@ -24,5 +24,7 @@ export interface DialogData {
     endDate: Date;
     useSelectedYear: boolean;
     selectedYear: Date;
+    useTotalsOnly: boolean;
+    isTotalsOnly: boolean;
 }
   
