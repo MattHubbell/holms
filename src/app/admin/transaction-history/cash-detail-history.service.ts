@@ -14,6 +14,10 @@ export class CashDetailHistoryService {
         this.list = this.fs.getItems(CashDetailHistory.TableName());
     }
 
+    getListByID(equalTo:string) {
+        this.list = this.fs.getItems(CashDetailHistory.TableName(), 'receiptNo', equalTo);
+    }
+
     getListByReceiptNo(receiptNo: string) {
         this.list = this.fs.getItems(CashDetailHistory.TableName(), 'receiptNo', receiptNo);
     }

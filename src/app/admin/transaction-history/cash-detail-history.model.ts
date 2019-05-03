@@ -1,3 +1,5 @@
+import * as f from '../../shared/functions';
+
 import { toDatabaseDate } from "src/app/shared/functions";
 
 export class CashDetailHistory {
@@ -31,6 +33,10 @@ export class CashDetailHistory {
         this.duesCode = (duesCode) ? duesCode : '';
         this.duesYear = (duesYear) ? duesYear : 0;
         this.batchNo = (batchNo) ? batchNo : '';
+    }
+
+    public static clone(model: CashDetailHistory): CashDetailHistory {
+        return f.clone(model);
     }
 
     public static TableName(): string {

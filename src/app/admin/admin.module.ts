@@ -18,7 +18,7 @@ import { ListMembershipUserComponent, MembershipUserModalContent, MembershipUser
 import { ListNewRegistrationComponent, NewRegistrationModalContent, NewRegistrationService } from './new-registrations';
 import { ListMemberTypeComponent, MemberTypeService, MemberTypeModalContent } from './member-types';
 import { ListMemberStatusComponent, MemberStatusService, MemberStatusModalContent } from './member-status';
-import { CashMasterHistoryService, CashDetailHistoryService } from './transaction-history';
+import { CashMasterHistoryService, CashDetailHistoryService, CashMasterHistoryModalContent, CashDetailHistoryModalContent } from './transaction-history';
 import { CashMasterService, CashDetailService, ListCashEntryComponent, CashEntryModalContent, CashDetailModalContent, CheckRegisterComponent, CheckRegisterModalContent, DistributionSummaryComponent, DistributionSummaryModalContent } from './cash-entry';
 import { InvoiceComponent } from './user/invoice.component';
 import { InvoiceModalContent } from './user/invoice.modal';
@@ -52,6 +52,8 @@ import { AppMenuService, ListAppMenuComponent, AppMenuModalContent } from './app
     ListCashEntryComponent,
     CashEntryModalContent,
     CashDetailModalContent,
+    CashMasterHistoryModalContent,
+    CashDetailHistoryModalContent,
     ListAppMenuComponent,
     AppMenuModalContent,
     CheckRegisterComponent,
@@ -72,6 +74,8 @@ import { AppMenuService, ListAppMenuComponent, AppMenuModalContent } from './app
     MemberStatusModalContent,
     CashEntryModalContent,
     CashDetailModalContent,
+    CashMasterHistoryModalContent,
+    CashDetailHistoryModalContent,
     AppMenuModalContent,
     CheckRegisterComponent,
     CheckRegisterModalContent, 

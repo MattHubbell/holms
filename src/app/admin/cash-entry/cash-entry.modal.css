@@ -56,8 +56,8 @@ confirm-button-default .dark-modal .modal-content {
 .Custom-table-width {
   margin-left: 0;
   margin-right: 0;
-  padding-left: 0;
-  padding-right: 0;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .mat-dialog-container {
   padding: 0;

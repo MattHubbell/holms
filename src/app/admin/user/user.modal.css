@@ -36,3 +36,10 @@
 .field-top-margin {
     margin-top: -22px;
 }
+.Custom-table-width {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 10px;
+    padding-right:10px;
+}
+  

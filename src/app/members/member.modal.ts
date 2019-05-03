@@ -1,5 +1,5 @@
-import { Component, Input, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { Component, Input, ViewChild, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
+import { MatDialogRef, MatTableDataSource, MatPaginator, MatDialog, MatDialogConfig } from '@angular/material';
 import { ConfirmResponses } from '../shared/modal/confirm-btn-default';
 import { MatSnackBar } from '@angular/material';
 import { Observable } from 'rxjs';
@@ -10,8 +10,11 @@ import { MemberService } from './member.service';
 import { MemberType, MemberTypeService} from '../admin/member-types';
 import { MemberStatus, MemberStatusService } from '../admin/member-status';
 import { MembershipUser, MembershipUserService } from '../admin/membership-users';
+import { CashMasterHistory } from '../admin/transaction-history/cash-master-history.model';
+import { CashMasterHistoryService } from '../admin/transaction-history/cash-master-history.service';
 import { Setup, SetupService } from "../admin/setup";
 import { Salutations, Countries } from '../shared';
+import { CashMasterHistoryModalContent } from '../admin/transaction-history/cash-master-history.modal';
 
 @Component({
     selector: 'member-modal-content',
@@ -23,7 +26,9 @@ export class MemberModalContent implements OnInit, OnDestroy {
 
     @Input() selectedItem: Observable<Member>;
     @Input() model: Member;
+    @Input() members: Member[];
     @Input() isNewItem: Boolean;
+    @ViewChild(MatPaginator) paginator: MatPaginator;
 
     isSubmitted: boolean;
     tableName: string;
@@ -35,13 +40,20 @@ export class MemberModalContent implements OnInit, OnDestroy {
     setup: Setup;
     subscription: Array<Subscription>;
     selectedTabIndex: number;
-
+    entries: CashMasterHistory[];
+    dataSource = new MatTableDataSource<CashMasterHistory>(this.entries);
+    displayedColumns = ['transDate', 'checkNo', 'checkDate', 'checkAmt'];
+    modalRef: MatDialogRef<any,any>;
+    dialogConfig: MatDialogConfig;
+  
     constructor(
         private memberService: MemberService,
         private memberTypeService: MemberTypeService,
         private memberStatusService: MemberStatusService,
         private membershipUserService: MembershipUserService,
         private setupService: SetupService,
+        private cashMasterHistoryService: CashMasterHistoryService,
+        private modalService: MatDialog,
         public snackBar: MatSnackBar, 
         public dialogRef: MatDialogRef<MemberModalContent>
     ) {
@@ -79,6 +91,14 @@ export class MemberModalContent implements OnInit, OnDestroy {
                     this.membershipUser = x[0];
                 })
             );
+            this.cashMasterHistoryService.getListByMemberNo(this.model.memberNo);
+            this.subscription.push(this.cashMasterHistoryService.list
+                .subscribe(x => {
+                    this.entries = x;
+                    this.dataSource = new MatTableDataSource<CashMasterHistory>(this.entries);
+                    this.dataSource.paginator = this.paginator;
+                })
+            );    
         }
     }
 
@@ -125,5 +145,13 @@ export class MemberModalContent implements OnInit, OnDestroy {
         // console.log(this.model.paidThruDate);
         // console.log(new Date(this.model.paidThruDate).toLocaleDateString());
         this.dialogRef.close();
+    }
+
+    displayCashEntry(cashMasterHistory: any) {
+        this.modalRef = this.modalService.open(CashMasterHistoryModalContent, this.dialogConfig);
+        this.modalRef.componentInstance.members = this.members;
+        this.modalRef.componentInstance.isNewItem = false;
+        this.modalRef.componentInstance.selectedItem = cashMasterHistory;
+        this.modalRef.componentInstance.model = CashMasterHistory.clone(cashMasterHistory);
     }
 }

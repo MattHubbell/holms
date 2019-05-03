@@ -91,6 +91,7 @@ export class ListMemberComponent implements OnInit, OnDestroy {
         this.modalRef = this.modalService.open(MemberModalContent, dialogConfig);
         this.modalRef.componentInstance.isNewItem = true;
         this.modalRef.componentInstance.model = new Member();
+        this.modalRef.componentInstance.members = this.members;
     }
 
     edit(member:any) {
@@ -100,6 +101,7 @@ export class ListMemberComponent implements OnInit, OnDestroy {
         this.modalRef = this.modalService.open(MemberModalContent, dialogConfig);
         this.modalRef.componentInstance.selectedItem = member;
         this.modalRef.componentInstance.model = Member.clone(member);
+        this.modalRef.componentInstance.members = this.members;
     }
 
 }
