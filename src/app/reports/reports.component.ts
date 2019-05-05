@@ -7,7 +7,7 @@ import { AdItem }      from './ad-item';
 import { AdComponent } from './ad.component';
 import { AdService }   from './ad.service';
 
-import * as wjcCore from 'wijmo/wijmo';
+import * as wjcCore from '@grapecity/wijmo';
 import { environment } from '../../environments/environment';
 
 

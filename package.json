@@ -1,6 +1,6 @@
 {
   "name": "holms",
-  "version": "3.4.8",
+  "version": "3.4.9",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -25,6 +25,7 @@
     "@angular/platform-browser": "^7.2.14",
     "@angular/platform-browser-dynamic": "^7.2.14",
     "@angular/router": "^7.2.14",
+    "@grapecity/wijmo.angular2.all": "^5.20191.605",
     "@ng-bootstrap/ng-bootstrap": "^4.0.4",
     "angular-froala-wysiwyg": "^2.9.3",
     "angular2-csv": "^0.2.5",
@@ -40,7 +41,6 @@
     "rxjs": "^6.5.1",
     "rxjs-compat": "^6.4.0",
     "web-animations-js": "^2.3.1",
-    "wijmo": "^5.20183.568",
     "zone.js": "~0.8.29"
   },
   "devDependencies": {

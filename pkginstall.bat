@@ -12,7 +12,8 @@ npm install --save angular2-csv@0.2.5
 npm install @angular/flex-layout@latest --save
 npm install --save web-animations-js
 -- npm install libphonenumber-js --save
-npm install /Users/matt/Downloads/wijmo-5.20181.462/NpmImages/wijmo-amd-min
+-- npm install /Users/matt/Downloads/wijmo-5.20181.462/NpmImages/wijmo-amd-min
+npm install @grapecity/wijmo.angular2.all
 npm install ngx-cookie-service
 npm install crypto-ts
 npm install google-libphonenumber

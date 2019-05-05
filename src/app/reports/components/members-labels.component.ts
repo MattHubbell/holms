@@ -1,11 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ModuleWithProviders } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { MemberService } from "../../members/member.service";
 
-import * as wjcCore from 'wijmo/wijmo';
+import * as wjcCore from '@grapecity/wijmo';
 import { environment } from '../../../environments/environment';
 
 @Component({

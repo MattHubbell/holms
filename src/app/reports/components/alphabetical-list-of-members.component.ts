@@ -7,7 +7,7 @@ import { MemberType } from '../../admin/member-types';
 import { MemberService } from "../../members/member.service";
 import { MemberTypeService } from "../../admin/member-types/member-type.service";
 
-import * as wjcCore from 'wijmo/wijmo';
+import * as wjcCore from '@grapecity/wijmo';
 import { environment } from '../../../environments/environment';
 
 

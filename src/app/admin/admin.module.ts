@@ -3,7 +3,7 @@ import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { CommonModule }                       from '@angular/common';
 import { NgbModule } 			                    from '@ng-bootstrap/ng-bootstrap';
 
-import { WjInputModule }            from 'wijmo/wijmo.angular2.input';
+import { WjInputModule }            from '@grapecity/wijmo.angular2.input';
 import { AdService }   from './cash-entry/ad.service';
 import { AdDirective } from './cash-entry/ad.directive';
 

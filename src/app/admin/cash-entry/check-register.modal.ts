@@ -4,8 +4,8 @@ import { MatDialogRef } from '@angular/material';
 import { CashMaster } from './cash-master.model';
 import { Member } from '../../members/member.model';
 
-import * as wjcCore from 'wijmo/wijmo';
-import * as wjcPdf from 'wijmo/wijmo.pdf';
+import * as wjcCore from '@grapecity/wijmo';
+import * as wjcPdf from '@grapecity/wijmo.pdf';
 import { environment } from '../../../environments/environment';
 
 @Component({

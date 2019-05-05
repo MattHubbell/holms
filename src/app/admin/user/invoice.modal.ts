@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material';
 import { CashDetailHistory } from '../transaction-history/cash-detail-history.model';
 import { TransactionCode } from '../transaction-codes/transaction-code.model';
 
-import * as wjcCore from 'wijmo/wijmo';
+import * as wjcCore from '@grapecity/wijmo';
 import { environment } from '../../../environments/environment';
 import { CashMaster } from '../cash-entry';
 import { Member } from 'src/app/members';

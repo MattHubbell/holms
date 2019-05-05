@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material';
 import { CashDetail } from './cash-detail.model';
 import { TransactionCode } from '../transaction-codes/transaction-code.model';
 
-import * as wjcCore from 'wijmo/wijmo';
+import * as wjcCore from '@grapecity/wijmo';
 import { environment } from '../../../environments/environment';
 
 @Component({

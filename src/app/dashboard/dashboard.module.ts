@@ -3,10 +3,11 @@ import { CommonModule } 		                              from '@angular/common';
 import { FormsModule, ReactiveFormsModule }               from '@angular/forms';
 import { NgbModule } 			                                from '@ng-bootstrap/ng-bootstrap';
 import { FroalaEditorModule, FroalaViewModule }           from 'angular-froala-wysiwyg';
-
-//import { AgmCoreModule }        from 'angular2-google-maps/core';
+import { WjChartModule }                                  from '@grapecity/wijmo.angular2.chart';
+import { WjChartAnimationModule }                         from '@grapecity/wijmo.angular2.chart.animation';
 import { DashboardComponent }                             from './dashboard.component';
 import { WelcomeEditorComponent }                         from './welcome-editor.component';
+import { MembershipChartComponent }                       from './membership-chart.component';
 import { EditorService }                                  from './editor.service';
 import { MaterialModule }                                 from '../material.module';
 
@@ -18,12 +19,11 @@ import { MaterialModule }                                 from '../material.modu
     MaterialModule, 
     NgbModule.forRoot(),     
     FroalaEditorModule.forRoot(),
-    FroalaViewModule.forRoot()
-  //   AgmCoreModule.forRoot({
-  //   apiKey: 'AIzaSyCf-yUxehEcJYP2AoIa_Y7fx8ptXgXo8wo'
-  // }) 
+    FroalaViewModule.forRoot(),
+    WjChartModule, 
+    WjChartAnimationModule
   ],
-  declarations: [ DashboardComponent, WelcomeEditorComponent ],
+  declarations: [ DashboardComponent, WelcomeEditorComponent, MembershipChartComponent ],
   providers: [ EditorService ]
 })
 export class DashboardModule {}

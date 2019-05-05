@@ -2,7 +2,7 @@ import { NgModule }                 from '@angular/core';
 import { CommonModule } 		    from '@angular/common';
 import { FormsModule, ReactiveFormsModule }  from '@angular/forms';
 import { SharedModule }             from '../shared/shared.module';
-import { WjInputModule }            from 'wijmo/wijmo.angular2.input';
+import { WjInputModule }            from '@grapecity/wijmo.angular2.input';
 import { ReportsComponent }         from './reports.component';
 import { ReportOptionsDialog }      from './reports.modal';
 

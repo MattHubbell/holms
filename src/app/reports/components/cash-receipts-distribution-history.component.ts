@@ -10,7 +10,7 @@ import { MatDialog } from '@angular/material';
 import { ReportOptionsDialog } from '../reports.modal';
 
 
-import * as wjcCore from 'wijmo/wijmo';
+import * as wjcCore from '@grapecity/wijmo';
 import { environment } from '../../../environments/environment';
 
 @Component({
