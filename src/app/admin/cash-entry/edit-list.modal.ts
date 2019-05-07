@@ -8,11 +8,11 @@ import * as wjcCore from '@grapecity/wijmo';
 import { environment } from '../../../environments/environment';
 
 @Component({
-    templateUrl: './check-register.modal.html',
-    styleUrls: [ './check-register.modal.css' ]
+    templateUrl: './edit-list.modal.html',
+    styleUrls: [ './edit-list.modal.css' ]
 })
 
-export class CheckRegisterModalContent implements AfterViewInit {
+export class EditListModalContent implements AfterViewInit {
 
     zoomLevels: wjcCore.CollectionView;
     @Input() batchNo: string;
@@ -22,7 +22,7 @@ export class CheckRegisterModalContent implements AfterViewInit {
     viewsLoaded: number;
 
     constructor(
-        public dialogRef: MatDialogRef<CheckRegisterModalContent>
+        public dialogRef: MatDialogRef<EditListModalContent>
     ) {
         wjcCore.setLicenseKey(environment.wijmoDistributionKey);
         // zoom levels
@@ -51,7 +51,7 @@ export class CheckRegisterModalContent implements AfterViewInit {
         
         // create document
         const doc = new wjcCore.PrintDocument({
-            title: "Cash Receipts Check Register"
+            title: "Cash Receipts Edit List"
         });
 
         // add content to it

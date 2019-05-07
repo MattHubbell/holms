@@ -9,7 +9,6 @@ import { TransactionCode, TransactionCodeService } from "../../admin/transaction
 import { MatDialog } from '@angular/material';
 import { ReportOptionsDialog } from '../reports.modal';
 
-
 import * as wjcCore from '@grapecity/wijmo';
 import { environment } from '../../../environments/environment';
 

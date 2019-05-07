@@ -9,3 +9,5 @@ export * from './check-register.component';
 export * from './check-register.modal';
 export * from './distribution-summary.component';
 export * from './distribution-summary.modal';
+export * from './edit-list.component';
+export * from './edit-list.modal';

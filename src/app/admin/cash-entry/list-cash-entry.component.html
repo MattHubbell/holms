@@ -75,8 +75,50 @@
                 </div>
             </div>
         </mat-card-content>
-        <table>
-            <td style="min-width: 200px;">
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-3">
+                    <h6 style="margin-top: 30px; width: auto">Total Selected: {{selectionTotal | currency}}</h6>
+                </div>
+
+
+                <div class="col-9">
+                    <div class="row justify-content-end">
+                        <div class="col-auto">
+                            <mat-form-field>
+                                <input matInput name="batchNo" placeholder="Batch #" [(ngModel)]="batchNo">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-auto" style="margin: 20px 20px 0 0">
+                            <button mat-raised-button type="button" color="primary" (click)="onAssignBatchNo()" [disabled]="selectionTotal == 0 || batchNo.length > 0" matTooltip="Assign next batch #">Assign</button>
+                        </div>
+                        <div class="col-auto" style="margin: 20px 5px 0 0">
+                            <button mat-raised-button type="button" color="primary" (click)="getEditList()" matTooltip="Edit List">Edit List</button>
+                        </div>
+                        <div class="col-auto" style="margin: 20px 5px 0 0">
+                            <button mat-raised-button type="button" color="primary" (click)="getCheckRegister()" [disabled]="selectionTotal == 0 || batchNo.length == 0" matTooltip="Display check register for batch #">Check Register</button>
+                        </div>
+                        <div class="col-auto" style="margin: 20px 5px 0 0">
+                            <button mat-raised-button type="button" color="primary" (click)="getDistributionSummary()" [disabled]="selectionTotal == 0 || batchNo.length == 0" matTooltip="Display distribution summary for batch #">Distribution Summary</button>
+                        </div>
+                        <div class="col-auto" style="margin: 20px 5px 0 0">
+                            <button mat-raised-button type="button" color="primary" (click)="post()" [disabled]="readyToPost() == false" matTooltip="Post batch #">Post Batch</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="col-sm-2">
+                </div> -->
+                <!-- <div class="col-sm-4">
+                    <button mat-raised-button type="button" color="primary" (click)="repairCashRecords()" matTooltip="Repair Cash Records">Repair</button>
+                </div> -->
+
+            </div>
+        </div>
+        
+        <!-- <table>
+            <td style="min-width: 150px;">
                 <h6>Total Selected: {{selectionTotal | currency}}</h6>
             </td>
             <td >
@@ -98,9 +140,9 @@
             <td style="padding-right:5px">
                 <button mat-raised-button type="button" color="primary" (click)="post()" [disabled]="readyToPost() == false" matTooltip="Post batch #">Post Batch</button>
             </td>
-            <!-- <td style="min-width: 100px;">
+            <td style="min-width: 100px;">
                 <button mat-raised-button type="button" color="primary" (click)="repairCashRecords()" matTooltip="Repair Cash Records">Repair</button>
-            </td> -->
-        </table>
+            </td>
+        </table> -->
     </mat-card>
 </div>

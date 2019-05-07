@@ -1,10 +1,6 @@
 <h2>
-    Cash Receipts - Check Register - U.S. Funds
+    Cash Receipts - Edit List
 </h2>
-
-<p style="font-size:100%; font-weight:bold; margin: 10pt 0;">
-    Batch # {{batchNo}}
-</p>
 
 <div>
 <div style="border-top:2px solid black; margin-bottom:24pt">
@@ -33,7 +29,7 @@
         </div>
     </div>
 
-    <div *ngFor="let cashMaster of cashMasters">
+    <div *ngFor="let cashMaster of cashMasters" style="border-top:1px solid black;">
         <div style="display: flex; font-size: 8pt; margin: 0 0 0 0; page-break-inside:avoid">
 
             <div style="width:80px">
@@ -70,7 +66,26 @@
             <div style="width:270px">
                 {{ cashMaster?.comments }}
             </div>
-        </div>    
+        </div>
+        
+        <div style="margin-bottom: 5pt;">
+            <div *ngFor="let cashDetail of cashDetails | filter : 'receiptNo' : cashMaster?.receiptNo : 'equals' ">
+                <div style="display: flex; font-size: 8pt; margin: 0 0 0 0; page-break-inside:avoid">
+                    <div style="width: 260px">
+                        {{ findTransactionCode(cashDetail?.tranCode)?.description }}
+                    </div>
+                    <div style="width: 100px">
+                        {{ findMemberType(cashDetail?.duesCode)?.description }}
+                    </div>
+                    <div style="width: 290px">
+                        {{ cashDetail?.distQty == 0 ? '' : cashDetail?.distQty }}
+                    </div>
+                    <div style="width: 80px">
+                        {{ cashDetail?.distQty == 0 ? (cashDetail?.distAmt | currency) : ((cashDetail?.distQty * cashDetail?.distAmt) | currency) }}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div style="display: flex; font-size: 8pt; margin: 0 0 0 500px; page-break-inside:avoid">

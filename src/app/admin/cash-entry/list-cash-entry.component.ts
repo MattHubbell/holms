@@ -20,6 +20,7 @@ import { MemberService, Member } from '../../members';
 import { Setup, SetupService } from "../setup";
 import { TransactionCodeService, TransactionCode } from '../transaction-codes';
 import { TitleService } from '../../title.service';
+import { EditListModalContent } from './edit-list.modal';
 
 @Component({
     templateUrl: './list-cash-entry.component.html',
@@ -221,6 +222,13 @@ export class ListCashEntryComponent implements OnInit, OnDestroy {
                 }
             });
         });
+    }
+
+    getEditList() {
+        const modalRef = this.modalService.open(EditListModalContent);
+        modalRef.componentInstance.batchNo = this.batchNo;
+        modalRef.componentInstance.cashMasters = this.selection.selected;
+        modalRef.componentInstance.members = this.members;
     }
 
     getCheckRegister() {
