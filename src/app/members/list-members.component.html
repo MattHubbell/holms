@@ -1,0 +1,89 @@
+<div class="container main-container" >
+    <!--Card-->
+    <mat-card>
+        <ng-template ngbModalContainer></ng-template>
+        <mat-card-content>
+
+            <div class="example-header">
+                <form>
+                    <div class="row">
+                        <div class="col-sm-4 col-md-2">
+                            <mat-form-field>
+                                <mat-select placeholder="Filter By" [(value)]="filterBy" 
+                                    (selectionChange)="onFilterChange()">
+                                    <mat-option *ngFor="let filterBy of filterOptions | enumKeys" [value]="filterBy.key">
+                                        {{filterBy.value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>                                        
+                        </div>
+                        <div class="col-sm-7 col-md-9">
+                            <mat-form-field>
+                                <mat-icon matPrefix class="search-icon">search</mat-icon>
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <button mat-mini-fab matTooltip="Add member" color="primary" class="floating-fab" (click)="addNew()"><mat-icon>add</mat-icon></button>
+                </form>
+            </div>
+                                          
+            <div class="container Custom-table-width">                        
+                <div class="example-container mat-elevation-z8">
+                    
+                    <mat-table #table [dataSource]="dataSource" matSort matSortActive="memberNo" matSortDirection="asc">
+                    
+                        <ng-container matColumnDef="memberNo">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> # </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.memberNo}} </mat-cell>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="memberName">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.memberName}} </mat-cell>
+                        </ng-container>
+                    
+                        <ng-container matColumnDef="addrLine1">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Address 1 </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.addrLine1}} </mat-cell>
+                        </ng-container>
+                    
+                        <ng-container matColumnDef="addrLine2">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Address 2 </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.addrLine2}} </mat-cell>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="city">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> City </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.city}} </mat-cell>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="state">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> State </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.state}} </mat-cell>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="zip">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Zip </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.zip}} </mat-cell>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="meBook">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> M&amp;E </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.meBook}} </mat-cell>
+                        </ng-container>
+                            
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let element; columns: displayedColumns;" (click)="edit(element)"></mat-row>
+                    </mat-table>
+
+                    <mat-paginator #paginator
+                        [showFirstLastButtons]="true"
+                        [pageSize]="10"
+                        [pageSizeOptions]="[5, 10, 20]">
+                    </mat-paginator>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

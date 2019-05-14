@@ -1,0 +1,10 @@
+.border-top-double-addon {
+    border-top-style: double;
+}
+.custom-width {
+    width: 100%;
+    margin-bottom: 10px;
+}
+.custom-margin {
+    margin-top: 0;
+}

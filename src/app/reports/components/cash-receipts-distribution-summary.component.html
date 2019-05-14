@@ -1,0 +1,98 @@
+<h2>
+    Cash Receipts Distribution Summary
+</h2>
+
+<div *ngIf="cashDetailHistory">
+
+    <p style="font-size:100%; font-weight:bold; margin: 10pt 0;">
+        Period: {{ startDate | date:'MM/dd/yy' }} thru {{ endDate | date:'MM/dd/yy' }} <span *ngIf="isTotalsOnly"> Totals Only</span>
+    </p>
+    <div *ngIf="!isTotalsOnly">
+            <div *ngFor="let initial of cashDetailHistory.groups">
+            <p style="font-size:100%; font-weight:bold; margin: 5pt 0;">
+                Batch # {{ initial.name }} 
+            </p>
+
+            <div>
+            <div style="border-top:2px solid black; margin-bottom:6pt">
+
+                <div style="display:flex; font-size: 8pt; font-weight:bold; margin: 0 0 2pt 0">
+                    <div style="width:300px">
+                        Distribution Type
+                    </div>
+                    <div style="width:100px; text-align:right; margin-right: 10px;">
+                        Count
+                    </div>
+                    <div style="width:100px; text-align:right; margin-right: 10px;">
+                        Amount
+                    </div>
+                </div>
+                
+                <div>
+                    <div *ngFor="let transactionCode of transactionCodes"> 
+                        <div style="display: flex; font-size: 8pt; margin: 0 0 0 0" *ngIf="calculateAmount(transactionCode?.id, initial.name) > 0">
+                            <div style="width:300px; margin-bottom: 0">
+                                {{ transactionCode?.description }} 
+                            </div>
+                            <div style="width:100px; text-align:right; margin-right: 10px; margin-bottom: 0">
+                                {{ calculateCount(transactionCode?.id, initial.name) | number }}
+                            </div>
+                            <div style="width:100px; text-align:right; margin-right: 10px; margin-bottom: 0">
+                                {{ calculateAmount(transactionCode?.id, initial.name) | currency }}
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+                    
+                <div style="display: flex; font-size: 8pt; margin: 0 0 0 330px; page-break-inside:avoid">
+                    <div style="width: 100px">
+                        Batch Total: 
+                    </div>
+                    <div style="border-top:2px solid black; width: 80px; text-align:right; margin-right: 5px;">
+                        {{ getBatchTotal(initial.name) | currency }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p style="font-size:100%; font-weight:bold; margin: 5pt 0;">
+    Summary 
+</p>
+
+<div style="border-top:2px solid black; margin-bottom:0">
+    <div style="display:flex; font-size: 8pt; font-weight:bold; margin: 0 0 2pt 0">
+        <div style="width:300px">
+            Distribution Type
+        </div>
+        <div style="width:100px; text-align:right; margin-right: 10px;">
+            Count
+        </div>
+        <div style="width:100px; text-align:right; margin-right: 10px;">
+            Amount
+        </div>
+    </div>
+    <div *ngFor="let transactionCode of transactionCodes"> 
+        <div style="display: flex; font-size: 8pt; margin: 0 0 0 0" *ngIf="getTransactionCodeAmount(transactionCode?.id) > 0">
+            <div style="width:300px; margin-bottom: 0">
+                {{ transactionCode?.description }} 
+            </div>
+            <div style="width:100px; text-align:right; margin-right: 10px; margin-bottom: 0">
+                {{ getTransactionCodeCount(transactionCode?.id) | number }}
+            </div>
+            <div style="width:100px; text-align:right; margin-right: 10px; margin-bottom: 0">
+                {{ getTransactionCodeAmount(transactionCode?.id) | currency }}
+            </div>
+        </div>    
+    </div>
+</div>
+
+<div style="display: flex; font-size: 8pt; margin: 0 0 0 330px; page-break-inside:avoid">
+    <div style="width: 100px">
+        Report Total: 
+    </div>
+    <div style="border-top:2px solid black; width: 80px; text-align:right; margin-right: 5px;">
+        {{getReportTotal() | currency}}
+    </div>
+</div>

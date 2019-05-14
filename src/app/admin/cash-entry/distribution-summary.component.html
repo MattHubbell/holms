@@ -1,0 +1,47 @@
+<h2>
+        Cash Receipts - Distribution Summary
+    </h2>
+    
+    <p style="font-size:100%; font-weight:bold; margin: 10pt 0;">
+        Batch # {{batchNo}}
+    </p>
+    
+    <div>
+    <div style="border-top:2px solid black; margin-bottom:24pt">
+    
+        <div style="display:flex; font-size: 8pt; font-weight:bold; margin: 0 0 2pt 0">
+            <div style="width:300px">
+                Distribution Type
+            </div>
+            <div style="width:100px; text-align:right; margin-right: 10px;">
+                Count
+            </div>
+            <div style="width:100px; text-align:right; margin-right: 10px;">
+                Amount
+            </div>
+        </div>
+    
+        <div>
+            <div style="display: flex; font-size: 8pt; margin: 0 0 2pt 0" *ngFor="let transactionCode of transactionCodes">
+                <div style="width:300px">
+                    <p>
+                        {{ transactionCode?.description }} 
+                    </p>
+                </div>
+                <div style="width:100px; text-align:right; margin-right: 10px;">
+                    {{ calculateCount(transactionCode?.id) | number }}
+                </div>
+                <div style="width:100px; text-align:right; margin-right: 10px;">
+                    {{ calculateAmount(transactionCode?.id) | currency }}
+                </div>
+            </div>    
+        </div>
+        <div style="display: flex; font-size: 8pt; margin: 0 0 0 300px" >
+            <div style="width: 100px; text-align:right; margin-right: 10px;">
+                Total: 
+            </div>
+            <div style="border-top:2px solid black; width: 100px; text-align:right; margin-right: 5px;">
+                {{getBatchTotal() | currency}}
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,62 @@
+.Custom-width, .mat-card, .mat-card {
+    width: 100%;
+    padding: 0;
+    margin: 0 0 25% 0;
+}
+.Custom-border {
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-top-color: #3C599F;
+}
+.Custom-margin {
+    margin-top: 5px;
+}
+.Custom-divider {
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-top-color: #3C599F;
+    margin-left: -15px;
+}
+.custom-row {
+    margin-left: -15px;
+}
+.fa-cog {
+color: #3C599F;
+}
+.g-blue {
+    color: #0057e7;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.g-red {
+    color: #d62d20;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.g-yellow {
+    color: #ffa700;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.g-green {
+    color: 	#008744;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.example-headers-align .mat-expansion-panel-header-title, 
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+.custom-checkbox-label {
+    font-size: 75%;
+    color: gray;
+}
+:host >>> .alert-danger {
+    margin-bottom: 0; 
+    border-radius: 0;
+}  

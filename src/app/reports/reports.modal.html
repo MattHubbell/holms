@@ -1,0 +1,44 @@
+<div class="width-form">
+    <div class="modal-header">
+        <h4 class="modal-title">Report Options</h4>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <div class="row" *ngIf="data.useDateRange">
+                <div class="col-sm-5">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="startDate" placeholder="Start Date"
+                            name="startDate" [(ngModel)]="data.startDate">
+                        <mat-datepicker-toggle matSuffix [for]="startDate" tabindex=-1></mat-datepicker-toggle>
+                        <mat-datepicker #startDate></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-5">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="endDate" placeholder="End Date"
+                            name="endDate" [(ngModel)]="data.endDate">
+                        <mat-datepicker-toggle matSuffix [for]="endDate" tabindex=-1></mat-datepicker-toggle>
+                        <mat-datepicker #endDate></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row" *ngIf="data.useSelectedYear">
+                <div class="col-sm-5">
+                    <jp-multi-datepicker tabindex="-1" mode="YEAR" label="Choose a year" [(ngModel)]="data.selectedYear"></jp-multi-datepicker>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+                <div class="row" *ngIf="data.useTotalsOnly">
+                    <div class="col-sm-5">
+                        <mat-checkbox [(ngModel)]="data.isTotalsOnly">Totals Only</mat-checkbox>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="modal-footer">
+        <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+    </div>
+</div>

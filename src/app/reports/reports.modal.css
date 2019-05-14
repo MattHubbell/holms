@@ -1,0 +1,14 @@
+.cus-margin-top {
+    margin-top: 22px;
+}
+.width-full {
+  width: 100%;
+}
+.width-form {
+    max-width: 500px;
+    height: 100%;
+}
+.mat-dialog-container {
+    padding: 0;
+}
+  

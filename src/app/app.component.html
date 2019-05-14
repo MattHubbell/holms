@@ -1,0 +1,103 @@
+<div class="container mat-sidenav-container">
+    <div class="version-control" *ngIf="app.isLoggedOn">
+        <p>Version: {{app.appVersion}}</p>
+    </div>
+
+    <!--Navbar-->
+    <mat-toolbar color="primary">
+        <mat-toolbar-row>
+            <div *ngIf="!app.isLoggedOn">
+                <span style="font-size: smaller;">{{titleService.title}}</span>
+            </div>
+
+            <div class="custom-spacer" *ngIf="app.isLoggedOn">
+            
+                <span class="pull-left">
+                    <button mat-icon-button (click)="sidenav.toggle()"> 
+                        <i class="material-icons">menu</i>
+                    </button>
+                    <span style="font-size: smaller;">{{titleService.title}}</span>
+                </span>
+    
+                <!--Member Info (Large) -->
+                <span class="pull-right no-display-sm">
+                    <span style="font-size: smaller;">{{app.profileName}}</span>
+                    <button mat-icon-button (click)="editUser()" placement="bottom" ngbTooltip="My Account"> 
+                        <!-- <img mat-card-avatar id="user-picture" src={{app.profileImagePath}} > -->
+                        <mat-icon>account_circle</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="logout()" placement="bottom" ngbTooltip="logout">
+                        <i class="material-icons">power_settings_new</i>
+                    </button>
+                </span>
+    
+                <!--Member Info (small) -->
+                <span class="pull-right no-display-lg">
+                    <button mat-icon-button [matMenuTriggerFor]="menu">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                        <button mat-menu-item (click)="editUser()">
+                            <!-- <mat-icon>
+                                <img mat-card-avatar id="user-picture-menu" src={{app.profileImagePath}} >
+                            </mat-icon> -->
+                            <mat-icon>account_circle</mat-icon>
+                            <span>Membership</span>
+                        </button>
+                        <button mat-menu-item (click)="logout()">
+                            <mat-icon>power_settings_new</mat-icon>
+                            <span>logout</span>
+                        </button>
+                    </mat-menu>
+                </span>
+            </div>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <!--/.Navbar-->
+
+    <mat-sidenav-container>
+
+        <!--Side Nav content-->
+        <mat-sidenav #sidenav mode="{{navMode}}" opened="false">
+            <mat-nav-list #navlist class="Custom-list-group" routerLinkActive="active">
+                <a mat-list-item #navlistitem *ngFor="let menu of app.appMenuList" [routerLink]="menu.routerLink" routerLinkActive="active">{{menu.title}}</a>
+            </mat-nav-list>
+        </mat-sidenav>
+
+        <div *ngIf="!app.isLoggedOn">
+            <div class="jumbotron jumbotron-fluid no-display-lg">
+                <mat-grid-list cols="4" rowHeight="50px">
+                    <mat-grid-tile [colspan]="3">
+                        <div>
+                            <h1 class="h1-display">{{app.appTitle}}</h1>
+                            <h3 class="h3-display">{{app.appSubTitle}}</h3>
+                        </div>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <img src="assets/holms4.jpg" style="height:100%;width:auto;" matTooltip="Hubbell Society Museum &amp; Library">
+                    </mat-grid-tile>
+                </mat-grid-list>
+            </div>
+            <div class="jumbotron jumbotron-fluid no-display-sm">
+                <mat-grid-list cols="6" rowHeight="100px">
+                    <mat-grid-tile>
+                    </mat-grid-tile>
+                    <mat-grid-tile [colspan]="3">
+                        <div>
+                            <h1 class="h1-display">{{app.appTitle}}</h1>
+                            <h3 class="h3-display">{{app.appSubTitle}}</h3>
+                        </div>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <img src="assets/holms4.jpg" style="height:100%;width:auto;" matTooltip="Hubbell Society Museum &amp; Library">
+                    </mat-grid-tile>
+                </mat-grid-list>
+            </div>
+        </div>
+
+        <div class="container">
+            <!--routed content-->
+            <router-outlet></router-outlet>
+        </div>
+    </mat-sidenav-container>
+</div>

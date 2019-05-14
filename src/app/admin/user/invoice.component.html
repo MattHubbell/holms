@@ -1,0 +1,82 @@
+<div style="width: 600px; font-size:100%; font-weight:bold; margin: 10pt 0;">
+    <!-- <img src="assets/holms4.jpg" style="z-index: 2; height: 16%; width: 16%; float: right; vertical-align: top"> -->
+    <h2>
+        Invoice
+    </h2>
+    
+    <div style="display: flex; font-size: 8pt; margin: 0 0 0 0" >
+        <div style="width: 60px; text-align: left; margin-right: 20px;">
+            Receipt #
+        </div>
+        <div style="width: 100px; text-align: left; margin-right: 5px;">
+            {{cashMaster?.receiptNo}}
+        </div>
+        <div style="width: 300px; text-align: left; margin-right: 5px;">
+            {{member?.memberName}}
+        </div>
+    </div>
+    <div style="display: flex; font-size: 8pt; margin: 0 0 0 0" >
+        <div style="width: 60px; text-align: left; margin-right: 20px;">
+            Date
+        </div>
+        <div style="width: 100px; text-align: left; margin-right: 5px;">
+            {{cashMaster?.transDate | date:'MM/dd/yy'}}
+        </div>
+    </div>
+    <div style="display: flex; font-size: 8pt; margin: 0 0 0 0" >
+        <div style="width: 60px; text-align: left; margin-right: 20px;">
+            Member #
+        </div>
+        <div style="width: 100px; text-align: left; margin-right: 5px;">
+            {{cashMaster?.memberNo}}
+        </div>
+    </div>
+    <br>
+    <br>
+</div>
+
+<div>
+<div style="border-top:2px solid black; margin-bottom:24pt">
+
+    <div style="display:flex; font-size: 8pt; font-weight:bold; margin: 0 0 2pt 0">
+        <div style="width:300px">
+            Item
+        </div>
+        <div style="width:100px; text-align:right; margin-right: 10px;">
+            Quantity
+        </div>
+        <div style="width:100px; text-align:right; margin-right: 10px;">
+            Price
+        </div>
+        <div style="width:100px; text-align:right; margin-right: 10px;">
+            Amount
+        </div>
+    </div>
+
+    <div>
+        <div style="display: flex; font-size: 8pt; margin: 0 0 2pt 0;" *ngFor="let cashDetail of cashDetails">
+            <div style="width:300px">
+                <p>
+                    {{ getTransactionCodeDescription(cashDetail?.tranCode) }} 
+                </p>
+            </div>
+            <div style="width:100px; text-align:right; margin-right: 10px;">
+                {{ cashDetail?.distQty }}
+            </div>
+            <div style="width:100px; text-align:right; margin-right: 10px;">
+                {{ cashDetail?.distAmt }}
+            </div>
+            <div style="width:100px; text-align:right; margin-right: 10px;">
+                {{ ((cashDetail?.distQty != 0) ? (cashDetail?.distAmt * cashDetail?.distQty) : cashDetail?.distAmt) | currency }}
+            </div>
+        </div>    
+    </div>
+    <div style="display: flex; font-size: 8pt; margin: 0 0 0 300px" >
+        <div style="width: 200px; text-align:right; margin-right: 20px;">
+            Total: 
+        </div>
+        <div style="border-top:2px solid black; width: 100px; text-align:right; margin-right: 5px;">
+            {{getBatchTotal() | currency}}
+        </div>
+    </div>
+</div>
