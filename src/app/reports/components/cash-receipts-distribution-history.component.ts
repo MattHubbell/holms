@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { CashMasterHistoryService, CashDetailHistory, CashDetailHistoryService } from "../../admin/transaction-history"
@@ -30,6 +30,7 @@ export class CashReceiptsDistributionHistory implements OnInit, OnDestroy {
     endDate: Date;
     
     public reportOptions: boolean = true;
+    @Output() loaded = new EventEmitter<boolean>();
 
     constructor(
         private cashMasterHistoryService: CashMasterHistoryService, 
@@ -59,18 +60,19 @@ export class CashReceiptsDistributionHistory implements OnInit, OnDestroy {
     }
 
     loadData(startDate: Date, endDate: Date) {
+        this.loaded.emit(false);
         this.startDate = startDate;
         this.endDate = endDate;
-        this.cashMasterHistoryService.getList();
+        this.cashMasterHistoryService.getListByDateRange(startDate, endDate);
         this.subscription.push(this.cashMasterHistoryService.list
             .subscribe(x => {
-                this.loadCashMastHistory(x.filter(y => new Date(y.transDate) >= startDate && new Date(y.transDate) <= endDate));
+                this.loadCashMastHistory(x);
             })
         );
-        this.cashDetailHistoryService.getList();
+        this.cashDetailHistoryService.getListByDateRange(startDate, endDate);
         this.subscription.push(this.cashDetailHistoryService.list
             .subscribe(x => {
-                this.cashDetailHistory = x.filter(y => new Date(y.transDate) >= startDate && new Date(y.transDate) <= endDate);
+                this.cashDetailHistory = x;
             })
         );
         this.memberService.getList();
@@ -109,6 +111,7 @@ export class CashReceiptsDistributionHistory implements OnInit, OnDestroy {
             ],
             sortDescriptions: ['batchNo']
         });
+        this.loaded.emit(true);
     }
 
     findMember(memberNo:string): Member {

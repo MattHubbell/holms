@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { Member } from "../../members/member.model";
@@ -26,6 +26,7 @@ export class AnnualMembership implements OnInit, OnDestroy {
     subscription: Array<Subscription>;
 
     public reportOptions: boolean = true;
+    @Output() loaded = new EventEmitter<boolean>();
 
     constructor( 
         private memberService: MemberService,
@@ -67,9 +68,9 @@ export class AnnualMembership implements OnInit, OnDestroy {
                         this.loadCollection(x.filter(y => y.lastDuesYear == selectedYear.getFullYear() && y.memberStatus != 'N' && y.memberStatus != 'B'));
                     })
                 );
+                this.loaded.emit(true);
             })
         );
-
     }
 
     loadCollection(members:any) {

@@ -62,12 +62,12 @@
         "cashMasterHistory": {
             ".read":  "auth != null",
             ".write":  "auth != null",
-            ".indexOn": ["memberNo", "receiptNo"]  
+            ".indexOn": ["memberNo", "receiptNo", "transDate"]  
         },
         "cashDetailHistory": {
             ".read":  "auth != null",
             ".write":  "auth != null",
-            ".indexOn": ["receiptNo"]   
+            ".indexOn": ["receiptNo", "transDate", "duesYear"]   
         },
         "appMenus": {
             ".read":  "auth != null",

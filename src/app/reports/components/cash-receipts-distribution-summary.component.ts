@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { CashDetailHistoryService, CashDetailHistory } from "../../admin/transaction-history"
@@ -27,7 +27,8 @@ export class CashReceiptsDistributionSummary implements OnInit, OnDestroy {
     isTotalsOnly: boolean;
     
     public reportOptions: boolean = true;
-
+    @Output() loaded = new EventEmitter<boolean>();
+    
     constructor(
         private cashDetailHistoryService: CashDetailHistoryService, 
         private transactionCodeService: TransactionCodeService,
@@ -48,31 +49,41 @@ export class CashReceiptsDistributionSummary implements OnInit, OnDestroy {
             data: { useDateRange: true, startDate: this.startDate, endDate: this.endDate, useTotalsOnly: true, isTotalsOnly: this.isTotalsOnly }
         });
         dialogRef.afterClosed().subscribe(result => {
-            this.loadData(result);
+            this.getData(result);
         });
     }
 
-    loadData(data: DialogData) {
+    getData(data: DialogData) {
+        this.loaded.emit(false);
         this.startDate = data.startDate;
         this.endDate = data.endDate;
         this.isTotalsOnly = data.isTotalsOnly;
-        this.cashDetailHistoryService.getList();
+        this.cashDetailHistoryService.getListByDateRange(data.startDate, data.endDate);
         this.subscription.push(this.cashDetailHistoryService.list
             .subscribe(x => {
-                this.loadCashDetailHistory(x.filter(y => new Date(y.transDate) >= data.startDate && new Date(y.transDate) <= data.endDate));
-                this.transactionCodes = new Array<TransactionCode>();
-                this.transactionCodeService.getList();
-                this.subscription.push(this.transactionCodeService.list
-                    .subscribe(x => {
-                        x.forEach(y => {
-                            if (this.cashDetailHistory.items.find((z:CashDetailHistory) => z.tranCode == y.id)) {
-                                this.transactionCodes.push(y);
-                            }
-                        });
-                    })
-                );
+                this.loadData(x);
             })
         );
+    }
+
+    loadData(x:any) {
+        this.loadCashDetailHistory(x);
+        this.transactionCodes = new Array<TransactionCode>();
+        this.transactionCodeService.getList();
+        this.subscription.push(this.transactionCodeService.list
+            .subscribe(x => {
+                this.loadTransactionCodes(x);
+            })
+        );
+    }
+
+    loadTransactionCodes(x:any) {
+        x.forEach((y:TransactionCode) => {
+            if (this.cashDetailHistory.items.find((z:CashDetailHistory) => z.tranCode == y.id)) {
+                this.transactionCodes.push(y);
+            }
+        });
+        this.loaded.emit(true);
     }
 
     ngOnDestroy() {

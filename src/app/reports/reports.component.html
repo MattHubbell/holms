@@ -35,7 +35,10 @@
                     <i class="material-icons">settings</i>
                 </button>    
             </div>
-
+            <div *ngIf="isLoading">
+                <mat-progress-bar mode="query" ></mat-progress-bar>
+                <h6 align="center">Loading report ... please wait</h6>
+            </div>
             <div class="report">
                 <div class="zoom" #zoomEle>
                     <div>

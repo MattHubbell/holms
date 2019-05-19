@@ -10,7 +10,7 @@ export class CashDetail {
     distAmt: number;
     distQty: number;
     duesCode: string;
-    duesYear: number;
+    duesYear: string;
     batchNo: string;
     
     constructor(
@@ -21,7 +21,7 @@ export class CashDetail {
         distAmt?: number,
         distQty?: number,
         duesCode?: string,
-        duesYear?: number,
+        duesYear?: string,
         batchNo?: string
         ) {
         this.receiptNo = (receiptNo) ? receiptNo : '';
@@ -31,7 +31,7 @@ export class CashDetail {
         this.distAmt = (distAmt) ? distAmt : 0;
         this.distQty = (distQty) ? distQty : 0;
         this.duesCode = (duesCode) ? duesCode : '';
-        this.duesYear = (duesYear) ? duesYear : 0;
+        this.duesYear = (duesYear) ? duesYear : '';
         this.batchNo = (batchNo) ? batchNo : '';
     }
 
@@ -52,7 +52,7 @@ export class CashDetail {
                 distAmt: ((model.distAmt) ? model.distAmt : 0), 
                 distQty: ((model.distQty) ? model.distQty : 0), 
                 duesCode: ((model.duesCode) ? model.duesCode : ''), 
-                duesYear: ((model.duesYear) ? model.duesYear : 0), 
+                duesYear: ((model.duesYear) ? model.duesYear : ''), 
                 batchNo: ((model.batchNo) ? model.batchNo : ''), 
             };
         }

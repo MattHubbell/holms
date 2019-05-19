@@ -35,11 +35,14 @@
     
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-1">
                                     <button mat-button style="margin-top:8px" (click)="fileToUpload.click()" ngbTooltip="Upload file(s)" [disabled]="selection.selected.length == 0">
                                             <i class="material-icons">file_upload</i>
                                     </button>
                                     <input #fileToUpload type="file" style="display:none;" (change)="onUploadData()">
+                                </div>
+                                <div class="col-md-2">
+                                    <mat-checkbox class="custom-checkbox" [(ngModel)]="appendData">Append Data</mat-checkbox>
                                 </div>
                                 <div class="col-md-9">
                                     <mat-paginator #paginator

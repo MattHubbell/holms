@@ -112,7 +112,7 @@ export class CashDetailModalContent implements OnInit, OnDestroy {
         if (this.selectedTransactionCode) {
             this.model.distAmt = +this.selectedTransactionCode.price;
             if (this.selectedTransactionCode.itemType === TransactionCodeItemTypes.Membership) {
-                this.model.duesYear = new Date().getFullYear();
+                this.model.duesYear = new Date().getFullYear().toString();
                 this.model.duesCode = this.getMembershipTypeId();
                 this.model.distQty = 1;
             }

@@ -19,6 +19,7 @@ import { Subscription } from 'rxjs';
 export class ListImportsComponent implements OnInit, OnDestroy  {
 
     @ViewChild("fileToUpload") fileToUpload:ElementRef;
+    appendData: boolean;
     members: Member[];
     transactionCodes: TransactionCode[];
     cashMaster: CashMaster[];
@@ -56,6 +57,7 @@ export class ListImportsComponent implements OnInit, OnDestroy  {
         
     ) {
         this.titleService.selector = 'list-imports';
+        this.appendData = false;
         this.subscription = new Array<Subscription>();
     }
 
@@ -205,7 +207,7 @@ export class ListImportsComponent implements OnInit, OnDestroy  {
             alert("No rows found!");
             return;
         }
-        this.memberService.deleteAllItems();
+        if (!this.appendData) this.memberService.deleteAllItems();
         for (let index = 0; index < members.length; ++index) {
             let member = members[index];
             if (member.memberStatus.trim().length == 0) {
@@ -222,7 +224,7 @@ export class ListImportsComponent implements OnInit, OnDestroy  {
             alert("No rows found!");
             return;
         }
-        this.transactionCodeService.deleteAllItems();
+        if (!this.appendData) this.transactionCodeService.deleteAllItems();
         for (let index = 0; index < transactionCodes.length; ++index) {
             this.transactionCodeService.addItem(transactionCodes[index]);
         }
@@ -246,7 +248,7 @@ export class ListImportsComponent implements OnInit, OnDestroy  {
             alert("No rows found!");
             return;
         }
-        this.cashDetailService.deleteAllItems();
+        if (!this.appendData) this.cashDetailService.deleteAllItems();
         for (let index = 0; index < cashDetail.length; ++index) {
             this.cashDetailService.addItem(cashDetail[index]);
         }
@@ -258,7 +260,7 @@ export class ListImportsComponent implements OnInit, OnDestroy  {
             alert("No rows found!");
             return;
         }
-        this.cashMasterHistoryService.deleteAllItems();
+        if (!this.appendData) this.cashMasterHistoryService.deleteAllItems();
         for (let index = 0; index < cashMasterHistory.length; ++index) {
             this.cashMasterHistoryService.addItem(cashMasterHistory[index]);
         }
@@ -270,7 +272,7 @@ export class ListImportsComponent implements OnInit, OnDestroy  {
             alert("No rows found!");
             return;
         }
-        this.cashDetailHistoryService.deleteAllItems();
+        if (!this.appendData) this.cashDetailHistoryService.deleteAllItems();
         for (let index = 0; index < cashDetailHistory.length; ++index) {
             this.cashDetailHistoryService.addItem(cashDetailHistory[index]);
         }
@@ -282,7 +284,7 @@ export class ListImportsComponent implements OnInit, OnDestroy  {
             alert("No rows found!");
             return;
         }
-        this.memberStatusService.deleteAllItems();
+        if (!this.appendData) this.memberStatusService.deleteAllItems();
         for (let index = 0; index < memberStatuses.length; ++index) {
             this.memberStatusService.addItem(memberStatuses[index]);
         }
@@ -294,7 +296,7 @@ export class ListImportsComponent implements OnInit, OnDestroy  {
             alert("No rows found!");
             return;
         }
-        this.memberTypeService.deleteAllItems();
+        if (!this.appendData) this.memberTypeService.deleteAllItems();
         for (let index = 0; index < memberTypes.length; ++index) {
             this.memberTypeService.addItem(memberTypes[index]);
         }
@@ -326,19 +328,31 @@ export class ListImportsComponent implements OnInit, OnDestroy  {
                         let propLabels = csvHeaders[propIndex].replace(/^"|"$/g,'').split(',');
                         for (let labelIndex = 0; labelIndex < propLabels.length; ++labelIndex) {
                             let label = propLabels[labelIndex].trim();
-                            if (typeof rowObject[propLabels[labelIndex]] === 'number') {
-                                rowObject[label] = +propValues[labelIndex];
+                            let typeOf = typeof rowObject[propLabels[labelIndex]];
+                            if (typeOf === 'number') {
+                                rowObject[label] = +propValues[labelIndex].replace('$','');
                             } else {
-                                if (typeof rowObject[propLabels[labelIndex]] === 'boolean') {
+                                if (typeOf === 'boolean') {
                                     rowObject[label] = ((propValues[labelIndex] == 'TRUE') ? true : false) ;
                                 } else {
-                                    if (propValues[labelIndex] != undefined) {
-                                        rowObject[label] = propValues[labelIndex].trim();
+                                    if (typeOf === 'bigint') {
+                                        rowObject[label] = +propValues[labelIndex];
+                                    } else {
+                                        if (typeOf === 'object') {
+                                            if (new Date(propValues[labelIndex]) instanceof Date) {
+                                                rowObject[label] = new Date(propValues[labelIndex]);
+                                            } else {
+                                                rowObject[label] = propValues[labelIndex].trim();
+                                            }
+                                        } else {
+                                            if (propValues[labelIndex] != undefined) {
+                                            rowObject[label] = propValues[labelIndex].trim();
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
-
                     }
                 }
             }

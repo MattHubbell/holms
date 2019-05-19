@@ -42,16 +42,27 @@ export class CashMasterHistory {
     public static memberCompare(a: CashMasterHistory, b: CashMasterHistory) {
         const memberA = f.pad(+a.memberNo, 10);
         const memberB = f.pad(+b.memberNo, 10);
-
-        let comparison = 0;
         if (memberA > memberB) {
-            comparison = 1;
+            return 1;
         } else {
             if (memberA < memberB) {
-                comparison = -1;
+                return -1;
             }
         }
-        return comparison;
+        return 0;
+    }
+
+    public static transDateCompare(a: CashMasterHistory, b: CashMasterHistory) {
+        const dateA = new Date(a.transDate); 
+        const dateB = new Date(b.transDate); 
+        if (dateA > dateB) {
+            return 1;
+        } else {
+            if (dateA < dateB) {
+                return -1;
+            }
+        }
+        return 0;
     }
 
     public static TableName(): string {

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FirebaseService } from '../../firebase';
 import { CashDetailHistory } from './cash-detail-history.model';
 import { Observable } from 'rxjs';
+import * as f from '../../shared/functions';
 
 @Injectable()
 export class CashDetailHistoryService {
@@ -20,6 +21,14 @@ export class CashDetailHistoryService {
 
     getListByReceiptNo(receiptNo: string) {
         this.list = this.fs.getItems(CashDetailHistory.TableName(), 'receiptNo', receiptNo);
+    }
+
+    getListByDuesYear(duesYear: string) {
+        this.list = this.fs.getItems(CashDetailHistory.TableName(), 'duesYear', duesYear);
+    }
+
+    getListByDateRange(startDate:Date, endDate:Date) {
+        this.list = this.fs.getItemsByRange(CashDetailHistory.TableName(), 'transDate', f.toDatabaseDate(startDate), f.toDatabaseDate(endDate));
     }
 
     addItem(model: CashDetailHistory) { 

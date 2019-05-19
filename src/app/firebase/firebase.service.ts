@@ -7,7 +7,6 @@ import 'rxjs/add/operator/take';
 import * as firebase from 'firebase/app';
 import { FirebaseUser } from './firebase-user.model';
 import { environment } from '../../environments/environment';
-import { reject } from 'q';
 
 @Injectable()
 export class FirebaseService {
@@ -133,6 +132,21 @@ export class FirebaseService {
                 changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
             ))
         ).take(1);
+    }
+
+    private getItemsRefRange(tableName:string, child:string, startAt:string, endAt:string): AngularFireList<any>{
+        if (child.length > 0 && startAt.length > 0 && endAt.length > 0) {
+            return this.db.list(tableName, ref => ref.orderByChild(child).startAt(startAt).endAt(endAt));
+        }
+        return this.db.list(tableName);
+    }
+
+    public getItemsByRange(tableName:string, child:string, startAt:string, endAt:string): Observable<any[]> {
+        return this.getItemsRefRange(tableName, child, startAt, endAt).snapshotChanges().pipe(
+            map(changes => (
+                changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+            ))
+        )        
     }
 
     public findDuplicateId(tableName:string, equalTo:string, id:any) {

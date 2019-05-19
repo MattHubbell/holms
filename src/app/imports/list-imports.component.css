@@ -23,3 +23,9 @@
     margin-left: 0;
     margin-right: 0;
 }
+.custom-checkbox {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 56px;
+}

@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, NgZone, ComponentRef } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ElementRef, ComponentRef } from '@angular/core';
 import { ComponentFactoryResolver } from '@angular/core';
 import { TitleService }             from '../title.service';
 
@@ -9,7 +9,6 @@ import { AdService }   from './ad.service';
 
 import * as wjcCore from '@grapecity/wijmo';
 import { environment } from '../../environments/environment';
-
 
 @Component({
     templateUrl: './reports.component.html',
@@ -23,6 +22,7 @@ export class ReportsComponent implements AfterViewInit {
     viewsLoaded: number;
     componentRef: ComponentRef<any>;
     reportOptions: boolean;
+    isLoading: boolean;
 
     @ViewChild('zoomEle') zoomEle: ElementRef;
     @ViewChild(AdDirective) adHost: AdDirective;
@@ -31,14 +31,13 @@ export class ReportsComponent implements AfterViewInit {
     
     constructor(
         private titleService:TitleService, 
-        // @Inject(Router) private router: Router, 
-        // private route: ActivatedRoute, 
-        // @Inject(NgZone) private ngZone: NgZone, 
         private componentFactoryResolver: ComponentFactoryResolver, 
         private adService: AdService
     ) {
         wjcCore.setLicenseKey(environment.wijmoDistributionKey);
         this.titleService.selector = 'reports';
+        this.reportOptions = false;
+        this.isLoading = false;
 
         // report list
         this.reports = new wjcCore.CollectionView([
@@ -67,7 +66,6 @@ export class ReportsComponent implements AfterViewInit {
             { header: '125%', value: 1.25 }
         ], {
              currentChanged: (s, e)=> {
-                 //var view = <HTMLElement>document.querySelector('.zoom');
                  var view = this.zoomEle.nativeElement;
                  if (view) {                     
                      view.style.zoom = s.currentItem.value;
@@ -76,12 +74,10 @@ export class ReportsComponent implements AfterViewInit {
          });
 
          this.ads = this.adService.getAds();
-         this.reportOptions = false;
     }
 
     ngAfterViewInit() {
         this.zoomLevels.moveCurrentToPosition(3);
-        // this.loadComponent('activeMembersByMemberType');        
     }
 
     // commands
@@ -102,16 +98,21 @@ export class ReportsComponent implements AfterViewInit {
     }
 
     loadComponent(reportName:string) {
-        setTimeout( () => {
+        // setTimeout( () => {
             let adItem = this.ads.find(n => n.data.name == reportName);
             let componentFactory = this.componentFactoryResolver.resolveComponentFactory(adItem.component);
             let viewContainerRef = this.adHost.viewContainerRef;
             viewContainerRef.clear();
-            let componentRef = viewContainerRef.createComponent(componentFactory);
-            (<AdComponent>componentRef.instance).data = adItem.data;
-            this.componentRef = componentRef;
-            this.reportOptions = (componentRef.instance.reportOptions ? true: false); 
-        });
+            this.componentRef = viewContainerRef.createComponent(componentFactory);
+            (<AdComponent>this.componentRef.instance).data = adItem.data;
+            this.reportOptions = this.componentRef.instance.reportOptions; 
+            this.isLoading = false;
+            this.componentRef.instance.loaded.subscribe((x:boolean) => this.onLoaded(x));
+        // });
+    }
+
+    onLoaded(loaded:boolean) {
+        this.isLoading = (loaded) ? false : true;
     }
 
     changeReportOptions() {

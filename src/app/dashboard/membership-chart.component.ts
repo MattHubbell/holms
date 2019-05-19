@@ -57,7 +57,8 @@ export class MembershipChartComponent implements OnDestroy {
             membershipSummary.count = ctr;
             this.membershipSummaryData.push(membershipSummary);
         });
-        this.cashDetailHistoryService.getList();
+        const duesYear = (new Date()).getFullYear().toString();
+        this.cashDetailHistoryService.getListByDuesYear(duesYear);
         this.subscription.push(this.cashDetailHistoryService.list
             .subscribe(x => {
                 x.forEach(cashDetailHistory => {
@@ -69,8 +70,7 @@ export class MembershipChartComponent implements OnDestroy {
     }
 
     loadMembershipSummary(cashDetailHistory: CashDetailHistory) {
-        const duesYear = (new Date()).getFullYear();
-        let membershipSummary = this.membershipSummaryData.find(x => x.membershipID == cashDetailHistory.duesCode && cashDetailHistory.duesYear == duesYear);
+        let membershipSummary = this.membershipSummaryData.find(x => x.membershipID == cashDetailHistory.duesCode);
         if (membershipSummary) {
             membershipSummary.count += 1;
         }

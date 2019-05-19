@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FirebaseService } from '../../firebase';
 import { CashMasterHistory } from './cash-master-history.model';
 import { Observable } from 'rxjs';
+import * as f from '../../shared/functions';
 
 @Injectable()
 export class CashMasterHistoryService {
@@ -16,6 +17,10 @@ export class CashMasterHistoryService {
 
     getListByMemberNo(memberNo: string) {
         this.list = this.fs.getItems(CashMasterHistory.TableName(), 'memberNo', memberNo);
+    }
+
+    getListByDateRange(startDate:Date, endDate:Date) {
+        this.list = this.fs.getItemsByRange(CashMasterHistory.TableName(), 'transDate', f.toDatabaseDate(startDate), f.toDatabaseDate(endDate));
     }
 
     getItemsByReceiptNoAsync(receiptNo: string) {

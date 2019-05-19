@@ -60,7 +60,7 @@ export class MembershipDuesService {
             let distAmt:number = item.duesAmount;
             let distQty:number = item.duesQuantity;
             let duesCode:string = item.membershipTypeId;
-            let duesYear:number = memberModel.lastDuesYear;
+            let duesYear:string = memberModel.lastDuesYear.toString();
             this.createCashDetail(receiptNo, memberNo, tranCode, transDate, distQty, distAmt, duesCode, duesYear)
         }
         if (item.foundation > 0) {
@@ -68,7 +68,7 @@ export class MembershipDuesService {
             let distAmt:number = item.foundation;
             let distQty:number = 1;
             let duesCode:string = '';
-            let duesYear:number = 0;
+            let duesYear:string = '';
             this.createCashDetail(receiptNo, memberNo, tranCode, transDate, distQty, distAmt, duesCode, duesYear)
         }
         if (item.museum_library > 0) {
@@ -76,7 +76,7 @@ export class MembershipDuesService {
             let distAmt:number = item.museum_library;
             let distQty:number = 1;
             let duesCode:string = '';
-            let duesYear:number = 0;
+            let duesYear:string = '';
             this.createCashDetail(receiptNo, memberNo, tranCode, transDate, distQty, distAmt, duesCode, duesYear)
         }
         if (item.scholarship > 0) {
@@ -84,7 +84,7 @@ export class MembershipDuesService {
             let distAmt:number = item.scholarship;
             let distQty:number = 1;
             let duesCode:string = '';
-            let duesYear:number = 0;
+            let duesYear:string = '';
             this.createCashDetail(receiptNo, memberNo, tranCode, transDate, distQty, distAmt, duesCode, duesYear)
         }
     }
@@ -102,7 +102,7 @@ export class MembershipDuesService {
         this.cashMasterService.addItem(cashMaster);
     }
 
-    createCashDetail(receiptNo: string, memberNo: string, tranCode: string, transDate: Date, distQty: number, distAmt: number, duesCode: string, duesYear: number) {
+    createCashDetail(receiptNo: string, memberNo: string, tranCode: string, transDate: Date, distQty: number, distAmt: number, duesCode: string, duesYear: string) {
         let cashDetail: CashDetail = new CashDetail();
         cashDetail.receiptNo = receiptNo;
         cashDetail.memberNo = memberNo;

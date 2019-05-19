@@ -94,7 +94,7 @@ export class MemberModalContent implements OnInit, OnDestroy {
             this.cashMasterHistoryService.getListByMemberNo(this.model.memberNo);
             this.subscription.push(this.cashMasterHistoryService.list
                 .subscribe(x => {
-                    this.entries = x;
+                    this.entries = x.sort(CashMasterHistory.transDateCompare);
                     this.dataSource = new MatTableDataSource<CashMasterHistory>(this.entries);
                     this.dataSource.paginator = this.paginator;
                 })

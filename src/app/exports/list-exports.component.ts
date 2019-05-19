@@ -173,7 +173,7 @@ export class ListExportsComponent implements OnInit, OnDestroy {
                     cashDetail.distAmt = (xx.distAmt) ? currencyPipe.transform(xx.distAmt, 'USD') : undefined;
                     cashDetail.distQty = xx.distQty;
                     cashDetail.duesCode = xx.duesCode;
-                    cashDetail.duesYear = xx.duesYear;
+                    cashDetail.duesYear = +xx.duesYear;
                     cashDetail.memberNo = +xx.memberNo;
                     cashDetail.receiptNo = +xx.receiptNo;
                     cashDetail.tranCode = xx.tranCode;
@@ -217,7 +217,7 @@ export class ListExportsComponent implements OnInit, OnDestroy {
                     cashDetailHistory.distAmt = (xx.distAmt) ? currencyPipe.transform(xx.distAmt, 'USD') : undefined;
                     cashDetailHistory.distQty = xx.distQty;
                     cashDetailHistory.duesCode = xx.duesCode;
-                    cashDetailHistory.duesYear = xx.duesYear;
+                    cashDetailHistory.duesYear = +xx.duesYear;
                     cashDetailHistory.memberNo = +xx.memberNo;
                     cashDetailHistory.receiptNo = +xx.receiptNo;
                     cashDetailHistory.tranCode = xx.tranCode;

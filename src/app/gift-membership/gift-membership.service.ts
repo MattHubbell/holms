@@ -79,7 +79,7 @@ export class GiftMembershipService {
             let distAmt:number = item.duesAmount;
             let distQty:number = item.duesQuantity;
             let duesCode:string = item.membershipTypeId;
-            let duesYear:number = member.lastDuesYear;
+            let duesYear:string = member.lastDuesYear.toString();
             this.createCashDetail(receiptNo, memberNo, tranCode, transDate, distQty, distAmt, duesCode, duesYear)
         }
 
@@ -91,7 +91,7 @@ export class GiftMembershipService {
                 let distAmt:number = giftDistAmt;
                 let distQty:number = 1;
                 let duesCode:string = '';
-                let duesYear:number = 0;
+                let duesYear:string = '';
                 this.createCashDetail(receiptNo, memberNo, tranCode, transDate, distQty, distAmt, duesCode, duesYear);
             });
         }
@@ -100,7 +100,7 @@ export class GiftMembershipService {
             let distAmt:number = item.shippingCharges;
             let distQty:number = 1;
             let duesCode:string = '';
-            let duesYear:number = 0;
+            let duesYear:string = '';
             this.createCashDetail(receiptNo, memberNo, tranCode, transDate, distQty, distAmt, duesCode, duesYear);
         }
     }
@@ -118,7 +118,7 @@ export class GiftMembershipService {
         this.cashMasterService.addItem(cashMaster);
     }
 
-    createCashDetail(receiptNo: string, memberNo: string, tranCode: string, transDate: Date, distQty: number, distAmt: number, duesCode: string, duesYear: number) {
+    createCashDetail(receiptNo: string, memberNo: string, tranCode: string, transDate: Date, distQty: number, distAmt: number, duesCode: string, duesYear: string) {
         let cashDetail: CashDetail = new CashDetail();
         cashDetail.receiptNo = receiptNo;
         cashDetail.memberNo = memberNo;
