@@ -1,6 +1,7 @@
 import { NgModule }             from '@angular/core';
 import { CommonModule } 		from '@angular/common';
 import { FormsModule, ReactiveFormsModule }  from '@angular/forms';
+import { BrowserAnimationsModule }  from '@angular/platform-browser/animations';
 
 import { SharedModule }         from '../shared/shared.module';
 import { ListExportsComponent } from './list-exports.component';
@@ -10,7 +11,8 @@ import { MaterialModule }       from '../material.module';
     imports: [ 
         CommonModule, 
         FormsModule, 
-        ReactiveFormsModule, 
+        ReactiveFormsModule,
+        BrowserAnimationsModule, 
         SharedModule, 
         MaterialModule
     ],

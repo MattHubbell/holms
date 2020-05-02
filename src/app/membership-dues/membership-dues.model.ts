@@ -15,6 +15,7 @@ export class MembershipDues {
     scholarship?:number;
     memberTypes?: MemberType[];
     comments?: string;
+    duesPaidThruDate?:Date;
 
     constructor(memberNo?:string, 
                 checkNo?:string,
@@ -27,7 +28,8 @@ export class MembershipDues {
                 museum_library?:number, 
                 scholarshipLit?:string,
                 scholarship?:number,
-                comments?:string
+                comments?:string,
+                duesPaidThruDate?:Date
             ) {
         this.memberNo = (memberNo) ? memberNo : ''; 
         this.checkNo = (checkNo) ? checkNo : '';
@@ -41,6 +43,7 @@ export class MembershipDues {
         this.scholarshipLit = (scholarshipLit) ? scholarshipLit : ''; 
         this.scholarship = (scholarship) ? scholarship : 0;
         this.comments = (comments) ?  comments : '';
+        this.duesPaidThruDate = (duesPaidThruDate) ? duesPaidThruDate : undefined;
     }
 
     set membershipTotal(value:number) {

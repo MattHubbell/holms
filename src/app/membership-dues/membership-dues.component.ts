@@ -168,6 +168,7 @@ export class MembershipDuesComponent implements OnInit, OnDestroy {
         if(!isValid) {
             return;
         }
+        this.calculateNewDuesPaidThruDate();
         if (this.onlineEntry) {
             this.openPayPalsubmit();
         } else {
@@ -177,6 +178,14 @@ export class MembershipDuesComponent implements OnInit, OnDestroy {
             });
         }
         this.ngOnInit();
+    }
+
+    calculateNewDuesPaidThruDate() {
+        const currentDate = new Date();
+        const yyyy: number = currentDate.getFullYear() + this.model.duesQuantity;
+        let paidThruDate: Date = new Date();
+        paidThruDate.setFullYear(yyyy);
+        this.model.duesPaidThruDate = paidThruDate;
     }
 
     openPayPalsubmit() {

@@ -23,3 +23,10 @@
     margin-left: 0;
     margin-right: 0;
 }
+.element-row.expanded {
+    border-bottom-color: transparent;
+}
+.expanded-field {
+    width: 200px;
+    margin-right: 25px;
+}

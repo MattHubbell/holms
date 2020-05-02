@@ -65,7 +65,7 @@ export class AnnualMembership implements OnInit, OnDestroy {
                 this.memberService.getList();
                 this.subscription.push(this.memberService.list
                     .subscribe(x => {
-                        this.loadCollection(x.filter(y => y.lastDuesYear == selectedYear.getFullYear() && y.memberStatus != 'N' && y.memberStatus != 'B'));
+                        this.loadCollection(x.filter(y => y.lastDuesYear >= selectedYear.getFullYear() && y.memberStatus != 'N' && y.memberStatus != 'B'));
                     })
                 );
                 this.loaded.emit(true);

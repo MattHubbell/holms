@@ -8,3 +8,7 @@
 .custom-margin {
     margin-top: 0;
 }
+
+.min-column-width {
+    min-width: 155px;
+}

@@ -31,12 +31,7 @@ export class MembershipDuesService {
         memberModel.lastDuesYear = setup.duesYear - 1 + item.duesQuantity;
         memberModel.memberType = memberType;
         memberModel.memberStatus = 'A';
-
-        const currentDate = new Date();
-        const yyyy: number = currentDate.getFullYear() + item.duesQuantity;
-        let paidThruDate: Date = new Date();
-        paidThruDate.setFullYear(yyyy);
-        memberModel.paidThruDate = paidThruDate;
+        memberModel.paidThruDate = item.duesPaidThruDate;
 
         if (memberModel.anniversary === undefined) {
             const aniversary: Date = new Date();

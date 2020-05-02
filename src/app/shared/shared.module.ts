@@ -30,6 +30,9 @@ import {ScrollDispatchModule} from '@angular/cdk/scrolling';
 import {CdkStepperModule} from '@angular/cdk/stepper';
 import {CdkTableModule} from '@angular/cdk/table';
 
+import { AppOverlayModule } from './overlay/overlay.module';
+import { ProgressSpinnerModule, ProgressSpinnerComponent } from './progress-spinner/progress-spinner.module';
+
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -124,7 +127,11 @@ import {
         MatTabsModule,
         MatToolbarModule,
         MatTooltipModule,
-        MultiDatepickerModule
+        MultiDatepickerModule,
+
+        //spinner
+        AppOverlayModule,
+        ProgressSpinnerModule    
     ],
     declarations: [ 
         ModalConfirmDefault, 
@@ -141,7 +148,8 @@ import {
     ],
     entryComponents: [ 
         ModalMessageOk,
-        MessageBtnOkComponent
+        MessageBtnOkComponent,
+        ProgressSpinnerComponent
     ],
     providers: [ 
         EmailService 
@@ -207,6 +215,11 @@ import {
         MatTabsModule,
         MatToolbarModule,
         MatTooltipModule,
+
+        //spinner
+        AppOverlayModule,
+        ProgressSpinnerModule    
+
     ]
 })
 export class SharedModule { }

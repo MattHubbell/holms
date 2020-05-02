@@ -1,4 +1,7 @@
 <div class="container main-container" >
+    <app-progress-spinner class="example-margin" [color]="color" [mode]="mode" [value]="value" [backdropEnabled]="true" [positionGloballyCenter]="true"
+        [displayProgressSpinner]="displayProgressSpinner">
+   </app-progress-spinner>   
     <!--Card-->
     <mat-card>
         <ng-template ngbModalContainer></ng-template>
@@ -6,7 +9,7 @@
             <div class="container Custom-table-width">                        
                 <div class="example-container mat-elevation-z8">
                     
-                    <mat-table #table [dataSource]="dataSource">
+                    <mat-table #table [dataSource]="dataSource" multiTemplateDataRows>
                     
                         <!-- Checkbox Column -->
                         <ng-container matColumnDef="select">
@@ -33,9 +36,40 @@
                             <mat-header-cell *matHeaderCellDef> Row Count </mat-header-cell>
                             <mat-cell fxFlex="500" *matCellDef="let element"> {{element.rowCount}} </mat-cell>
                         </ng-container>
-                                                        
+                                       
+                        <ng-container matColumnDef="expandedDetail">
+                            <mat-cell *matCellDef="let detail"> 
+                                <mat-form-field class="expanded-field" *ngIf="showRange(detail, 'numberRange')">
+                                    <input matInput placeholder="Start Member #" [value]="detail.detailRow.startMemberNo" [(ngModel)]="detail.detailRow.startMemberNo">
+                                </mat-form-field>
+                                <mat-form-field class="expanded-field" *ngIf="showRange(detail, 'numberRange')">
+                                    <input matInput placeholder="End Member #" [value]="detail.detailRow.endMemberNo" [(ngModel)]="detail.detailRow.endMemberNo">
+                                </mat-form-field>
+                                <mat-form-field class="expanded-field" *ngIf="showRange(detail, 'dateRange')">
+                                    <input matInput [matDatepicker]="startPicker" placeholder="Start Date"  name="startDate" [(ngModel)]="detail.detailRow.startDate">
+                                    <mat-datepicker-toggle matSuffix [for]="startPicker" tabindex=-1></mat-datepicker-toggle>
+                                    <mat-datepicker #startPicker></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field class="expanded-field" *ngIf="showRange(detail, 'dateRange')">
+                                    <input matInput [matDatepicker]="endPicker" placeholder="End Date"  name="endDate" [(ngModel)]="detail.detailRow.endDate">
+                                    <mat-datepicker-toggle matSuffix [for]="endPicker" tabindex=-1></mat-datepicker-toggle>
+                                    <mat-datepicker #endPicker></mat-datepicker>
+                                </mat-form-field>
+                            </mat-cell>
+                        </ng-container>
+                      
                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                        <mat-row *matRowDef="let element; columns: displayedColumns;" (click)="selection.toggle(element)"></mat-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;" 
+                            matRipple 
+                            class="element-row" 
+                            [class.expanded]="expandedElement == row?.tableName"
+                            (mouseover)="expandedElement = row"
+                            (click)="selection.toggle(row)">
+                        </mat-row>
+                        <mat-row *matRowDef="let row; columns: ['expandedDetail']; when: isExpansionDetailRow"
+                            [@detailExpand]="row?.tableName == expandedElement?.tableName ? 'expanded' : 'collapsed'"
+                            style="overflow: hidden"> 
+                        </mat-row>
                     </mat-table>
 
                     <div class="container">

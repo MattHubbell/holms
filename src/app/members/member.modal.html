@@ -102,7 +102,7 @@
                         <div class="offset-md-1 col-md-6">
                             <mat-form-field>
                                 <input matInput type="text" placeholder="E-Mail"
-                                    maxLength="35" class="form-control" name="eMailAddr" [readonly]="membershipUser?.memberId > 0"
+                                    maxLength="35" class="form-control" name="eMailAddr"
                                     [(ngModel)]="model.eMailAddr">
                                 <mat-hint align="end">{{model.eMailAddr.length}} / 35</mat-hint>
                             </mat-form-field>

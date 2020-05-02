@@ -100,7 +100,7 @@ export class PayPalSubmit {
 
     sendAckowledgmentEmail(): string {
         let emailMsg: string = '';
-        let paidThruDate: string = new Date(this.member.paidThruDate).toLocaleDateString();
+        let paidThruDate: string = new Date(this.model.duesPaidThruDate).toLocaleDateString();
         const body = this.emailService.toInvoiceBody(this.member.memberName, this.model.foundationLit, this.model.museum_libraryLit, this.model.scholarshipLit,
             paidThruDate, this.model.comments, this.model.duesQuantity, this.model.duesAmount, this.model.foundation, this.model.museum_library, this.model.scholarship);
         this.emailService.sendMail(this.appService.userEmail, this.setup.holmsEmail,  this.setup.appSubTitle + ' - Dues Acknowledgment', body)
